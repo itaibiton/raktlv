@@ -55,7 +55,7 @@ export default async function RootLayout({
         >
           <main className="flex flex-col items-center h-full">
             <HeaderAuth />
-            <div className="flex w-full overflow-y-auto p-4 h-full w-full">
+            <div className="flex w-full overflow-y-auto p-4 h-full">
               {children}
             </div>
           </main>
