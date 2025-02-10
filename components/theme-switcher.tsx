@@ -8,11 +8,12 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import clsx from "clsx";
 import { Laptop, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-const ThemeSwitcher = () => {
+const ThemeSwitcher = ({ className }: { className?: string }) => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -29,7 +30,7 @@ const ThemeSwitcher = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className={clsx('', className)}>
         <Button variant="ghost" size={"sm"}>
           {theme === "light" ? (
             <Sun
@@ -52,7 +53,7 @@ const ThemeSwitcher = () => {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-content" align="start">
+      <DropdownMenuContent className="w-content" align="end">
         <DropdownMenuRadioGroup
           value={theme}
           onValueChange={(e) => setTheme(e)}
