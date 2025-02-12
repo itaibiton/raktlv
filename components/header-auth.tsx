@@ -8,6 +8,7 @@ import { type User as UserType } from "@supabase/supabase-js";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
 import { LockOpen, LogOut, User, User2 } from "lucide-react";
+import { ThemeSwitcher } from "./theme-switcher";
 
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -54,7 +55,10 @@ export default async function AuthButton() {
   }
   return <div className="w-full p-4 flex items-center justify-between gap-2 border-b">
     <span>Rak TLV</span>
-    <UserPopover user={user} />
+    <div className="flex gap-2">
+      <ThemeSwitcher />
+      <UserPopover user={user} />
+    </div>
   </div>
 }
 
@@ -87,7 +91,7 @@ const UserPopover = ({ user }: { user: UserType | null }) => {
         </Button>
       </Link>
       <Separator className="my-2" />
-      <Button type="submit" variant="ghost" className="flex gap-2 items-center justify-start w-full" size={"sm"}>
+      <Button onClick={signOutAction} variant="ghost" className="flex gap-2 items-center justify-start w-full" size={"sm"}>
         <LogOut className="w-4 h-4" />
         <p className="">
           Sign out

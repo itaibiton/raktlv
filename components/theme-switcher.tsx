@@ -28,6 +28,21 @@ const ThemeSwitcher = ({ className }: { className?: string }) => {
 
   const ICON_SIZE = 16;
 
+  return <Button variant="ghost" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+    {theme === 'light' ? <Sun
+      key="light"
+      size={ICON_SIZE}
+      className={"text-muted-foreground"}
+    />
+      :
+      <Moon
+        key="dark"
+        size={ICON_SIZE}
+        className={"text-muted-foreground"}
+      />
+    }
+  </Button>
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className={clsx('', className)}>

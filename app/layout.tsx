@@ -59,7 +59,6 @@ export default async function RootLayout({
               {children}
             </div>
           </main>
-          <ThemeSwitcher className="fixed bottom-2 right-2" />
           <Toaster />
         </ThemeProvider>
       </body>
