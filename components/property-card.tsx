@@ -23,7 +23,7 @@ const PropertyCard = ({ property, onClick }: { property: any, onClick: () => voi
     return <Dialog>
         <DialogTrigger asChild>
             <Card
-                className="group h-64 overflow-hidden rounded-lg transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col"
+                className="group h-64 overflow-hidden rounded transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col"
                 onClick={onClick}
             >
                 <div className="relative aspect-[3/4] overflow-hidden">
