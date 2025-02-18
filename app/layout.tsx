@@ -23,6 +23,12 @@ export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Next.js and Supabase Starter Kit",
   description: "The fastest way to build apps with Next.js and Supabase",
+  icons: {
+    icon: '/favicon.ico',
+    // Optional: You can also specify different sizes and types
+    // apple: '/apple-icon.png',
+    // shortcut: '/shortcut-icon.png',
+  },
 };
 
 const geistSans = Geist({
@@ -55,7 +61,7 @@ export default async function RootLayout({
         >
           <main className="flex flex-col items-center h-full">
             <HeaderAuth />
-            <div className="flex w-full overflow-y-auto p-4 h-full">
+            <div className="flex w-full h-full p-8 overflow-hidden ">
               {children}
             </div>
           </main>

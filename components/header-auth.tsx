@@ -9,6 +9,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
 import { LockOpen, LogOut, User, User2 } from "lucide-react";
 import { ThemeSwitcher } from "./theme-switcher";
+import RakTLVLogo from "./rak-tlv";
+
 
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -53,8 +55,10 @@ export default async function AuthButton() {
       </>
     );
   }
-  return <div className="w-full p-4 flex items-center justify-between gap-2 border-b">
-    <span>Rak TLV</span>
+  return <div className="w-full p-8 flex items-center justify-between gap-2 border-b">
+    <div className="h-12">
+      <RakTLVLogo />
+    </div>
     <div className="flex gap-2">
       <ThemeSwitcher />
       <UserPopover user={user} />

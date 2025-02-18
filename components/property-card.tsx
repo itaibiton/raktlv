@@ -53,21 +53,23 @@ const PropertyCard = ({ property, onClick }: { property: any, onClick: () => voi
 
                 </div>
                 <div className="p-2">
-                    <h3 className="text-lg font-semibold text-primary">
+                    <h3 className="text-lg font-semibold text-secondary-foreground">
                         {property.address}
                     </h3>
                     <p className="text-primary text-sm mb-2">
                         {property.title}
                     </p>
-                    <div className="flex justify-between w-full items-center">
-                        <div className="flex items-center gap-4 text-primary text-sm">
+                    <div className="flex justify-between w-full lg:items-center flex-col lg:flex-row ">
+                        <div className="flex items-center gap-4 text-secondary-foreground text-sm">
                             <span>{property.rooms} beds</span>
                             <span>{property.bathrooms} baths</span>
                             <span>{property.area.toLocaleString()} sqft</span>
                         </div>
-                        <p className=" font-bold text-primary">
+                        {/* <p className=" font-bold text-primary mt-2 lg:mt-0"> */}
+                        <Badge variant="secondary" className="rounded-md text-sm">
                             ${property.price.toLocaleString()}
-                        </p>
+                        </Badge>
+                        {/* </p> */}
                     </div>
                 </div>
             </Card>
