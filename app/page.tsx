@@ -16,7 +16,9 @@ export default async function Page() {
   return <div className=" h-full w-full flex">
     {/* Left: FilterSidebar */}
     <div className="w-1/4 h-full overflow-y-auto">
-      <FilterSidebar />
+      <div className="flex flex-col h-full gap-4">
+        <FilterSidebar />
+      </div>
     </div>
     {/* Right: PropertyList */}
     <div className="flex-1 h-full overflow-y-auto">

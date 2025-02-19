@@ -10,7 +10,10 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
-
+import {
+    ToggleGroup,
+    ToggleGroupItem,
+} from "@/components/ui/toggle-group"
 
 export interface FilterType {
     propertyType: string;
@@ -43,15 +46,17 @@ const FilterSidebar = () => {
         <div className="flex-1 overflow-y-auto">
             <FilterItems filters={filters} updateFilter={updateFilter} />
         </div>
-        <Button className="w-full" onClick={() =>
-            setFilters({
-                propertyType: "all",
-                minPrice: 0,
-                maxPrice: 5000000,
-                bedrooms: 0,
-                bathrooms: 0,
-            })
-        }>
+        <Button
+            size="lg"
+            className="w-full text-base" onClick={() =>
+                setFilters({
+                    propertyType: "all",
+                    minPrice: 0,
+                    maxPrice: 5000000,
+                    bedrooms: 0,
+                    bathrooms: 0,
+                })
+            }>
             Reset Filters
         </Button>
     </div>
@@ -65,25 +70,20 @@ export default FilterSidebar
 
 const FilterItems = ({ filters, updateFilter }: { filters: FilterType, updateFilter: (key: keyof FilterType, value: any) => void }) => {
     return <div className="p-4 flex flex-col overflow-y-auto gap-6 pb-12">
-        <div className="space-y-2">
+        <div className="flex w-full flex-col gap-2">
             <label className="text-sm font-medium text-real-600">Property Type</label>
-            <Select
-                value={filters.propertyType}
-                onValueChange={(value) => updateFilter("propertyType", value)}
-            >
-                <SelectTrigger>
-                    <SelectValue placeholder="Select type" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="house">House</SelectItem>
-                    <SelectItem value="apartment">Apartment</SelectItem>
-                    <SelectItem value="condo">Condo</SelectItem>
-                    <SelectItem value="townhouse">Townhouse</SelectItem>
-                </SelectContent>
-            </Select>
+            <ToggleGroup type="multiple" variant="outline" className='w-full'>
+                <ToggleGroupItem className='w-full' value="bold" aria-label="Toggle bold">
+                    Rental
+                </ToggleGroupItem>
+                <ToggleGroupItem className='w-full' value="italic" aria-label="Toggle italic">
+                    Sale
+                </ToggleGroupItem>
+                <ToggleGroupItem className='w-full' value="strikethrough" aria-label="Toggle strikethrough">
+                    Sublet
+                </ToggleGroupItem>
+            </ToggleGroup>
         </div>
-
         <div className="space-y-2">
             <label className="text-sm font-medium text-real-600">Price Range</label>
             <div className="pt-2">
