@@ -14,6 +14,7 @@ import {
     ToggleGroup,
     ToggleGroupItem,
 } from "@/components/ui/toggle-group"
+import { FilterIcon, FilterX, FilterXIcon, Trash2 } from "lucide-react";
 
 export interface FilterType {
     propertyType: string;
@@ -42,24 +43,24 @@ const FilterSidebar = () => {
         setFilters({ ...filters, [key]: value });
     };
 
-    return <div className="border border-b-0 rounded-md hidden md:flex flex-col w-96 h-full">
-        <div className="flex-1 overflow-y-auto">
-            <FilterItems filters={filters} updateFilter={updateFilter} />
+    return <>
+        <div className="md:hidden w-full">
+            <Button variant="outline" className="text-muted-foreground">
+                <FilterIcon className="w-5 h-5" />
+            </Button>
         </div>
-        <Button
-            size="lg"
-            className="w-full text-base" onClick={() =>
-                setFilters({
-                    propertyType: "all",
-                    minPrice: 0,
-                    maxPrice: 5000000,
-                    bedrooms: 0,
-                    bathrooms: 0,
-                })
-            }>
-            Reset Filters
-        </Button>
-    </div>
+        <div className="border rounded-md hidden md:flex flex-col w-96 h-full overflow-y-auto ">
+            <div className="flex-1 overflow-y-auto scrollbar-thin">
+                <FilterItems filters={filters} updateFilter={updateFilter} />
+            </div>
+            {/* <div className="flex bg-white p-4 shadow-[0_-2px_8px_-1px_rgba(0,0,0,0.1)] justify-between items-center"> */}
+            <div className="flex bg-background p-4 justify-between items-center border-t">
+                <Button variant="outline" size="sm" className="text-muted-foreground">
+                    <FilterXIcon className="w-5 h-5" />
+                </Button>
+            </div>
+        </div>
+    </>
 
 }
 
@@ -193,3 +194,4 @@ const FilterItems = ({ filters, updateFilter }: { filters: FilterType, updateFil
         </div>
     </div>
 }
+

@@ -70,3 +70,40 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+  }
+
+  /* Thin scrollbar style */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    /* Firefox */
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    /* width of the entire scrollbar */
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+    /* color of the tracking area */
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--muted-foreground) / 0.3);
+    /* color of the scroll thumb */
+    border-radius: 20px;
+    /* roundness of the scroll thumb */
+  }
+}

@@ -17,6 +17,18 @@ const PropertyList = ({ properties }: { properties: any[] }) => {
                 {properties?.map((property, i) => (
                     <PropertyCard key={`${i}-property-list-1`} property={property} onClick={() => setSelectedProperty(property)} />
                 ))}
+                {properties?.map((property, i) => (
+                    <PropertyCard key={`${i}-property-list-1`} property={property} onClick={() => setSelectedProperty(property)} />
+                ))}
+                {properties?.map((property, i) => (
+                    <PropertyCard key={`${i}-property-list-1`} property={property} onClick={() => setSelectedProperty(property)} />
+                ))}
+                {properties?.map((property, i) => (
+                    <PropertyCard key={`${i}-property-list-1`} property={property} onClick={() => setSelectedProperty(property)} />
+                ))}
+                {properties?.map((property, i) => (
+                    <PropertyCard key={`${i}-property-list-1`} property={property} onClick={() => setSelectedProperty(property)} />
+                ))}
             </div>
         </div>
     );

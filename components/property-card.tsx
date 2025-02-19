@@ -23,7 +23,7 @@ const PropertyCard = ({ property, onClick }: { property: any, onClick: () => voi
     return <Dialog>
         <DialogTrigger asChild>
             <Card
-                className="group h-64 overflow-hidden rounded transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col"
+                className="group h-96 md:h-64 overflow-hidden rounded transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col"
                 onClick={onClick}
             >
                 <div className="relative aspect-[3/4] overflow-hidden">
@@ -59,17 +59,15 @@ const PropertyCard = ({ property, onClick }: { property: any, onClick: () => voi
                     <p className="text-primary text-sm mb-2">
                         {property.title}
                     </p>
-                    <div className="flex justify-between w-full lg:items-center flex-col lg:flex-row ">
+                    <div className="flex justify-between w-full lg:items-center flex-col lg:flex-row gap-2">
                         <div className="flex items-center gap-4 text-secondary-foreground text-sm">
                             <span>{property.rooms} beds</span>
                             <span>{property.bathrooms} baths</span>
                             <span>{property.area.toLocaleString()} sqft</span>
                         </div>
-                        {/* <p className=" font-bold text-primary mt-2 lg:mt-0"> */}
-                        <Badge variant="secondary" className="rounded-md text-sm">
+                        <Badge variant="secondary" className="rounded-md text-sm w-fit">
                             ${property.price.toLocaleString()}
                         </Badge>
-                        {/* </p> */}
                     </div>
                 </div>
             </Card>

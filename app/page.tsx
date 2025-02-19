@@ -13,15 +13,13 @@ export default async function Page() {
 
   console.log('p', properties)
 
-  return <div className=" h-full w-full flex">
+  return <div className=" h-full w-full flex gap-4 flex-col md:flex-row">
     {/* Left: FilterSidebar */}
-    <div className="w-1/4 h-full overflow-y-auto">
-      <div className="flex flex-col h-full gap-4">
-        <FilterSidebar />
-      </div>
+    <div className="flex flex-col">
+      <FilterSidebar />
     </div>
     {/* Right: PropertyList */}
-    <div className="flex-1 h-full overflow-y-auto">
+    <div className="w-full h-full overflow-y-auto">
       <PropertyList properties={properties as any[]} />
     </div>
   </div>
