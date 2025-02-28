@@ -19,20 +19,21 @@ const RakTLVLogo = () => {
                 className="h-full w-auto object-contain"
                 src="/assets/logos/png/1x/logo.png"
                 alt="raktlv.png"
-                width="203"
+                width="180"
                 height="40"
             />
         );
     }
 
     const logosrc = `/assets/logos/png/1x/logo${theme === 'light' ? '-light' : ''}.png`;
+    // const logosrc = `/assets/logos/png/1x/logo.png`;
 
     return (
         <Image
             className="h-full w-auto object-contain"
             src={logosrc}
             alt="raktlv.png"
-            width="203"
+            width="180"
             height="40"
         />
     );

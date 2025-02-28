@@ -52,6 +52,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
+      <head>
+        <link
+          href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
+          rel="stylesheet"
+        />
+      </head>
       <body className="bg-background text-foreground h-screen">
         <ThemeProvider
           attribute="class"
@@ -60,11 +66,12 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <main className="flex flex-col items-center h-full">
-            <HeaderAuth />
-            <div className="flex w-full h-full p-8 overflow-hidden ">
+            {/* <HeaderAuth /> */}
+            <div className="flex w-full h-full overflow-hidden ">
               {children}
             </div>
           </main>
+          <ThemeSwitcher />
           <Toaster />
         </ThemeProvider>
       </body>

@@ -28,7 +28,7 @@ const ThemeSwitcher = ({ className }: { className?: string }) => {
 
   const ICON_SIZE = 16;
 
-  return <Button variant="ghost" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+  return <Button className="absolute bottom-2 right-2" variant="ghost" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
     {theme === 'light' ? <Sun
       key="light"
       size={ICON_SIZE}

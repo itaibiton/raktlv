@@ -60,7 +60,7 @@ export default async function AuthButton() {
       <RakTLVLogo />
     </div>
     <div className="flex gap-2 h-12">
-      <ThemeSwitcher />
+      {/* <ThemeSwitcher /> */}
       <UserPopover user={user} />
     </div>
   </div>

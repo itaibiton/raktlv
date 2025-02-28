@@ -17,13 +17,13 @@ import {
 } from "@/components/ui/dialog"
 import { useState } from 'react';
 
-const PropertyCard = ({ property, onClick }: { property: any, onClick: () => void }) => {
+const PropertyCard = ({ property, onClick }: { property: any, onClick?: () => void }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
 
     return <Dialog>
         <DialogTrigger asChild>
             <Card
-                className="group h-96 md:h-64 overflow-hidden rounded transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col"
+                className="group h-96 md:h-80 overflow-hidden rounded transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col"
                 onClick={onClick}
             >
                 <div className="relative aspect-[3/4] overflow-hidden">
