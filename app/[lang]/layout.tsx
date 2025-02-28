@@ -6,14 +6,15 @@ import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
-import "./globals.css";
+// import "./globals.css";
+import "../globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner"
 import FormComponent from "@/components/form-component";
 import { signOutAction } from "@/app/actions";
 import { createClient } from "@/utils/supabase/server";
 import { Button } from "@/components/ui/button";
-
+import { Locale } from "@/i18n-config";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -38,10 +39,12 @@ const geistSans = Geist({
 
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ lang: Locale }>;
 }>) {
-
+  const { lang } = await params;
 
   const supabase = await createClient();
 
@@ -51,7 +54,7 @@ export default async function RootLayout({
 
 
   return (
-    <html lang="en" className={geistSans.className} suppressHydrationWarning>
+    <html lang={lang} dir={lang === "he" ? "rtl" : "ltr"} className={geistSans.className} suppressHydrationWarning>
       <head>
         <link
           href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
@@ -66,7 +69,6 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <main className="flex flex-col items-center h-full">
-            {/* <HeaderAuth /> */}
             <div className="flex w-full h-full overflow-hidden ">
               {children}
             </div>

@@ -43,12 +43,6 @@ const PropertyCard = ({ property, onClick }: { property: any, onClick?: () => vo
                         <Badge className="text-primary-foreground">
                             {property.type}
                         </Badge>
-                        <Badge
-                            className=" text-primary"
-                            variant="secondary"
-                        >
-                            {property.type}
-                        </Badge>
                     </div>
 
                 </div>

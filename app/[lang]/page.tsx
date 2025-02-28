@@ -12,8 +12,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import PropertyCard from '@/components/property-card'
 import RakTLVLogo from '@/components/rak-tlv'
 import Image from 'next/image'
+import { Locale } from "../../i18n-config";
+import { getDictionary } from "@/get-dictionary";
 
-export default async function Page() {
+
+export default async function Page(props: { params: Promise<{ lang: Locale }> }) {
+  const { lang } = await props.params;
+  const dictionary = await getDictionary(lang);
   const supabase = await createClient()
   const { data: properties } = await supabase.from('properties').select()
 
@@ -33,6 +38,7 @@ export default async function Page() {
       <div className="absolute top-4 left-4 z-10">
         {/* <Image src="/assets/logos/Emblem/1x/white.png" alt="RakTLV Logo" width={60} height={60} /> */}
         <RakTLVLogo />
+        {dictionary["server-component"].welcome}
         {/* <RakTLVIcon /> */}
       </div>
 

@@ -1,0 +1,9 @@
+{
+    "server-component": {
+        "welcome": "היי"
+    },
+    "counter": {
+        "increment": "פלוס",
+        "decrement": "מינוס"
+    }
+}
