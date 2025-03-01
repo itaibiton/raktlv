@@ -26,10 +26,13 @@ export default async function Page(props: { params: Promise<{ lang: Locale }> })
     {/* Hero Section */}
     <div className="relative h-[54vh] w-full">
       <div className="absolute inset-0">
-        <img
-          src="/assets/telaviv.jpg"
+        <Image
+          // src="/assets/telaviv.jpg"
+          src="https://cdn.britannica.com/80/94380-050-F182700B/Tel-Aviv-Yafo-Israel.jpg"
           alt="Tel Aviv Skyline"
+          fill
           className="w-full h-full object-cover object-top"
+          priority
         />
         <div className="absolute inset-0 bg-black/20" />
       </div>

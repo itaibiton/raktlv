@@ -10,6 +10,7 @@ import { Separator } from "./ui/separator";
 import { LockOpen, LogOut, User, User2 } from "lucide-react";
 import { ThemeSwitcher } from "./theme-switcher";
 import RakTLVLogo from "./rak-tlv";
+import { LanguageSwitcher } from "./language-switcher";
 
 
 export default async function AuthButton() {
@@ -55,13 +56,14 @@ export default async function AuthButton() {
       </>
     );
   }
-  return <div className="w-full p-8 flex items-center justify-between gap-2 border-b">
+  return <div className="w-full p-8 flex items-center justify-between gap-2 border-b rtl:flex-row-reverse">
     <div className="h-12">
       <RakTLVLogo />
     </div>
-    <div className="flex gap-2 h-12">
-      {/* <ThemeSwitcher /> */}
+    <div className="flex gap-2 h-12 ltr:flex-row-reverse">
       <UserPopover user={user} />
+      <ThemeSwitcher />
+      <LanguageSwitcher />
     </div>
   </div>
 }

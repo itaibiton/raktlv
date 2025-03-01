@@ -3,7 +3,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { X } from 'lucide-react'
+import { Bath, Bed, Square, X } from 'lucide-react'
 import { Card } from '@/components/ui/card';
 
 import {
@@ -23,7 +23,7 @@ const PropertyCard = ({ property, onClick }: { property: any, onClick?: () => vo
     return <Dialog>
         <DialogTrigger asChild>
             <Card
-                className="group h-96 md:h-80 overflow-hidden rounded transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col"
+                className="group h-96 md:h-80 overflow-hidden rounded-md transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col "
                 onClick={onClick}
             >
                 <div className="relative aspect-[3/4] overflow-hidden">
@@ -46,22 +46,24 @@ const PropertyCard = ({ property, onClick }: { property: any, onClick?: () => vo
                     </div>
 
                 </div>
-                <div className="p-2">
+                <div className="p-4">
                     <h3 className="text-lg font-semibold text-secondary-foreground">
                         {property.address}
                     </h3>
                     <p className="text-primary text-sm mb-2">
                         {property.title}
                     </p>
-                    <div className="flex justify-between w-full lg:items-center flex-col lg:flex-row gap-2">
+                    <div className="flex justify-between w-full flex-col gap-4">
                         <div className="flex items-center gap-4 text-secondary-foreground text-sm">
-                            <span>{property.rooms} beds</span>
-                            <span>{property.bathrooms} baths</span>
-                            <span>{property.area.toLocaleString()} sqft</span>
+                            <span className="flex gap-2 items-center"> <Bed className="w-4 h-4" /> {property.rooms} </span>
+                            <span className="flex gap-2 items-center"> <Bath className="w-4 h-4" /> {property.bathrooms} </span>
+                            <span className="flex gap-2 items-center"> <Square className="w-4 h-4" /> {property.area.toLocaleString()} </span>
                         </div>
-                        <Badge variant="secondary" className="rounded-md text-sm w-fit">
-                            ${property.price.toLocaleString()}
-                        </Badge>
+                        <div className='self-end'>
+                            <Badge variant="secondary" className="rounded text-sm w-fit">
+                                ${property.price.toLocaleString()}
+                            </Badge>
+                        </div>
                     </div>
                 </div>
             </Card>

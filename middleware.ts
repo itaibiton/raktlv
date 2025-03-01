@@ -1,82 +1,61 @@
-import { type NextRequest } from "next/server";
-import { updateSession } from "@/utils/supabase/middleware";
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { match } from '@formatjs/intl-localematcher'
+import Negotiator from 'negotiator'
 
-import { NextResponse } from "next/server";
+// Get your configured locales from your i18n config
+// Replace this with your actual import if different
+import { i18n } from './i18n-config'
 
-import { i18n } from "./i18n-config";
+function getLocale(request: NextRequest): string {
+  // Default locale is Hebrew
+  const defaultLocale = 'he'
 
-import { match as matchLocale } from "@formatjs/intl-localematcher";
-import Negotiator from "negotiator";
+  // Get accepted languages from the headers
+  const headers = new Headers(request.headers)
+  const acceptLanguage = headers.get('accept-language') || ''
 
-function getLocale(request: NextRequest): string | undefined {
-  // Negotiator expects plain object so we need to transform headers
-  const negotiatorHeaders: Record<string, string> = {};
-  request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
+  // Create a negotiator instance
+  const negotiatorHeaders = { 'accept-language': acceptLanguage }
+  const locales = i18n.locales || ['he', 'en']
 
-  // @ts-ignore locales are readonly
-  const locales: string[] = i18n.locales;
-
-  // Use negotiator and intl-localematcher to get best locale
-  let languages = new Negotiator({ headers: negotiatorHeaders }).languages(
-    locales,
-  );
-
-  const locale = matchLocale(languages, locales, i18n.defaultLocale);
-
-  return locale;
-}
-
-export async function middleware(request: NextRequest) {
-
-  const pathname = request.nextUrl.pathname;
-
-  // // `/_next/` and `/api/` are ignored by the watcher, but we need to ignore files in `public` manually.
-  // // If you have one
-  // if (
-  //   [
-  //     '/manifest.json',
-  //     '/favicon.ico',
-  //     // Your other files in `public`
-  //   ].includes(pathname)
-  // )
-  //   return
-
-  // Check if there is any supported locale in the pathname
-  const pathnameIsMissingLocale = i18n.locales.every(
-    (locale) =>
-      !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
-  );
-
-
-  // Redirect if there is no locale
-  if (pathnameIsMissingLocale) {
-    const locale = getLocale(request);
-
-    // e.g. incoming request is /products
-    // The new URL is now /en-US/products
-    return NextResponse.redirect(
-      new URL(
-        `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}`,
-        request.url,
-      ),
-    );
+  // Use negotiator and intl-localematcher to get the best locale
+  let languages: string[] = []
+  try {
+    const negotiator = new Negotiator({ headers: negotiatorHeaders })
+    languages = negotiator.languages()
+  } catch (e) {
+    // Fallback if negotiator fails
+    languages = [defaultLocale]
   }
 
+  try {
+    return match(languages, locales, defaultLocale)
+  } catch (e) {
+    return defaultLocale
+  }
+}
 
+export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
 
-  return await updateSession(request);
+  // Check if the pathname already has a locale
+  const pathnameHasLocale = i18n.locales.some(
+    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  )
+
+  if (pathnameHasLocale) return NextResponse.next()
+
+  // Redirect if at the root
+  if (pathname === '/') {
+    // Always redirect to Hebrew for the root path
+    return NextResponse.redirect(new URL(`/he`, request.url))
+  }
+
+  // For all other paths without locale, add the 'he' prefix
+  return NextResponse.redirect(new URL(`/he${pathname}`, request.url))
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - images - .svg, .png, .jpg, .jpeg, .gif, .webp
-     * Feel free to modify this pattern to include more paths.
-     */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
-};
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+}
