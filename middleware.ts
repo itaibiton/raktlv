@@ -38,6 +38,8 @@ function getLocale(request: NextRequest): string {
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
+  const searchParams = request.nextUrl.searchParams
+  const queryString = searchParams.toString()
 
   // Check if the pathname already has a locale
   const pathnameHasLocale = i18n.locales.some(
@@ -49,11 +51,13 @@ export function middleware(request: NextRequest) {
   // Redirect if at the root
   if (pathname === '/') {
     // Always redirect to Hebrew for the root path
-    return NextResponse.redirect(new URL(`/he`, request.url))
+    const destination = queryString ? `/he?${queryString}` : '/he'
+    return NextResponse.redirect(new URL(destination, request.url))
   }
 
   // For all other paths without locale, add the 'he' prefix
-  return NextResponse.redirect(new URL(`/he${pathname}`, request.url))
+  const destination = queryString ? `/he${pathname}?${queryString}` : `/he${pathname}`
+  return NextResponse.redirect(new URL(destination, request.url))
 }
 
 export const config = {
