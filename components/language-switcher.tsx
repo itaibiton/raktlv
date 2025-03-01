@@ -1,25 +1,23 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { i18n, Locale } from "@/i18n-config";
 import { Globe } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import clsx from "clsx";
 
 const ICON_SIZE = 16;
 
 const LanguageSwitcher = ({ className }: { className?: string }) => {
   const [mounted, setMounted] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -44,10 +42,8 @@ const LanguageSwitcher = ({ className }: { className?: string }) => {
   const currentLocale = getCurrentLocale();
   const isRTL = currentLocale === 'he';
 
-  // Toggle between available locales
-  const toggleLocale = () => {
-    const newLocale = currentLocale === 'en' ? 'he' : 'en';
-
+  // Handle locale change
+  const handleLocaleChange = (newLocale: string) => {
     // Get the path without the locale prefix
     const segments = pathname.split('/');
     const pathWithoutLocale = segments.slice(2).join('/');
@@ -56,45 +52,20 @@ const LanguageSwitcher = ({ className }: { className?: string }) => {
     router.push(`/${newLocale}${pathWithoutLocale ? `/${pathWithoutLocale}` : ''}`);
   };
 
-  const displayText = currentLocale === 'he' ? 'HE' : 'EN';
-
   return (
-    <Button
-      variant="outline"
-      size="icon"
-      className={clsx('rounded-full relative overflow-hidden ', className)}
-      onClick={toggleLocale}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative w-full h-full flex items-center justify-center">
-        <AnimatePresence initial={false}>
-          {!isHovered ? (
-            <motion.div
-              key="icon"
-              className="absolute inset-0 flex items-center justify-center"
-              initial={{ x: 30, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 30, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Globe size={ICON_SIZE} />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="text"
-              className="absolute inset-0 flex items-center justify-center text-xs font-medium"
-              initial={{ x: -30, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -30, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {displayText}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </Button>
+    <Select value={currentLocale} onValueChange={handleLocaleChange}>
+      <SelectTrigger customTrigger={<Button variant="outline" size="icon" className="rounded-full">
+        <Globe size={ICON_SIZE} />
+      </Button>}>
+      </SelectTrigger>
+      <SelectContent>
+        {i18n.locales.map((locale) => (
+          <SelectItem key={locale} value={locale}>
+            {locale === 'he' ? 'עברית' : 'English'}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 
