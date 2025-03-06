@@ -1,11 +1,12 @@
+
 import FilterSidebar from "@/components/filter-sidebar";
+import Map from "@/components/map";
 import PropertyList from "@/components/property-list";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/utils/supabase/server";
 import { Wand2 } from "lucide-react";
-import Map from "@/components/map";
 
 export default async function Page() {
   const supabase = await createClient();

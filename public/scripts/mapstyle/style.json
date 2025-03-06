@@ -1,0 +1,1303 @@
+{
+    "version": 8,
+    "name": "Untitled",
+    "metadata": {
+        "mapbox:autocomposite": true,
+        "mapbox:thumb": "data:image/webp;base64,UklGRqYaAABXRUJQVlA4WAoAAAAgAAAAOwAAOwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDhMuBgAAC87wA4ADXUhov8BbLdtHdskeUprX7ee50UgbUdE2bZt27Zd9amqbXfZtm3bdiidr5/nxnX2eON+E7Nk26okSdr7nPveM3M3cw/GYmauEc1a+pN7ysyQzBTOZG727ME9Z3u4rW1tm23b1rYfkgwBh8rtyXxeNzP/d2ZmKDMEHCexLenYt3DgNpIi7R5DY3V633D6+f0im6Y2i3VycjTXsLzn8vzA5mZy/FJYyouFY4emdjcPmmen7fUtVFS2zomKAd3FPPfN8o8/FasRAAwAAAAr/3UvhhIR/dDKnDyLpqaSoiGCIWIWy5uiu6qPnhLjJ9aLQ6Wtibv578eDP0V7xThtt4vNsm3LmG0ssmlqu1zbU6K7fhnu15yedn/dPH9F3RhhdjDV9MCprGYnt+VOTQVt9eBy6Kezz46GsUOsvX+y/IPTdxxtV8FZ4ifmq0kPDE1eXG5+fOSUqyCiVVw2Y2pTdP3gsnz2Og1XqQwx76GafHnL3WpGFRYfPDp8AV//FkdfvPziF9P8Qu/Xy9CWoanNcm1Pq+2N2+H+dnrCflUfPfd+BRV5LDgtezhQmvLBVXW8hMy+urf0g9cq24i9YWiHvpE5923MAbiIPkiWRQkMlQ+u8RzGJhQJacihYWjkTiWL5SovVtV2GyDPbQyL+vj5ciZA4Mnb1UVN2c9zT0fvuv36O1N7pAzrpV+sk1Oiu3E7PJCnx+2X9cOXoAJAWzQXlNbROQNGsZ7Wr2hPptOvna2982jpB2/LY13xL/cjomhqKttiuT5FWgE/MtfgkVWRdJclxoYkITEQMYehZJlKDrtpqYBWTtPqrHj6GOBsxS0Uqt/uZm/o5s9YbTYZuU7Xxll5eW+53fL0dTx+9dHFZbE6v/Xu8vypB/Ys2sAAvZXOMtx3sy/3hm03Pzkoj5auNS2mK/91V7Dcamp/P71T8F9zAAAAC8qgJiEqlnkYGqcwAJD51a3XNgf7h4sjw+1Tst7O3g5e1E+L9lzWOOt9+uuP99duYOrfus+33Hzz3dpcf5rea/lhZb9tHr44O8clGHjT2gVJrFHpdwf93VG/XUy/9ioP++3ZwhGpGdNBq6IYGwwCfJRXU+MvUVD28lAsISzJ7BQEINpSujz0s3dXrJffK/Nnx5OFbDNmSFbKimN0bGm7LzRdZx//okfvv7l3n8XF1a431bOnpflbi/l/NJMOZOoe/eax/Wrrs2/73YIEevbmHnD5cDt9/S4dlO5yt35+VR5v24sdrE6f/Hf96jYoAABgfj5vL3basx1HyAxwyhLEqWFqymYsl+ODPzl63OamnG+ef73qbh9OXv/PBxa7e5dvbra/2e0kL1hIXF6a13azLy/P1jG7yvZi+uxpaCi66c1yfOfNR2dFsjSMB/1uQWLJkiOqhxfzs1tDP8WyPT24/O8/j30DKdbr8ukMFGBAZPT33dpbtwkBfvt8la2efny23s9P/+puUWo/tYiIyHP5zWr727YsRL/66F3z+MnWyfcraA/6QSyb3rEMAH7Q1EcMeXv8N7yZHD119Hk9r1KAXDshsS0Ycz8jsWSJpHn2vHm5nH3+xeyrw/mbw/mbvdy3kUESQ7i2JoD+vl3973t5aPNcEGUzrrs/9KPXZeddV4vn/9v91GTVDpbkTp6/Web/dwcbja85rp910dfLs4d/fLR/qAcPZ3uG4WSjoiqf2PT1dvbreXa8V7FCKTI8NPax30/tuSMcG7U3TlmyNH31//WTT9QxLbf9zd7G+8eeox/bmAOSa5dWU6IEmX2+GO67YW4ckjnP5XpvFq/5+69Uhu7uQHQqWbQjUNSAvtvnB6/+z3tL3/m32cWdarGuHzzdfPNrP5xO2udnNYeHbVcnNhocUXtKLDTblbG5zMtgxRb1st29ydRdytYAqNRcw8TTc1TrM+qId/MvDsujZfTTbruTp2LIqe52d7inOCzd9XTj06NhaAAAS07lqXT3uw45peLCqxqLltuSkn6z+M2bH6qx273cVocfL1luH3Yye97dumivDb29mV4r+EPpzoPvX72g/hfeFqRhm5Zxre0NtnFUTKJkW/kWd/3wpax3HRy58M1/KR80V/zHb0SEQ1ED0A/tpf/05e6fvph/uZ+HQgKAiDYUESSWAAhDMYbc5cG2Xp32m2Oj/LjpPvKtpa0++euzJfle48W966qc3XdF1ry/m+2VS+mW5/uvfbHajcyMhrlnqkfRndpfYiXqgLK9/za1N5OXj+v1K3PiOiKnck1WMh2KDEMAh9qbvcv/4zvXiIzISJbJUuaIcBUAULQVQ3REQFLpF77+3/PLR/OTL+/45eK//+ER5sn3nk+XH7rlpoULRJryIftLdTNKpOs97yb/+O+fTUGwLZtoh/UCR6t4DseZrAy7g+bxc2eJOjVaoqZmBci7MY8TDAgCAHCq7zunEDILljtqOASxBJDZktwODWMz9Dtf2nz/xu9erKs9s+8e+uHxNbZNdXhe+eqImr8cdC0lEUZdc19k15b2/ISx3ZdVTQeV7y/bq6+3eLJ88PeAqMPCi38sl2fIhvESUxu5QKlu0zx7Ofvqy+SZxwIAOAQAQJKlzA45BbDkUNFVh5KnQ1EDI7Wbb7++vO7JYXrynml+STsWi00c9812fWrtr1b7Zs6+awppklkMw4J/2njrZzUjDEzOBJQH/7mx/x2iQskCjU5FNOI67yI1GyyQ8zhpjp6tffT79UHf3k9ijlHLggEQhwCBcFXyjDlSycjIU4GU3Vg//HiunR3e3e4yjj+81G7nXp/fHhalvrlagd7ps7M9S2qr6noNF9xe5kblo0/vL9MfLWYnK/dMPaXtd780rNdTPJMFFjFN8Gtn6zBx7VqBsUh2ZaroLofdiWjAeEAAAEBkWAJEBklE5LFERrUcCq/t1b0H362f8M6dZ7x3NH39sj27mw5rse+7rpQt58XQt8V1aJg9Mi+7AbV89vbn25P/LR1QQb34y53T8TKmrh7Hcv0/UQdw7Umy7DaP2tu7slqt31ars/b6czXD0B8DirYCIgMgWrSliMBBOIUAkFjKc0E4lWuJiBiblbf+yHM77Barb/2aF9uv/vT/DvAqkbrldqVnrtod2nOKs62jSRXqrLmGtq/dLq2kmZ1aN8X6g9rmN482n3nQL8a4xXLz7epqU1cunkwe//vWyW/Pzn+Mcce1G3aH3fUDQLJMnjlK1ADInZhOAQByWyIBiDZlyVLft2U3Fk2tFgNk2O6WR6vma6/+csgHFzszizNRH+rrhWgmc9n89CsdrmO9qZ+99M2+L2572rKYgbF+8mnFTvrD1aHl7LrjMrUX0TT1cFPmh2jc3X3TXn8BqI7fT1/9h6fJxhe/MeyODMmcPCEIh3IU0YYS0ynREERkQAAAp/qhrQ/6YWxSyeQZ+2mc3Fn6/rOEc+oANFt1s/ODdx2X1/7q/+d3t591Ovng5rPXvb56yM/PHNV1gFJpljYXfR3vvH/OVGPehHpZtItp3bfFclss1qjmYX928nP98I3cAJnlLtux7MZhbBAISwBLCIDcrpI5akAAAETXdxDJGKlks9pe8Z+/svdXf2EQysl93fzo+1+/Wh71tlxdTZ69WPv827f/693po7fqJp57M1B6HhwV4kw88/DN/OLryHb64r+L7qK/v9Nvj2OYza8+X//ktyJaQLKsFgPGsG8AAAACYMmQocSUOTK2dTYGQWIJkqeydTOfrDf95c7k5aq7m6/8/+/m3c41r2YxTfr9bO3/f6V5fD6/PE5ffOW5B/K49dxjoW6yRX3djm98pfn5Dyt1Pg1tnPyocTo//wJgyLV47vJuH4CIDIf6qd1hRLRgEksyi5bbVWOvBRuSuWhrs17Wjz7mo37Dh/bhVaQQMXSTF283vviqPloRcirGFspRZaJpJefY7W5Ofjg9+OI3zuuxlBFt42t+trjBV/tRIyIcAlQHQ9mOgK7vhqnJUUgAEAQAIjNAZtEA0Qkps1MIiCUEZPpouevXf3qwG/eRI9BeL3z+GSmZ+37eXt6tF31yk61gS0Q6UpS8WJ6ffb71xTfnf7Z4wl9/iRE1+qG1RGIJAUF0fTdZb0TvuGOQQJKlYEjyBBhCYMgdc8hsicBQs97mcXp0tfuCB/MeKsGZ07bdHM0fXvluZxIx9NPdP3s8+/SRjOpgyHNBloVhKGvWXt1p+2meilOR4ZAlpxAkluQWPExNu51ALJEAAJHa7MtkUUVkzpXpsgIADlkiESzaqYggAfR9m0qe9NFx8YPHsc/FbuKo9Xr5juXip8+uzpnGZ+lUx+v4+EF7+VDmwqs9iOro2tt73d29bjvNU8lRSJyy5JRDABKAqwCQPJXkaWn8x+JyNJBJUN2k3BCAzABAZMidx0Iit1MXt+Nr/+KxlpunrO6eNo9/c/sR5TDs3vP/b735L//jCfY4NcufNpO3vuLk6/17dJfD7iDGdtiebJ1+59DWxXE/tpFBYikiRDsEAOxoTJ5L8pQbABgy+hoGlWdIQhYlcwABiIY45RQCQsEp0SfX8sq/+m7xxek/3Z3u1ah2Mr8+mJ3c2fXd/37J7qlK2z+7+7HSTWtetWN/v01Nl+f99vYRoJ/aYWqiRkQ45ZRopyCinQLsUETUwJAbkOSmVAtTVUkxy1LVZCqJMCRatOjIAJAATFmKOebXB/VbPxldsVjNTx82rz8svnoMozw+WPTyENXZQSmr1U6UWSxGZ2NpGBunLI2gQMgsWvS2kx0vSTwLQ/SQylLp2c9Knl3E4rqXLLelohuHoUWIdkpmwUVXnSramqey9tnn9WG/91f/VJSzfj027KrlblrOIYCFXd1cNQAoGZ6bPJVcyyg5mUWPP5VsCSAzxCEABCKz6KI4WQID5Fk21SmEJYdkltkQBOFQalJ0RMjsVJ4LcrW6jrqc+nzzQbsbu2NeZU0AYNjtQXItEMioPpkjA+IUhiEAwJLccuMgBAMgyZ3MglWcLGVyKNdCAgiFU4ioQSB3KumUaIcARan5F//73bauiIPPjp5opawej3rMoQnA7OSLyIgaOxCBGMkEQAAACEuiSUQDIKKTJUDFop0yhAAADLnKKUMkEJmdktkQRmLW6/W3nn9asTi9aa9fmrIa6Ltyhv4EHgFLhAGQZdFuMUgiAwAAWII45BRix48IHJIbIDNENIZowU5ZIgGo2CmnTFlCAETLLbdTJKlkKlkdXt379lNxsBNfv3eDmoAV+fPSOtgLAIAi2FyV//jx2wPnR7f+6NApyYIBgp1y6Ji1nZgaayez4OTpVNQAAAwBXAVJTQ59gwBA5HYopgAkz6KtMg/b3aKbt9++19SopwTsBS83A4AAgLK6mnzVbbc3BwyZIceQuMPEsdkZ0QqBiJacSjrlEAAQGU4BAKlJhwztzCVZihZdNuPyj97lb91bHKinvHJqfaN6ytt8eGf5W49X3/2hLGM3dtspjliJDIBomcdOj/9WcWSQACyFYrsEx0A9zq5oACCVLLre0ZTLofnlWf3blaxsrJtpXxf6KgEAACSPH0SN9U8fJqff7RVeh7mBQCCCZU6WoRhHcDv8sdmWSMZXCAgAYMkhAgAABwAAOIpKCj7hu+9nq7Cx624ErD5o6tECC30FAABdG82YgMnRTbebAaqnp/M3t9rtVLBgwRAcuRPTkiWZAWPdBEMccsoSwtBILAhi++c7Y3GNcjEu/f5NmOerUt/XirRdLG9qWW1j66AAUlLV/Ku4eegc0G/nhmAtv/EmnbeX/v+vjd9ItiRzKAAACAYAMsrSEsKQUyTbDb9S8Q0Jlhnyn394PhwMw8vVU4J/6fMpwRsKzZizgwKQWOirBGDtuDl/yo06HvEmR4kaUWP2nz+Wq+uFJ+frX55EDblFOwWBCIaMOpI5IQGWLCEAJFe6b4ttx4JJlk//n3uT73868zfvLlqW4+d8QwEAkAwBAEkGTIZkWC9O232bCwAilczzZOviluA9333VXh/PbmaRIVq0KdGGIAjRghGBEOyUJVMETiEACFOSt9u+czVZCsVEnPjyCtAsRLWBgAQA8BPx2vCceraq5z62q4CHZXtwvT3zbhIRiMSMiM3TO8lz8eXV1ulOjgKRDBFtSI0FA0QnJAYGYLyPBb/yZjIkmOL5N8bNw8Lt+PDQfnK8fBsCZOr3tS7HmOpwr4XK3aZdRPK2mfyrZ1f3ucthmOexm2/mCAiCUHO8nd3MEJZEm5JMAgBgQEgsXalCGDJDCJwCYMg9ik2J/v1g9y/fAf7Bfal0S9N1cpzshi3vz736cL/t6WzVabOKeVtWp9Ii3/PgHeX8ikMd99H33dVifrMTEXI7VHRjajJqiLYkWsWAY5AZ18COK7NRUHJbgggGyJw8AYBhatrLObLls6Jed7uMcTOg9oumHMeM7F3LVzezddd1ZX47/uPh4jj439ex2Q6F6bdPX39gNWnuDofQci2Peue2U2U3DmMTNURbgkAEmxIMMIXAELwTIFEjlQSIBoiWWzQAYIkgR13bfYqixc24eYCkaqrTzfYBj+/tVbbiROaGx7XG/il3FyfEuIs85dSHni2vkb3mfPX+zblH78/9+LOrXeyLFlwthq7vhqFxSrAh0eNzZAAAhnbORvIcLalx4dWSUwDBv3h2/e9/fvFy7q1YGbr4/4t307mKiPGu/mNR3bcBlY1mqDV89ay/w+SE5eracx9wtFHO9VG7Dzd/+q/DbtHePOjuD4ehLdsxtRlzOCQakCwxJFsSDLG0bX90iIgICES06KiRs1SLIe9LKJLlvs3kn842s68vDyleevp2tmRSM0lV9XxZmm1P1OZ2uvWi5v5WsetADNPkrY8ap/fKqxbRxMO3l9U81g/OFl//++z829n5fdEyF6VGRkSQhEKwzHIXTY0aoSDAIBmbCkCQOJRKQkj6fesUIBR1bU4aDquv/1fv/jh3h6Qa8xbd9vR+WLq8+YO3rzs+2jf4QH98zbfuld04c7/8t89OqeOqq61jPW4T1WuMfo0X67A+/r+1i9/szxZFqVEjeaaSDgEgliwJFi0YQ/C4viAACECyU3I7NYrEofTpCe/8WD/5133Xy8NHs6VNzzg0m01qJycXHr5ZbZx/s/fiKBR5LlPx2quPt9PgHIqxFtM4FA1NQDkr8XG2bnc9/vONr/6kvd+NKbJKTGEJYQlhKTFlltmSzJYQCJlHSWFACByCCMZJnjKjiItb7Yd/Mv3RX5GrzQeTMpWXsw11n7Tbd//kXn+9L7PcokVW6gOfPWxW/x+0PbqDLsxRol02inz74fGFwb//8tXVT27d7st9S+12MkwNwpIhEkOWRKeSBKFwCmEJAIBIBkAwIKLlTp4QQ7PNDFEf9PMPf614+H7SvYnV9RdWj76txQr5329c3+f9k5PGkpim1sHzn7rbn2QcFDrPThFudn3XFpFqyofcLn93PH/Y/GxpjONu92fDl/n6eL6ZRoQlQyQImQGiU5OhcAphCAFwSjIAIhojWWIkT6cEOyW637dblyeF19WP/0Q+5qkzNPO6mEpNygwBLEmvP+OPz9Vefzl98m9d564JqGpKK4S6a+4PDDcPf3B/V617YnzZL18/9pPZ+Z993e6mEeFUZJAYQhhySnSyBBiSvO10HDpIskyWGJZIMGQWDAnEMDUAwaIXQ6nJkUvV4c2vDo8+tj+8zeH7Rz98uMD1vbaru/UrkcTRCtQs3W/fffMK2aa+UTmOzdf+t3vz3TA1w9REDacsOQUwBIBAilIFAwxt/2lUtcwy5ywYMouGJCaG6BFmcotGvPE7p2dNzeEXFz+fj36e8Z3+5FWXJ6+5iGl5H15SVBgyO+VcTLcjSmQD4MniRXl4lYedYWz6vo0IuREkgQAgZBa9bfzYZfAIBUOhEDyiUmaZITKLllm0zAiZ9+27y15tfra/exi6yMcfRvfpOB7s/ol45nJhL4pqITqVNT5TVnshRnILd6v1sr2+W3VDuRiHoYkMQzjJ0hAAkCwBENGWAAgAxBJEMERwalK0aJkhAIjMguVGiJb7Jku9H0fd5viID5tle6H335na980nF+nzk/jG3SlRU60KizVpY4kYQGvukG6O/sNxMvT73f3dfrvb7buoYcgpAABiSrBgCESwaAgEYUkwRG6I6OQp8whRDIDMyXPrm+sP4ug7U3uh95tl25ZxvQxHyvCtuXvXfPugHp3OT6l5o9KqjkRaBg0chLXVJLsmQzyrHzxf+tpf9/2j9uphu9n74ourZiob7qWp2T2UfddzgCGnRAMsQUbYyixY7uQpWm6AIcGiTQku2nr5N7cfqkc/qO2F3q+XoS1jtrEtw3rpj/jw3dq8fbx1z+V55r0mX7tpyNRc5SkGSlkFBVqlhSazXr9Z+ubfkJPf+fRSdl8sJ9f4ahGLWpRqyRAAQGBIMAQiWm65RSdPuRMTADEkWrCp8qD/02t/bDj8ecZFPm6WbVtG2wg=",
+        "mapbox:uiParadigm": "layers",
+        "mapbox:sdk-support": {
+            "js": "3.9.0",
+            "android": "11.11.0",
+            "ios": "11.11.0"
+        },
+        "mapbox:groups": {
+            "Place labels, place-labels": {
+                "name": "Place labels, place-labels",
+                "collapsed": true
+            }
+        },
+        "mapbox:decompiler": {
+            "id": "cm7rrd286012i01s2e1kocgxw",
+            "strata": [
+                {
+                    "id": "cm7rrd286012i01s2e1kocgxw",
+                    "order": [
+                        [
+                            "place-labels",
+                            "place-labels"
+                        ]
+                    ]
+                }
+            ],
+            "components": {
+                "place-labels": "18.0.0"
+            },
+            "propConfig": {
+                "place-labels": {
+                    "language": "Local"
+                }
+            }
+        }
+    },
+    "center": [
+        -34,
+        38
+    ],
+    "zoom": 2,
+    "terrain": null,
+    "imports": [
+        {
+            "id": "basemap",
+            "url": "mapbox://styles/mapbox/standard"
+        }
+    ],
+    "sources": {
+        "composite": {
+            "url": "mapbox://mapbox.mapbox-streets-v8",
+            "type": "vector"
+        }
+    },
+    "sprite": "mapbox://sprites/itaibiton/cm7rrd286012i01s2e1kocgxw/93jws6vner2lk47ggef31m13y",
+    "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+    "projection": {
+        "name": "globe"
+    },
+    "layers": [
+        {
+            "id": "settlement-subdivision-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "source": "composite",
+            "source-layer": "place_label",
+            "minzoom": 10,
+            "maxzoom": 15,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "settlement_subdivision",
+                        "disputed_settlement_subdivision"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    false
+                ],
+                [
+                    "<=",
+                    [
+                        "get",
+                        "filterrank"
+                    ],
+                    4
+                ],
+                [
+                    "step",
+                    [
+                        "pitch"
+                    ],
+                    true,
+                    50,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        3
+                    ],
+                    60,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        4
+                    ],
+                    70,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        5
+                    ]
+                ]
+            ],
+            "layout": {
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_local"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-transform": "uppercase",
+                "text-font": [
+                    "DIN Pro Regular",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-letter-spacing": [
+                    "match",
+                    [
+                        "get",
+                        "type"
+                    ],
+                    "suburb",
+                    0.15,
+                    0.05
+                ],
+                "text-max-width": 7,
+                "text-padding": 3,
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.5,
+                        0,
+                        1,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    11,
+                    [
+                        "match",
+                        [
+                            "get",
+                            "type"
+                        ],
+                        "suburb",
+                        11,
+                        10.5
+                    ],
+                    15,
+                    [
+                        "match",
+                        [
+                            "get",
+                            "type"
+                        ],
+                        "suburb",
+                        15,
+                        14
+                    ]
+                ]
+            },
+            "paint": {
+                "text-halo-color": "rgb(0, 0, 0)",
+                "text-halo-width": 1,
+                "text-color": "rgb(133, 133, 133)",
+                "text-halo-blur": 0.5
+            }
+        },
+        {
+            "id": "settlement-minor-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "source": "composite",
+            "source-layer": "place_label",
+            "minzoom": 2,
+            "maxzoom": 13,
+            "filter": [
+                "all",
+                [
+                    "<=",
+                    [
+                        "get",
+                        "filterrank"
+                    ],
+                    3
+                ],
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "settlement",
+                        "disputed_settlement"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    false
+                ],
+                [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        ">",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        6
+                    ],
+                    4,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        7
+                    ],
+                    6,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        8
+                    ],
+                    7,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        10
+                    ],
+                    10,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        11
+                    ],
+                    11,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        13
+                    ],
+                    12,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        15
+                    ]
+                ],
+                [
+                    "step",
+                    [
+                        "pitch"
+                    ],
+                    true,
+                    50,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        3
+                    ],
+                    60,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        4
+                    ],
+                    70,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        5
+                    ]
+                ]
+            ],
+            "layout": {
+                "text-line-height": 1.1,
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.2,
+                        0,
+                        0.9,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    3,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        11,
+                        9,
+                        10
+                    ],
+                    6,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        14,
+                        9,
+                        12,
+                        12,
+                        10
+                    ],
+                    8,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        16,
+                        9,
+                        14,
+                        12,
+                        12,
+                        15,
+                        10
+                    ],
+                    13,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        22,
+                        9,
+                        20,
+                        12,
+                        16,
+                        15,
+                        14
+                    ]
+                ],
+                "text-radial-offset": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "capital"
+                        ],
+                        2,
+                        0.6,
+                        0.55
+                    ],
+                    8,
+                    0
+                ],
+                "symbol-sort-key": [
+                    "get",
+                    "symbolrank"
+                ],
+                "icon-image": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "case",
+                        [
+                            "==",
+                            [
+                                "get",
+                                "capital"
+                            ],
+                            2
+                        ],
+                        "border-dot-13",
+                        [
+                            "step",
+                            [
+                                "get",
+                                "symbolrank"
+                            ],
+                            "dot-11",
+                            9,
+                            "dot-10",
+                            11,
+                            "dot-9"
+                        ]
+                    ],
+                    8,
+                    ""
+                ],
+                "text-font": [
+                    "DIN Pro Regular",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-justify": "auto",
+                "text-anchor": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "get",
+                        "text_anchor"
+                    ],
+                    8,
+                    "center"
+                ],
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_local"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-max-width": 7
+            },
+            "paint": {
+                "text-color": [
+                    "step",
+                    [
+                        "get",
+                        "symbolrank"
+                    ],
+                    "rgb(163, 163, 163)",
+                    11,
+                    "rgb(130, 130, 130)",
+                    16,
+                    "rgb(115, 115, 115)"
+                ],
+                "text-halo-color": "rgb(0, 0, 0)",
+                "text-halo-width": 1,
+                "text-halo-blur": 1
+            }
+        },
+        {
+            "id": "settlement-major-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "source": "composite",
+            "source-layer": "place_label",
+            "minzoom": 2,
+            "maxzoom": 15,
+            "filter": [
+                "all",
+                [
+                    "<=",
+                    [
+                        "get",
+                        "filterrank"
+                    ],
+                    3
+                ],
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "settlement",
+                        "disputed_settlement"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    false
+                ],
+                [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    false,
+                    2,
+                    [
+                        "<=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        6
+                    ],
+                    4,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        7
+                    ],
+                    6,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        8
+                    ],
+                    7,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        10
+                    ],
+                    10,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        11
+                    ],
+                    11,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        13
+                    ],
+                    12,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        15
+                    ],
+                    13,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        11
+                    ],
+                    14,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        15
+                    ]
+                ],
+                [
+                    "step",
+                    [
+                        "pitch"
+                    ],
+                    true,
+                    50,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        3
+                    ],
+                    60,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        4
+                    ],
+                    70,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        5
+                    ]
+                ]
+            ],
+            "layout": {
+                "text-line-height": 1.1,
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.2,
+                        0,
+                        0.9,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    3,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        13,
+                        6,
+                        11
+                    ],
+                    6,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        18,
+                        6,
+                        16,
+                        7,
+                        14
+                    ],
+                    8,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        20,
+                        9,
+                        16,
+                        10,
+                        14
+                    ],
+                    15,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        24,
+                        9,
+                        20,
+                        12,
+                        16,
+                        15,
+                        14
+                    ]
+                ],
+                "text-radial-offset": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "capital"
+                        ],
+                        2,
+                        0.6,
+                        0.55
+                    ],
+                    8,
+                    0
+                ],
+                "symbol-sort-key": [
+                    "get",
+                    "symbolrank"
+                ],
+                "icon-image": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "case",
+                        [
+                            "==",
+                            [
+                                "get",
+                                "capital"
+                            ],
+                            2
+                        ],
+                        "border-dot-13",
+                        [
+                            "step",
+                            [
+                                "get",
+                                "symbolrank"
+                            ],
+                            "dot-11",
+                            9,
+                            "dot-10",
+                            11,
+                            "dot-9"
+                        ]
+                    ],
+                    8,
+                    ""
+                ],
+                "text-font": [
+                    "DIN Pro Medium",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-justify": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "text_anchor"
+                        ],
+                        [
+                            "left",
+                            "bottom-left",
+                            "top-left"
+                        ],
+                        "left",
+                        [
+                            "right",
+                            "bottom-right",
+                            "top-right"
+                        ],
+                        "right",
+                        "center"
+                    ],
+                    8,
+                    "center"
+                ],
+                "text-anchor": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "get",
+                        "text_anchor"
+                    ],
+                    8,
+                    "center"
+                ],
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_local"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-max-width": 7
+            },
+            "paint": {
+                "text-color": [
+                    "step",
+                    [
+                        "get",
+                        "symbolrank"
+                    ],
+                    "rgb(163, 163, 163)",
+                    11,
+                    "rgb(130, 130, 130)",
+                    16,
+                    "rgb(115, 115, 115)"
+                ],
+                "text-halo-color": "rgb(0, 0, 0)",
+                "text-halo-width": 1,
+                "text-halo-blur": 1
+            }
+        },
+        {
+            "id": "state-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "source": "composite",
+            "source-layer": "place_label",
+            "minzoom": 3,
+            "maxzoom": 9,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "state",
+                        "disputed_state"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    false
+                ],
+                [
+                    "step",
+                    [
+                        "pitch"
+                    ],
+                    true,
+                    50,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        3
+                    ],
+                    60,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        4
+                    ],
+                    70,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        5
+                    ]
+                ]
+            ],
+            "layout": {
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.85,
+                        0.7,
+                        0.65,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    4,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        9,
+                        6,
+                        8,
+                        7,
+                        7
+                    ],
+                    9,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        21,
+                        6,
+                        16,
+                        7,
+                        14
+                    ]
+                ],
+                "text-transform": "uppercase",
+                "text-font": [
+                    "DIN Pro Bold",
+                    "Arial Unicode MS Bold"
+                ],
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_local"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-letter-spacing": 0.15,
+                "text-max-width": 6
+            },
+            "paint": {
+                "text-color": "rgb(163, 163, 163)",
+                "text-halo-color": "rgb(0, 0, 0)",
+                "text-halo-width": 1,
+                "text-opacity": 0.5
+            }
+        },
+        {
+            "id": "country-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "source": "composite",
+            "source-layer": "place_label",
+            "minzoom": 1,
+            "maxzoom": 10,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "country",
+                        "disputed_country"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    false
+                ],
+                [
+                    "step",
+                    [
+                        "pitch"
+                    ],
+                    true,
+                    50,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        3
+                    ],
+                    60,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        4
+                    ],
+                    70,
+                    [
+                        "<",
+                        [
+                            "distance-from-center"
+                        ],
+                        5
+                    ]
+                ]
+            ],
+            "layout": {
+                "icon-image": "",
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_local"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-line-height": 1.1,
+                "text-max-width": 6,
+                "text-font": [
+                    "DIN Pro Medium",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-radial-offset": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    0.6,
+                    8,
+                    0
+                ],
+                "text-justify": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "text_anchor"
+                        ],
+                        [
+                            "left",
+                            "bottom-left",
+                            "top-left"
+                        ],
+                        "left",
+                        [
+                            "right",
+                            "bottom-right",
+                            "top-right"
+                        ],
+                        "right",
+                        "center"
+                    ],
+                    7,
+                    "auto"
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.2,
+                        0,
+                        0.7,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    1,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        11,
+                        4,
+                        9,
+                        5,
+                        8
+                    ],
+                    9,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        22,
+                        4,
+                        19,
+                        5,
+                        17
+                    ]
+                ]
+            },
+            "paint": {
+                "icon-opacity": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "case",
+                        [
+                            "has",
+                            "text_anchor"
+                        ],
+                        1,
+                        0
+                    ],
+                    7,
+                    0
+                ],
+                "text-color": "rgb(97, 97, 97)",
+                "text-halo-color": "rgb(0, 0, 0)",
+                "text-halo-width": 1.25
+            }
+        },
+        {
+            "id": "continent-label",
+            "type": "symbol",
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "source": "composite",
+            "source-layer": "natural_label",
+            "minzoom": 0.75,
+            "maxzoom": 3,
+            "filter": [
+                "==",
+                [
+                    "get",
+                    "class"
+                ],
+                "continent"
+            ],
+            "layout": {
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_local"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-line-height": 1.1,
+                "text-max-width": 6,
+                "text-font": [
+                    "DIN Pro Medium",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-size": [
+                    "interpolate",
+                    [
+                        "exponential",
+                        0.5
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    0,
+                    10,
+                    2.5,
+                    15
+                ],
+                "text-transform": "uppercase",
+                "text-letter-spacing": 0.05
+            },
+            "paint": {
+                "text-color": "rgb(97, 97, 97)",
+                "text-halo-color": "rgb(0, 0, 0)",
+                "text-halo-width": 1.5,
+                "text-opacity": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    0,
+                    0.8,
+                    1.5,
+                    0.5,
+                    2.5,
+                    0
+                ]
+            }
+        }
+    ],
+    "created": "2025-03-02T15:00:32.262Z",
+    "modified": "2025-03-02T15:04:12.796Z",
+    "id": "cm7rrd286012i01s2e1kocgxw",
+    "owner": "itaibiton",
+    "visibility": "public",
+    "protected": false,
+    "draft": false
+}

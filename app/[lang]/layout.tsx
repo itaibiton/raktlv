@@ -61,6 +61,7 @@ export default async function RootLayout({
           href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
           rel="stylesheet"
         />
+        {/* <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js"></script> */}
       </head>
       <body dir={isRtl ? "rtl" : "ltr"} className="bg-background text-foreground h-screen">
         <Providers isRtl={isRtl}>
@@ -73,6 +74,7 @@ export default async function RootLayout({
           <Toaster position={isRtl ? "top-left" : "top-right"} />
         </Providers>
       </body>
+
     </html>
   );
 }
