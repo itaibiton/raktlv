@@ -12,7 +12,7 @@ export const Providers = ({ children, isRtl }: { children: React.ReactNode, isRt
             enableSystem
             disableTransitionOnChange
         >
-            <Direction.Provider dir={isRtl ? "rtl" : "ltr"}>{children}</Direction.Provider>;
+            <Direction.Provider dir={isRtl ? "rtl" : "ltr"}>{children}</Direction.Provider>
         </ThemeProvider>
     </>
 

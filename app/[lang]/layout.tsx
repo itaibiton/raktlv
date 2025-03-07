@@ -66,7 +66,6 @@ export default async function RootLayout({
       <body dir={isRtl ? "rtl" : "ltr"} className="bg-background text-foreground h-screen">
         <Providers isRtl={isRtl}>
           <main className="flex flex-col items-center h-full">
-
             <div className="flex w-full h-full overflow-hidden ">
               {children}
             </div>
@@ -74,7 +73,6 @@ export default async function RootLayout({
           <Toaster position={isRtl ? "top-left" : "top-right"} />
         </Providers>
       </body>
-
     </html>
   );
 }

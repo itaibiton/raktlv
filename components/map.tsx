@@ -95,7 +95,7 @@ export default function MapComponent() {
     <Map
       style="mapbox://styles/mapbox/streets-v11"
       containerStyle={{
-        height: '100vh',
+        height: '100%',
         minWidth: '600px'
       }}
       center={[34.81223, 32.10333]}
