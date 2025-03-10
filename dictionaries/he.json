@@ -1,9 +1,39 @@
 {
-    "server-component": {
-        "welcome": "היי"
-    },
-    "counter": {
-        "increment": "פלוס",
-        "decrement": "מינוס"
+    "filterForm": {
+        "propertyType": "סוג הנכס",
+        "rental": "השכרה",
+        "sale": "מכירה",
+        "sublet": "סאבלט",
+        "priceRange": "מחיר",
+        "min": "מ",
+        "max": "עד",
+        "bedrooms": "חדרים",
+        "bathrooms": "חדרי אמבטיה",
+        "air_conditioner": "מזכוכית",
+        "balcony": "בלקוני",
+        "condition": "מצב",
+        "contact_email": "אימייל",
+        "contact_full_name": "שם מלא",
+        "contact_phone": "טלפון",
+        "description": "תיאור",
+        "disabled_access": "גישה מוגזמת",
+        "elevator": "מעלית",
+        "entry_date_from": "תחילת תשלום",
+        "entry_date_to": "סיום תשלום",
+        "floor": "קומה",
+        "latitude": "קו רוחב",
+        "longitude": "קו אורך",
+        "mapbox_data": "מפת מסוג",
+        "parking": "חנייה",
+        "pet_friendly": "חיות מחמד",
+        "photos": "תמונות",
+        "place_name": "שם מקום",
+        "property_id": "מספר נכס",
+        "protected_space": "מקום מוגן",
+        "square_feet": "מספר מטרים",
+        "title": "כותרת",
+        "type": "סוג",
+        "user_id": "מספר משתמש",
+        "warehouse": "מחסן"
     }
 }

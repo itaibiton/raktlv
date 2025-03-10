@@ -41,7 +41,6 @@ export default async function Page(props: { params: Promise<{ lang: Locale }> })
       <div className="absolute top-4 left-4 z-10">
         {/* <Image src="/assets/logos/Emblem/1x/white.png" alt="RakTLV Logo" width={60} height={60} /> */}
         <RakTLVLogo />
-        {dictionary["server-component"].welcome}
         {/* <RakTLVIcon /> */}
       </div>
 

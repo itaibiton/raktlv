@@ -15,17 +15,8 @@ import {
     ToggleGroupItem,
 } from "@/components/ui/toggle-group"
 import { FilterIcon, FilterX, FilterXIcon, Trash2 } from "lucide-react";
-
-export interface FilterType {
-    propertyType: string[];
-    minPrice: number;
-    maxPrice: number;
-    bedrooms: number;
-    bathrooms: number;
-    amenities: string[];
-    condition: string;
-    floor: number | null;
-}
+import { FilterType, useFilterStore } from "@/store/filter-store";
+import { useDictionary } from "./providers/providers.tsx";
 
 interface FilterSidebarProps {
     filters: FilterType;
@@ -33,22 +24,6 @@ interface FilterSidebarProps {
 }
 
 const FilterSidebar = () => {
-    const [filters, setFilters] = useState<FilterType>({
-        propertyType: [],
-        minPrice: 0,
-        maxPrice: 5000000,
-        bedrooms: 0,
-        bathrooms: 0,
-        amenities: [],
-        condition: '',
-        floor: null,
-    });
-
-
-    const updateFilter = (key: keyof FilterType, value: any) => {
-        setFilters({ ...filters, [key]: value });
-    };
-
     return (
         <>
             <div className="md:hidden w-full">
@@ -58,7 +33,7 @@ const FilterSidebar = () => {
             </div>
             <div className="border rounded-md hidden md:flex flex-col w-96 h-full overflow-y-auto ">
                 <div className="flex-1 overflow-y-auto scrollbar-thin">
-                    <FilterItems filters={filters} updateFilter={updateFilter} setFilters={setFilters} />
+                    <FilterItems />
                 </div>
                 <div className="flex bg-background p-4 justify-between items-center border-t">
                     <Button variant="outline" size="sm" className="text-muted-foreground">
@@ -72,29 +47,33 @@ const FilterSidebar = () => {
 
 export default FilterSidebar
 
-const FilterItems = ({ filters, updateFilter, setFilters }: { filters: FilterType, updateFilter: (key: keyof FilterType, value: any) => void, setFilters: (filters: FilterType) => React.Dispatch<React.SetStateAction<FilterType>> }) => {
+const FilterItems = () => {
+    const dictionary = useDictionary();
+    const { filters, updateFilter, resetFilters, setFilters } = useFilterStore();
+
+
     return (
         <div className="p-4 flex flex-col overflow-y-auto gap-6 pb-12">
             <div className="flex w-full flex-col gap-2">
-                <label className="text-sm font-medium text-real-600">Property Type</label>
-                <ToggleGroup type="multiple" variant="outline" className='w-full'
+                <label className="text-sm font-medium text-real-600">{dictionary['filterForm'].propertyType}</label>
+                <ToggleGroup type="multiple" variant="outline" className='w-full gap-2'
                     value={filters.propertyType}
                     onValueChange={(value) => updateFilter("propertyType", value)}
                 >
-                    <ToggleGroupItem className='w-full' value="rental" aria-label="Rental">
-                        Rental
+                    <ToggleGroupItem className='w-full' value="rental" aria-label={dictionary['filterForm'].rental}>
+                        {dictionary['filterForm'].rental}
                     </ToggleGroupItem>
-                    <ToggleGroupItem className='w-full' value="for sale" aria-label="For Sale">
-                        Sale
+                    <ToggleGroupItem className='w-full' value="for sale" aria-label={dictionary['filterForm'].sale}>
+                        {dictionary['filterForm'].sale}
                     </ToggleGroupItem>
-                    <ToggleGroupItem className='w-full' value="sublet" aria-label="Sublet">
-                        Sublet
+                    <ToggleGroupItem className='w-full' value="sublet" aria-label={dictionary['filterForm'].sublet}>
+                        {dictionary['filterForm'].sublet}
                     </ToggleGroupItem>
                 </ToggleGroup>
             </div>
 
             <div className="space-y-2">
-                <label className="text-sm font-medium text-real-600">Price Range</label>
+                <label className="text-sm font-medium text-real-600">{dictionary['filterForm'].priceRange}</label>
                 <div className="pt-2">
                     <Slider
                         defaultValue={[0, 5000000]}
@@ -106,11 +85,6 @@ const FilterItems = ({ filters, updateFilter, setFilters }: { filters: FilterTyp
                                 minPrice,
                                 maxPrice
                             });
-                            // setFilters(prev => ({
-                            //     ...prev,
-                            //     minPrice,
-                            //     maxPrice
-                            // }));
                         }}
                         max={50000000}
                         min={0}
@@ -118,14 +92,14 @@ const FilterItems = ({ filters, updateFilter, setFilters }: { filters: FilterTyp
                     />
                 </div>
                 <div className="flex justify-between text-sm text-real-500">
-                    <span>${filters.minPrice.toLocaleString()}</span>
-                    <span>${filters.maxPrice.toLocaleString()}</span>
+                    <span>₪{filters.minPrice.toLocaleString()}</span>
+                    <span>₪{filters.maxPrice.toLocaleString()}</span>
                 </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-real-600">Bedrooms</label>
+                    <label className="text-sm font-medium text-real-600">{dictionary['filterForm'].bedrooms}</label>
                     <Select
                         value={filters.bedrooms.toString()}
                         onValueChange={(value) => updateFilter("bedrooms", parseInt(value))}
@@ -145,7 +119,7 @@ const FilterItems = ({ filters, updateFilter, setFilters }: { filters: FilterTyp
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-real-600">Bathrooms</label>
+                    <label className="text-sm font-medium text-real-600">{dictionary['filterForm'].bathrooms}</label>
                     <Select
                         value={filters.bathrooms.toString()}
                         onValueChange={(value) => updateFilter("bathrooms", parseInt(value))}
@@ -165,7 +139,6 @@ const FilterItems = ({ filters, updateFilter, setFilters }: { filters: FilterTyp
             </div>
 
             <div className="space-y-2">
-                <label className="text-sm font-medium text-real-600">Amenities</label>
                 <div className="grid grid-cols-2 gap-2">
                     <div className="flex items-center space-x-2">
                         <input
@@ -260,42 +233,6 @@ const FilterItems = ({ filters, updateFilter, setFilters }: { filters: FilterTyp
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-real-600">Condition</label>
-                    <Select
-                        onValueChange={(value) => updateFilter("condition", value)}
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Any" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="any">Any</SelectItem>
-                            <SelectItem value="new">New</SelectItem>
-                            <SelectItem value="used">Used</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-real-600">Floor</label>
-                    <Select
-                        onValueChange={(value) => updateFilter("floor", value === "any" ? null : parseInt(value))}
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Any" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="any">Any</SelectItem>
-                            <SelectItem value="0">Ground</SelectItem>
-                            <SelectItem value="1">1st</SelectItem>
-                            <SelectItem value="2">2nd+</SelectItem>
-                            <SelectItem value="5">5th+</SelectItem>
-                            <SelectItem value="10">10th+</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-            </div>
         </div>
     );
 }

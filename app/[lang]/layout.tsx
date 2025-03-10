@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Locale } from "@/i18n-config";
 import { Direction } from "radix-ui";
 import { Providers } from "@/components/providers/providers.tsx";
+import { getDictionary } from "@/get-dictionary";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -54,6 +55,8 @@ export default async function RootLayout({
 
   const isRtl = lang === "he";
 
+  const dictionary = await getDictionary(lang);
+
   return (
     <html lang={lang} dir={isRtl ? "rtl" : "ltr"} className={`${geistSans.className} ${isRtl ? 'rtl' : 'ltr'}`} suppressHydrationWarning>
       <head>
@@ -64,7 +67,7 @@ export default async function RootLayout({
         {/* <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js"></script> */}
       </head>
       <body dir={isRtl ? "rtl" : "ltr"} className="bg-background text-foreground h-screen">
-        <Providers isRtl={isRtl}>
+        <Providers isRtl={isRtl} dictionary={dictionary}>
           <main className="flex flex-col items-center h-full">
             <div className="flex w-full h-full overflow-hidden ">
               {children}
@@ -72,6 +75,7 @@ export default async function RootLayout({
           </main>
           <Toaster position={isRtl ? "top-left" : "top-right"} />
         </Providers>
+
       </body>
     </html>
   );
