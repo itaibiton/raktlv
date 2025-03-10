@@ -7,7 +7,7 @@ const BathroomsFilter = () => {
     const dictionary = useDictionary();
     const { filters, updateFilter, setFilters } = useFilterStore();
 
-    return <div className="flex w-full flex-col">
+    return <div className="flex w-full flex-col gap-2">
         <label className="text-sm font-medium text-real-600">{dictionary['filterForm'].bathrooms}</label>
         <Select
             value={filters.bathrooms.toString()}

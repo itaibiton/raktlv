@@ -32,8 +32,8 @@ export function AmenitiesFilter() {
     const { filters, updateFilter } = useFilterStore();
 
     return (
-        <div className="space-y-4">
-            <h3 className="text-sm font-medium text-real-600">{dictionary?.['filterForm']?.amenities}</h3>
+        <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-real-600">{dictionary?.['filterForm']?.amenities}</label>
             <ToggleGroup
                 type="multiple"
                 variant="outline"
