@@ -1,4 +1,9 @@
 {
+    "auth": {
+        "signIn": "התחברות",
+        "signUp": "הרשמה",
+        "signOut": "התנתקות"
+    },
     "filterForm": {
         "propertyType": "סוג הנכס",
         "rental": "השכרה",

@@ -17,7 +17,7 @@ const accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 // Initialize the RTL plugin
 const initializeRTLTextPlugin = () => {
   // @ts-ignore - the mapboxgl types don't include the RTL plugin
-  if (!mapboxgl.getRTLTextPluginStatus || mapboxgl.getRTLTextPluginStatus() !== 'loaded') {
+  if (!mapboxgl.getRTLTextPluginStatus || mapboxgl.getRTLTextPluginStatus() === 'unavailable') {
     // @ts-ignore
     mapboxgl.setRTLTextPlugin(
       'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
@@ -33,10 +33,14 @@ const Map = ReactMapboxGl({
 
 export default function MapComponent() {
   const mapRef = useRef(null);
+  const pluginInitializedRef = useRef(false);
 
   useEffect(() => {
-    // Initialize the RTL text plugin when component mounts
-    initializeRTLTextPlugin();
+    // Only initialize the RTL text plugin once
+    if (!pluginInitializedRef.current) {
+      initializeRTLTextPlugin();
+      pluginInitializedRef.current = true;
+    }
 
     // Add a check to verify the plugin loaded correctly
     setTimeout(() => {
