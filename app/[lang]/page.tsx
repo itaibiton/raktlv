@@ -1,4 +1,4 @@
-import FilterSidebar from '@/components/filter-sidebar'
+import FilterSidebar from '@/components/filter-form/filter-sidebar'
 import PropertyList from '@/components/property-list'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

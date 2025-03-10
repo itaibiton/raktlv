@@ -11,6 +11,7 @@
         "bathrooms": "Bathrooms",
         "air_conditioner": "Air Conditioner",
         "balcony": "Balcony",
+        "amenities": "Amenities",
         "condition": "Condition",
         "contact_email": "Email",
         "contact_full_name": "Full Name",

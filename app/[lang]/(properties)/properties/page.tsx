@@ -1,5 +1,5 @@
 
-import FilterSidebar from "@/components/filter-sidebar";
+import FilterSidebar from "@/components/filter-form/filter-sidebar";
 import Map from "@/components/map";
 import PropertyList from "@/components/property-list";
 import { Button } from "@/components/ui/button";
