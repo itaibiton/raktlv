@@ -28,7 +28,9 @@ export default async function Page({ params }: { params: Promise<{ lang: Locale 
       {/* Right: PropertyList */}
       <div className="w-full h-full overflow-y-auto flex gap-4">
         <PropertyList properties={properties ?? []} />
-        <Map />
+        <div className="w-3/4 h-full hidden 2xl:block">
+          <Map />
+        </div>
       </div>
     </div>
   );

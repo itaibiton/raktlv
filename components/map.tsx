@@ -100,11 +100,11 @@ export default function MapComponent() {
       style="mapbox://styles/mapbox/streets-v11"
       containerStyle={{
         height: '100%',
-        minWidth: '600px'
+        width: '100%',
+        // minWidth: '300px',
       }}
       center={[34.81223, 32.10333]}
       zoom={[12]}
-
       onStyleLoad={onMapLoad}
     >
     </Map>

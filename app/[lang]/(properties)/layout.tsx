@@ -22,9 +22,9 @@ export default async function Layout({
     const dictionary = await getDictionary(lang);
 
     return (
-        <main className="flex flex-col items-center h-full">
+        <main className="flex flex-col items-center h-full w-full">
             <HeaderAuth dictionary={dictionary} />
-            <div className="flex w-full h-full p-8 overflow-hidden ">
+            <div className="flex w-full h-full p-8 overflow-hidden">
                 {children}
             </div>
         </main>
