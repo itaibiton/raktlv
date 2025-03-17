@@ -24,7 +24,6 @@ const PropertyList = ({
           <PropertyCard
             key={`${i}-property-list-1`}
             property={property}
-            dictionary={dictionary}
             onClick={() => setSelectedProperty(property)}
           />
         ))}

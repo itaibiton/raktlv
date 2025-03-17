@@ -21,6 +21,7 @@ import { Database } from "@/schema";
 import { formatCurrency, formatPrice } from "@/lib/utils";
 import { Dictionary } from "@/get-dictionary";
 import { Separator } from "./ui/separator";
+import { useDictionary } from "./providers/providers.tsx";
 
 // Add a helper function to format dates in Hebrew style
 const formatHebrewDate = (dateString?: string) => {
@@ -33,14 +34,14 @@ const formatHebrewDate = (dateString?: string) => {
 
 const PropertyCard = ({
   property,
-  dictionary,
   onClick,
 }: {
   property: Database["public"]["Tables"]["properties"]["Row"];
-  dictionary: Dictionary;
   onClick?: () => void;
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const { dictionary } = useDictionary();
 
   // Format price with currency
   // const formattedPrice = property.price ? formatCurrency(property.price) : "Price on request";
