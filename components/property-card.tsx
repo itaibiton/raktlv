@@ -103,18 +103,18 @@ const PropertyCard = ({
                 </div>
                 <div className="flex items-center gap-1">
                   <Square className="w-4 h-4" />
-                  <span>{property.square_feet} {dictionary.filterForm.square_feet}</span>
+                  <span>{property.square_feet} {dictionary?.filterForm.square_feet}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Square className="w-4 h-4" />
-                  <span>{dictionary.filterForm.floor} {property.floor}</span>
+                  <span>{dictionary?.filterForm.floor} {property.floor}</span>
                 </div>
               </div>
             </div>
             <Separator />
             <div className="flex justify-between items-end px-4">
               <span className="flex flex-col gap-1">
-                <p className="text-sm">{dictionary.filterForm[property.type as keyof typeof dictionary.filterForm]}</p>
+                <p className="text-sm">{dictionary?.filterForm[property.type as keyof typeof dictionary.filterForm]}</p>
                 {property.type === 'sublet' &&
                   <div className="flex gap-2  text-sm items-center">
                     <Calendar className="w-4 h-4" />

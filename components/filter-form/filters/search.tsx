@@ -84,7 +84,7 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
 
     return (
         <div className="relative flex flex-col gap-2">
-            <label className="text-sm font-medium text-real-600">{dictionary['filterForm'].location}</label>
+            <label className="text-sm font-medium text-real-600">{dictionary['filterForm']?.location}</label>
             <Input
                 type="text"
                 placeholder="חפש מיקום..."
