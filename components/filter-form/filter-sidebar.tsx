@@ -22,9 +22,14 @@ import PropertyPriceFilter from "./filters/property-price";
 import BedroomsFilter from "./filters/bedrooms-filter";
 import BathroomsFilter from "./filters/bathrooms-filter";
 import { AmenitiesFilter } from "./filters/amenities-filter";
+import SearchFilter from "./filters/search";
 
 
 const FilterSidebar = () => {
+
+    const dictionary = useDictionary();
+    const { filters, updateFilter, resetFilters, setFilters } = useFilterStore();
+
     return (
         <>
             <div className="md:hidden w-full">
@@ -37,7 +42,7 @@ const FilterSidebar = () => {
                     <FilterItems />
                 </div>
                 <div className="flex bg-background p-4 justify-between items-center border-t">
-                    <Button variant="outline" size="sm" className="text-muted-foreground">
+                    <Button onClick={resetFilters} variant="outline" size="sm" className="text-muted-foreground">
                         <FilterXIcon className="w-5 h-5" />
                     </Button>
                 </div>
@@ -52,9 +57,16 @@ const FilterItems = () => {
     const dictionary = useDictionary();
     const { filters, updateFilter, resetFilters, setFilters } = useFilterStore();
 
+    // Handle location selection from search
+    const handleLocationSelect = (coordinates: [number, number], placeName: string) => {
+        updateFilter('location', { coordinates, placeName });
+    };
 
     return (
         <div className="p-4 flex flex-col overflow-y-auto gap-6 pb-12">
+            <div className="flex w-full flex-col gap-2">
+                <SearchFilter onResultSelect={handleLocationSelect} />
+            </div>
             <div className="flex w-full flex-col gap-2">
                 <PropertyTypeFilter />
             </div>
