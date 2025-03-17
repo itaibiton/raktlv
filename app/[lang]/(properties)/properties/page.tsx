@@ -16,6 +16,8 @@ export default async function Page({ params }: { params: Promise<{ lang: Locale 
   const supabase = await createClient();
   const { data: properties } = await supabase.from("properties").select();
 
+  const dictionary = await getDictionary(lang);
+
   console.log("p", properties);
 
   return (
@@ -27,7 +29,7 @@ export default async function Page({ params }: { params: Promise<{ lang: Locale 
       </div>
       {/* Right: PropertyList */}
       <div className="w-full h-full overflow-y-auto flex gap-4">
-        <PropertyList properties={properties ?? []} />
+        <PropertyList properties={properties ?? []} dictionary={dictionary} />
         <div className="w-3/4 h-full hidden 2xl:block">
           <Map />
         </div>

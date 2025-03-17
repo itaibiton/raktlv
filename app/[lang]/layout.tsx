@@ -16,6 +16,7 @@ import { Locale } from "@/i18n-config";
 import { Direction } from "radix-ui";
 import { Providers } from "@/components/providers/providers.tsx";
 import { getDictionary } from "@/get-dictionary";
+import { Rubik } from "next/font/google";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -38,6 +39,13 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+const rubik = Rubik({
+  subsets: ['hebrew', 'latin'],
+  display: 'swap',
+  variable: '--font-rubik',
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+});
+
 export default async function RootLayout({
   children,
   params,
@@ -58,7 +66,7 @@ export default async function RootLayout({
   const dictionary = await getDictionary(lang);
 
   return (
-    <html lang={lang} dir={isRtl ? "rtl" : "ltr"} className={`${geistSans.className} ${isRtl ? 'rtl' : 'ltr'}`} suppressHydrationWarning>
+    <html lang={lang} dir={isRtl ? "rtl" : "ltr"} className={`${rubik.variable} ${isRtl ? 'rtl' : 'ltr'}`} suppressHydrationWarning>
       <head>
         <link
           href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css"
