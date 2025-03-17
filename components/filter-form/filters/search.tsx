@@ -20,9 +20,6 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
 
     const dictionary = useDictionary();
 
-
-    const [result, setResult] = useState<any[]>([]);
-
     useEffect(() => {
         if (!debouncedSearchTerm) {
             setSearchResults([]);
@@ -57,6 +54,8 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
 
     const handleResultClick = (result: any) => {
         if (result.center) {
+            console.log('Selected location:', result);
+
             // Update the filter store with location data
             updateFilter('location', {
                 coordinates: result.center as [number, number],
@@ -67,9 +66,13 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
             if (onResultSelect) {
                 onResultSelect(result.center, result.place_name);
             }
-        }
 
-        setSearchResults([]); // Clear results after selection
+            // Clear search results after selection
+            setSearchResults([]);
+
+            // Keep the search term visible in the input
+            setSearchTerm(result.place_name);
+        }
     };
 
     // Set initial search term if location is already in filters
@@ -77,7 +80,7 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
         if (filters.location?.placeName && !searchTerm) {
             setSearchTerm(filters.location.placeName);
         }
-    }, [filters.location]);
+    }, [filters.location, searchTerm]);
 
     return (
         <div className="relative flex flex-col gap-2">
@@ -111,6 +114,7 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
                     ))}
                 </div>
             )}
+
         </div>
     );
 }

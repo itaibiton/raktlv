@@ -15,8 +15,8 @@ export type FilterType = {
 
 const defaultFilters: FilterType = {
     location: {
-        coordinates: [0, 0],
-        placeName: "",
+        coordinates: [34.78057, 32.08088],
+        placeName: "Tel Aviv",
     },
     propertyType: [],
     minPrice: 0,

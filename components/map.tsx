@@ -36,9 +36,57 @@ export default function MapComponent() {
   const mapRef = useRef(null);
   const pluginInitializedRef = useRef(false);
   const { filters } = useFilterStore();
-  const [center, setCenter] = useState<[number, number]>([34.81223, 32.10333]);
+  const [center, setCenter] = useState<[number, number]>([34.78057, 32.08088]); // Tel Aviv coordinates
   const [zoom, setZoom] = useState<[number]>([12]);
   const [markers, setMarkers] = useState<any[]>([]);
+
+  // Define a more accurate Tel Aviv boundary using GeoJSON coordinates
+  const telAvivCoordinates = [
+    [34.7673, 32.0504], // Southern point
+    [34.7547, 32.0594],
+    [34.7534, 32.0701],
+    [34.7465, 32.0815],
+    [34.7534, 32.0935],
+    [34.7631, 32.1023],
+    [34.7768, 32.1097],
+    [34.7905, 32.1156],
+    [34.8042, 32.1156],
+    [34.8179, 32.1097],
+    [34.8261, 32.0991],
+    [34.8261, 32.0885],
+    [34.8179, 32.0779],
+    [34.8097, 32.0673],
+    [34.7960, 32.0567],
+    [34.7810, 32.0504] // Back to close the polygon
+  ];
+
+  // Define max bounds that extend beyond Tel Aviv
+  // Format is [[min longitude, min latitude], [max longitude, max latitude]]
+  const extendedBounds = [
+    [34.72, 32.02], // Southwest corner - extended beyond Tel Aviv
+    [34.85, 32.14]  // Northeast corner - extended beyond Tel Aviv
+  ];
+
+  // Create a GeoJSON polygon for the mask (area outside Tel Aviv)
+  const maskPolygon = {
+    type: 'Feature',
+    geometry: {
+      type: 'Polygon',
+      coordinates: [
+        // Outer ring (world bounds)
+        [
+          [-180, -90],
+          [180, -90],
+          [180, 90],
+          [-180, 90],
+          [-180, -90]
+        ],
+        // Inner ring (Tel Aviv shape - must be in clockwise order)
+        telAvivCoordinates
+      ]
+    },
+    properties: {}
+  };
 
   useEffect(() => {
     // Only initialize the RTL text plugin once
@@ -57,29 +105,74 @@ export default function MapComponent() {
   // Update map when location filter changes
   useEffect(() => {
     if (filters.location?.coordinates) {
+      console.log('Location filter changed:', filters.location);
       setCenter(filters.location.coordinates);
-      setZoom([20]); // Zoom in when a location is selected
+      setZoom([14]); // Increase zoom level for better visibility
 
       // If we have a map reference, we can also add a marker or fly to the location
       if (mapRef.current) {
         const map = mapRef.current as mapboxgl.Map;
-        map.flyTo({
-          center: {
-            lng: filters.location.coordinates[0],
-            lat: filters.location.coordinates[1]
-          },
-          zoom: 20,
-          essential: true
+
+        // Clear existing markers from the map
+        markers.forEach(marker => marker.remove());
+
+        // Add a new marker at the selected location
+        const newMarker = new mapboxgl.Marker()
+          .setLngLat(filters.location.coordinates)
+          .addTo(map);
+
+        setMarkers([newMarker]);
+
+        // For consistent animation, first zoom out slightly
+        map.easeTo({
+          zoom: Math.max(map.getZoom() - 2, 10),
+          duration: 300
         });
+
+        // Then fly to the actual location with animation
+        setTimeout(() => {
+          map.flyTo({
+            center: filters.location?.coordinates as [number, number],
+            zoom: 18,
+            essential: true,
+            duration: 2000,
+            curve: 1.5 // Add some easing
+          });
+        }, 350);
       }
     }
   }, [filters.location]);
 
-
-
-
   const onMapLoad = (map: any) => {
     mapRef.current = map;
+
+    // Add the mask source and layer
+    map.addSource('outside-tel-aviv', {
+      type: 'geojson',
+      data: maskPolygon
+    });
+
+    map.addLayer({
+      id: 'outside-tel-aviv-mask',
+      type: 'fill',
+      source: 'outside-tel-aviv',
+      paint: {
+        'fill-color': '#cccccc',
+        'fill-opacity': 0.7
+      }
+    }, 'road-label'); // Insert before labels so text remains visible
+
+    // Add a border around Tel Aviv
+    map.addLayer({
+      id: 'tel-aviv-border',
+      type: 'line',
+      source: 'outside-tel-aviv',
+      paint: {
+        'line-color': '#0078ff',
+        'line-width': 2
+      },
+      filter: ['==', '$type', 'Polygon']
+    });
 
     // Log all layers to help debug
     const layers = map.getStyle().layers;
@@ -134,8 +227,8 @@ export default function MapComponent() {
       center={center}
       zoom={zoom}
       onStyleLoad={onMapLoad}
+      maxBounds={extendedBounds as any}
     >
-
     </Map>
   );
 }
