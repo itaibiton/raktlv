@@ -219,7 +219,8 @@ export default function MapComponent() {
 
   return (
     <Map
-      style="mapbox://styles/mapbox/streets-v11"
+      // style="mapbox://styles/mapbox/streets-v11"
+      style="mapbox://styles/mapbox/outdoors-v11"
       containerStyle={{
         height: '100%',
         width: '100%',
