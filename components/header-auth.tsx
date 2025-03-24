@@ -66,7 +66,7 @@ export default async function AuthButton({ dictionary }: { dictionary: Dictionar
     </div>
     <div className="flex gap-2 h-12 ltr:flex-row-reverse">
       <UserPopover user={user} dictionary={dictionary} />
-      <CreatePropertyForm />
+      {user && <CreatePropertyForm />}
       {/* <ThemeSwitcher /> */}
       {/* <LanguageSwitcher /> */}
     </div>
