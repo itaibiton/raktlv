@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { type User as UserType } from "@supabase/supabase-js";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import Link from "next/link";
-import { User2 } from "lucide-react";
+import { Lock, User2, UserPlus } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { signOutAction } from "@/app/actions";
 import { LogOut } from "lucide-react";
@@ -17,10 +17,10 @@ const UserPopover = ({ user, dictionary }: { user: UserType | null, dictionary: 
 
     if (!user) return <div className="flex gap-2">
         <Button asChild size="sm" variant={"outline"}>
-            <Link href="/sign-in">{dictionary['auth'].signIn}</Link>
+            <Link className="flex gap-2 items-center" href="/sign-in"> {dictionary['auth'].signIn}<Lock className="w-4 h-4" /></Link>
         </Button>
         <Button asChild size="sm" variant={"default"}>
-            <Link href="/sign-up">{dictionary['auth'].signUp}</Link>
+            <Link className="flex gap-2 items-center" href="/sign-up"> {dictionary['auth'].signUp}<UserPlus className="w-4 h-4" /></Link>
         </Button>
     </div>
 
