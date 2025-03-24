@@ -23,8 +23,8 @@ const PropertyList = ({
   };
 
   return (
-    <div className="flex flex-col w-full h-full  overflow-y-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="relative flex flex-col w-full h-full overflow-y-auto scrollbar-hide " id="property-list-container">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-8">
         {properties?.map((property, i) => (
           <PropertyCard
             key={`${i}-property-list-1`}
@@ -33,6 +33,7 @@ const PropertyList = ({
           />
         ))}
       </div>
+      <div className="fixed bottom-2 w-full h-20 bg-gradient-to-t from-background to-transparent pointer-events-none "></div>
     </div>
   );
 };
