@@ -16,7 +16,11 @@ const PropertyList = ({
   >(null);
 
   const dictionary = useDictionary();
-  console.log("property-list--dictionary", dictionary);
+
+  const handlePropertyClick = (property: Database["public"]["Tables"]["properties"]["Row"]) => {
+    console.log("property-list--property", property);
+    setSelectedProperty(property);
+  };
 
   return (
     <div className="flex flex-col w-full h-full  overflow-y-auto">
@@ -25,7 +29,7 @@ const PropertyList = ({
           <PropertyCard
             key={`${i}-property-list-1`}
             property={property}
-            onClick={() => setSelectedProperty(property)}
+            onClick={() => handlePropertyClick(property)}
           />
         ))}
       </div>

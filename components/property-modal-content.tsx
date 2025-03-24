@@ -10,8 +10,7 @@ import { Square } from "lucide-react";
 import { Dictionary } from "@/get-dictionary";
 
 export default function PropertyModalContent({ property }: { property: Database["public"]["Tables"]["properties"]["Row"] }) {
-    const dictionary
-        = useDictionary();
+    const dictionary = useDictionary();
     return (
         <DialogContent className="max-w-3xl p-0 overflow-hidden">
             <DialogHeader className="p-4">

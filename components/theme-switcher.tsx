@@ -12,6 +12,7 @@ import clsx from "clsx";
 import { Laptop, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { Toggle } from "./ui/toggle";
 
 const ThemeSwitcher = ({ className }: { className?: string }) => {
   const [mounted, setMounted] = useState(false);
@@ -28,20 +29,40 @@ const ThemeSwitcher = ({ className }: { className?: string }) => {
 
   const ICON_SIZE = 16;
 
-  return <Button variant="outline" size="icon" className="rounded-full" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
-    {theme === 'light' ? <Sun
-      key="light"
-      size={ICON_SIZE}
-      className={"text-muted-foreground"}
-    />
-      :
-      <Moon
-        key="dark"
-        size={ICON_SIZE}
-        className={"text-muted-foreground"}
+  return (
+    <Toggle
+      className={clsx("relative h-8 w-14 border px-1 rounded-full", className)}
+      pressed={theme === "dark"}
+      onPressedChange={(pressed) => setTheme(pressed ? "dark" : "light")}
+      aria-label="Toggle theme"
+    >
+      <div className="absolute inset-0 flex items-center justify-between px-2">
+        <Sun size={ICON_SIZE} className={clsx("text-yellow-500", theme === "dark" && "opacity-50")} />
+        <Moon size={ICON_SIZE} className={clsx("text-blue-500", theme === "light" && "opacity-50")} />
+      </div>
+      <div
+        className={clsx(
+          "absolute top-1 left-1 h-6 w-6 rounded-full bg-white shadow-md transition-all duration-200",
+          theme === "dark" ? "translate-x-6" : "translate-x-0"
+        )}
       />
-    }
-  </Button>
+    </Toggle>
+  );
+
+  // return <Button variant="outline" size="icon" className="rounded-full" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+  //   {theme === 'light' ? <Sun
+  //     key="light"
+  //     size={ICON_SIZE}
+  //     className={"text-muted-foreground"}
+  //   />
+  //     :
+  //     <Moon
+  //       key="dark"
+  //       size={ICON_SIZE}
+  //       className={"text-muted-foreground"}
+  //     />
+  //   }
+  // </Button>
 
   return (
     <DropdownMenu>

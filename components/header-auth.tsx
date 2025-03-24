@@ -13,6 +13,7 @@ import { Dictionary, getDictionary } from "@/get-dictionary";
 import { useDirection } from "@radix-ui/react-direction";
 import { useRtl } from "@/hooks/useRtl";
 import UserPopover from "./user-popover";
+import CreatePropertyForm from "./create-property-form";
 
 
 export default async function AuthButton({ dictionary }: { dictionary: Dictionary }) {
@@ -65,8 +66,9 @@ export default async function AuthButton({ dictionary }: { dictionary: Dictionar
     </div>
     <div className="flex gap-2 h-12 ltr:flex-row-reverse">
       <UserPopover user={user} dictionary={dictionary} />
-      <ThemeSwitcher />
-      <LanguageSwitcher />
+      <CreatePropertyForm />
+      {/* <ThemeSwitcher /> */}
+      {/* <LanguageSwitcher /> */}
     </div>
   </div>
 }

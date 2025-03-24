@@ -32,20 +32,9 @@ const PropertyCard = ({
   property: Database["public"]["Tables"]["properties"]["Row"];
   onClick?: () => void;
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  // Format price with currency
-  // const formattedPrice = property.price ? formatCurrency(property.price) : "Price on request";
-  const formattedPrice = property.price ? formatPrice(property.price, property.type) : "Price on request";
-
-  // Get first photo for card thumbnail
-  const thumbnailImage = property.photos && property.photos.length > 0
-    ? property.photos[0]
-    : "/placeholder-property.jpg";
-
   return (
     <Dialog>
-      <PropertyModalTrigger property={property} />
+      <PropertyModalTrigger property={property} onClick={onClick} />
       <PropertyModalContent property={property} />
     </Dialog>
   );

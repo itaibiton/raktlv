@@ -19,7 +19,7 @@ const formatHebrewDate = (dateString?: string) => {
     return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
 };
 
-export default function PropertyModalTrigger({ property }: { property: Database["public"]["Tables"]["properties"]["Row"] }) {
+export default function PropertyModalTrigger({ property, onClick }: { property: Database["public"]["Tables"]["properties"]["Row"], onClick?: () => void }) {
     const { dictionary } = useDictionary();
     const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -34,6 +34,7 @@ export default function PropertyModalTrigger({ property }: { property: Database[
         : "/placeholder-property.jpg";
     return (
         <DialogTrigger asChild
+            onClick={onClick}
         >
             <Card className="group h-full overflow-hidden rounded-md transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col">
                 <CardContent className="w-full h-full flex flex-col pb-4 px-0 gap-4 relative">

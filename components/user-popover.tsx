@@ -10,6 +10,7 @@ import { User2 } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { signOutAction } from "@/app/actions";
 import { LogOut } from "lucide-react";
+import { ThemeSwitcher } from "./theme-switcher";
 const UserPopover = ({ user, dictionary }: { user: UserType | null, dictionary: Dictionary }) => {
 
     const { isRtl } = useRtl();
@@ -36,13 +37,17 @@ const UserPopover = ({ user, dictionary }: { user: UserType | null, dictionary: 
                     <p>{user?.email}</p>
                 </Button>
             </Link>
-            <Separator className="my-2" />
-            <Button onClick={signOutAction} variant="ghost" className="flex gap-2 items-center justify-start w-full" size={"sm"}>
-                <LogOut className="w-4 h-4" />
-                <p className="">
-                    {dictionary['auth'].signOut}
-                </p>
-            </Button>
+            <Separator className="mt-2 mb-4" />
+            <div className="flex w-full justify-between">
+                <Button onClick={signOutAction} variant="ghost" className="flex gap-2 items-center justify-start w-fit" size={"sm"}>
+                    <LogOut className="w-4 h-4" />
+                    <p className="">
+                        {dictionary['auth'].signOut}
+                    </p>
+                </Button>
+                <ThemeSwitcher />
+            </div>
+
         </PopoverContent>
     </Popover>
 }
