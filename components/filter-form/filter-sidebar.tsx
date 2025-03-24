@@ -1,19 +1,6 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-} from "@/components/ui/toggle-group"
 import { FilterIcon, FilterX, FilterXIcon, Trash2 } from "lucide-react";
 import { FilterType, useFilterStore } from "@/store/filter-store";
 import { useDictionary } from "@/providers/providers.tsx";
@@ -28,6 +15,9 @@ import SearchFilter from "./filters/search";
 const FilterSidebar = () => {
 
     const dictionary = useDictionary();
+
+    console.log("filter-sidebar--dictionary", dictionary);
+
     const { filters, updateFilter, resetFilters, setFilters } = useFilterStore();
 
     return (

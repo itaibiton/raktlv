@@ -21,6 +21,8 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
 
     const dictionary = useDictionary();
 
+    console.log("search-filter--dictionary", dictionary);
+
     useEffect(() => {
         if (!debouncedSearchTerm) {
             setSearchResults([]);

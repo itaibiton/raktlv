@@ -18,6 +18,9 @@ export const useDictionary = () => {
 };
 
 export const Providers = ({ children, isRtl, dictionary }: { children: React.ReactNode, isRtl: boolean, dictionary: Dictionary }) => {
+
+    console.log("providers--dictionary", dictionary);
+
     return <>
         <ThemeProvider
             attribute="class"
