@@ -116,9 +116,11 @@ export function AutoComplete<T extends string>({
                             onMouseDown={() => setOpen((open) => !!searchValue || !open)}
                             onFocus={() => setOpen(!!searchValue)}
                             onBlur={onInputBlur}
-                            onChange={handleInputChange}
                         >
-                            <Input placeholder={placeholder} />
+                            <Input
+                                placeholder={placeholder}
+                                onChange={handleInputChange}
+                            />
                         </CommandPrimitive.Input>
                     </PopoverAnchor>
                     {!open && <CommandList aria-hidden="true" className="hidden" />}
