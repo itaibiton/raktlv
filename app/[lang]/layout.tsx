@@ -81,7 +81,7 @@ export default async function RootLayout({
               {children}
             </div>
           </main>
-          <Toaster position={isRtl ? "top-left" : "top-right"} />
+          <Toaster position={isRtl ? "bottom-left" : "bottom-right"} />
         </Providers>
 
       </body>

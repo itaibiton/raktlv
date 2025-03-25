@@ -43,5 +43,8 @@
         "type": "סוג",
         "user_id": "מספר משתמש",
         "warehouse": "מחסן"
+    },
+    "alerts": {
+        "property_liked": "הנכס נוסף לרשימת המועדפים"
     }
 }

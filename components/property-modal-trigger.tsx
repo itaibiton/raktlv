@@ -11,6 +11,8 @@ import { formatPrice } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { createClient } from "@/utils/supabase/client";
 import { useSession } from "@supabase/auth-helpers-react";
+import { toast } from "sonner"
+import { redirect, useRouter } from "next/navigation"
 
 // Add a helper function to format dates in Hebrew style
 const formatHebrewDate = (dateString?: string) => {
@@ -28,12 +30,15 @@ export default function PropertyModalTrigger({
     property: Database["public"]["Tables"]["properties"]["Row"] & { isLiked?: boolean },
     onClick?: () => void
 }) {
-    const { dictionary } = useDictionary();
+    const dictionary = useDictionary();
     const [imageLoaded, setImageLoaded] = useState(false);
     const [btnHover, setBtnHover] = useState(false);
     const [liked, setLiked] = useState(property.isLiked || false);
     const [isLikeLoading, setIsLikeLoading] = useState(false);
     const session = useSession();
+
+    const router = useRouter();
+
     const [isPending, startTransition] = useTransition();
 
     // Add optimistic state for liked status
@@ -60,7 +65,8 @@ export default function PropertyModalTrigger({
             console.log("Like button clicked, current state:", optimisticLiked);
 
             if (!session?.user) {
-                alert(dictionary?.alerts?.login_required || "Please login to save properties");
+                // alert(dictionary?.alerts?.login_required || "Please login to save properties");
+                router.push("/sign-in");
                 return;
             }
 
@@ -115,6 +121,7 @@ export default function PropertyModalTrigger({
 
                     if (!error) {
                         setLiked(true);
+                        toast.success(dictionary?.alerts?.property_liked);
                     } else {
                         console.error("Error adding like:", error);
                         // Revert optimistic update on error
