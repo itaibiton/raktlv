@@ -16,7 +16,7 @@ const FilterSidebar = () => {
 
     const dictionary = useDictionary();
 
-    console.log("filter-sidebar--dictionary", dictionary);
+    // console.log("filter-sidebar--dictionary", dictionary);
 
     const { filters, updateFilter, resetFilters, setFilters } = useFilterStore();
 

@@ -21,7 +21,7 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
 
     const dictionary = useDictionary();
 
-    console.log("search-filter--dictionary", dictionary);
+    // console.log("search-filter--dictionary", dictionary);
 
     useEffect(() => {
         if (!debouncedSearchTerm) {
@@ -58,7 +58,7 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
     const handleResultSelect = (resultId: string) => {
         const result = searchResults.find(r => r.id === resultId);
         if (result && result.center) {
-            console.log('Selected location:', result);
+            // console.log('Selected location:', result);
 
             // Check if the location is within bounds (Israel)
             const isWithinBounds = isLocationWithinIsrael(result.center);
@@ -69,7 +69,7 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
                 return;
             }
 
-            console.log('Is within Tel Aviv:', isWithinTLV);
+            // console.log('Is within Tel Aviv:', isWithinTLV);
 
             // Update the filter store with location data
             updateFilter('location', {

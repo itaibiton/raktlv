@@ -102,6 +102,27 @@ export type Database = {
         };
         Relationships: [];
       };
+      property_likes: {
+        Row: {
+          id: number;
+          property_id: number;
+          user_id: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          property_id: number;
+          user_id: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          property_id?: number;
+          user_id?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

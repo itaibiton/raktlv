@@ -22,7 +22,7 @@ export default async function AuthButton({ dictionary }: { dictionary: Dictionar
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log('dictionary', dictionary);
+  // console.log('dictionary', dictionary);
 
   if (!hasEnvVars) {
     return (

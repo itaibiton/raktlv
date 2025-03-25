@@ -5,10 +5,12 @@ import { Button } from "./ui/button"
 import { Heart, Eye, BedDouble, Square, Calendar, ArrowLeft } from "lucide-react"
 import { useDictionary } from "./providers/providers.tsx"
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect, useTransition, useOptimistic } from "react"
 import { Separator } from "./ui/separator"
 import { formatPrice } from "@/lib/utils"
-
+import { motion } from "framer-motion"
+import { createClient } from "@/utils/supabase/client";
+import { useSession } from "@supabase/auth-helpers-react";
 
 // Add a helper function to format dates in Hebrew style
 const formatHebrewDate = (dateString?: string) => {
@@ -19,10 +21,113 @@ const formatHebrewDate = (dateString?: string) => {
     return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
 };
 
-export default function PropertyModalTrigger({ property, onClick }: { property: Database["public"]["Tables"]["properties"]["Row"], onClick?: () => void }) {
+export default function PropertyModalTrigger({
+    property,
+    onClick
+}: {
+    property: Database["public"]["Tables"]["properties"]["Row"] & { isLiked?: boolean },
+    onClick?: () => void
+}) {
     const { dictionary } = useDictionary();
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [btnHover, setBtnHover] = useState(false);
+    const [liked, setLiked] = useState(property.isLiked || false);
+    const [isLikeLoading, setIsLikeLoading] = useState(false);
+    const session = useSession();
+    const [isPending, startTransition] = useTransition();
 
+    // Add optimistic state for liked status
+    const [optimisticLiked, setOptimisticLiked] = useOptimistic(
+        liked,
+        (currentState, newState: boolean) => newState
+    );
+
+    // Update local state if the prop changes (e.g., after a refresh)
+    useEffect(() => {
+        setLiked(property.isLiked || false);
+    }, [property.isLiked]);
+
+    // Update optimisticLiked when liked state changes
+    useEffect(() => {
+        startTransition(() => {
+            setOptimisticLiked(liked);
+        });
+    }, [liked, setOptimisticLiked]);
+
+    const handleLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        startTransition(async () => {
+            e.stopPropagation();
+            console.log("Like button clicked, current state:", optimisticLiked);
+
+            if (!session?.user) {
+                alert(dictionary?.alerts?.login_required || "Please login to save properties");
+                return;
+            }
+
+            // Optimistically update the UI
+            setOptimisticLiked(!optimisticLiked);
+
+            // Wrap the actual database operation in a transition
+            try {
+                const supabase = createClient();
+                console.log("Adding/removing like with data:", {
+                    property_id: property.property_id,
+                    user_id: session.user.id,
+                    currentLiked: liked
+                });
+
+                if (liked) {
+                    // Try to find the record first
+                    const { data: findData, error: findError } = await supabase
+                        .from('property_likes')
+                        .select('*')
+                        .eq('property_id', property.property_id)
+                        .eq('user_id', session.user.id);
+
+                    console.log("Found records to delete:", findData, "Error:", findError);
+
+                    // Remove like
+                    const { data, error } = await supabase
+                        .from('property_likes')
+                        .delete()
+                        .eq('property_id', property.property_id)
+                        .eq('user_id', session.user.id);
+
+                    console.log("Delete result:", data, "Error:", error);
+
+                    if (!error) {
+                        setLiked(false);
+                    } else {
+                        console.error("Error removing like:", error);
+                        // Revert optimistic update on error
+                        setOptimisticLiked(true);
+                    }
+                } else {
+                    // Add like - let's try with explicit casting if needed
+                    const { data, error } = await supabase
+                        .from('property_likes')
+                        .insert({
+                            property_id: property.property_id,
+                            user_id: session.user.id
+                        });
+
+                    console.log("Insert result:", data, "Error:", error);
+
+                    if (!error) {
+                        setLiked(true);
+                    } else {
+                        console.error("Error adding like:", error);
+                        // Revert optimistic update on error
+                        setOptimisticLiked(false);
+                    }
+                }
+            } catch (err) {
+                console.error("Exception in handleLike:", err);
+                // Revert optimistic update on exception
+                setOptimisticLiked(liked);
+            }
+        });
+    }
 
     // Format price with currency
     // const formattedPrice = property.price ? formatCurrency(property.price) : "Price on request";
@@ -39,22 +144,33 @@ export default function PropertyModalTrigger({ property, onClick }: { property: 
             <Card className="group h-full overflow-hidden rounded-md transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col">
                 <CardContent className="w-full h-full flex flex-col pb-4 px-0 gap-4 relative">
                     <div className="absolute top-2 left-2 z-10 flex gap-2">
-                        <Button
-                            variant="secondary"
-                            size="icon"
-                            className="h-8 w-8 bg-white/50 backdrop-blur-sm hover:bg-white"
-                            onClick={(e) => { e.stopPropagation() }}
+                        <motion.div
+                            initial={{ width: "32px" }}
+                            whileHover={{ width: "auto" }}
+                            transition={{ duration: 0.3 }}
+                            className="overflow-hidden"
+                            onHoverStart={() => setBtnHover(true)}
+                            onHoverEnd={() => setBtnHover(false)}
                         >
-                            <Heart className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            variant="secondary"
-                            size="icon"
-                            className="h-8 w-8 bg-white/50 backdrop-blur-sm hover:bg-white"
-                            onClick={(e) => { e.stopPropagation() }}
-                        >
-                            <Eye className="h-4 w-4" />
-                        </Button>
+                            <Button
+                                variant="secondary"
+                                className={`h-8 w-full flex items-center bg-white/50 backdrop-blur-sm ${isPending || isLikeLoading ? 'opacity-70' : ''}`}
+                                onClick={handleLike}
+                                disabled={isPending || isLikeLoading}
+                            >
+                                <span className="overflow-hidden whitespace-nowrap">
+                                    <motion.span
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={btnHover ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="mx-2"
+                                    >
+                                        אהבתי
+                                    </motion.span>
+                                </span>
+                                <Heart className={`h-5 w-5 flex-shrink-0 ${isLikeLoading ? 'text-gray-300' : optimisticLiked ? 'text-red-500 fill-red-500' : 'text-gray-500'}`} />
+                            </Button>
+                        </motion.div>
                     </div>
                     <div className="relative min-h-48 w-full overflow-hidden">
                         <Image

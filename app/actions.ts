@@ -4,6 +4,7 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
@@ -99,7 +100,7 @@ export const resetPasswordAction = async (formData: FormData) => {
   const confirmPassword = formData.get("confirmPassword") as string;
 
   if (!password || !confirmPassword) {
-    encodedRedirect(
+    return encodedRedirect(
       "error",
       "/reset-password",
       "Password and confirm password are required",
@@ -107,7 +108,7 @@ export const resetPasswordAction = async (formData: FormData) => {
   }
 
   if (password !== confirmPassword) {
-    encodedRedirect(
+    return encodedRedirect(
       "error",
       "/reset-password",
       "Passwords do not match",
@@ -119,19 +120,27 @@ export const resetPasswordAction = async (formData: FormData) => {
   });
 
   if (error) {
-    encodedRedirect(
+    return encodedRedirect(
       "error",
       "/reset-password",
       "Password update failed",
     );
   }
 
-  encodedRedirect("success", "/reset-password", "Password updated");
+  return encodedRedirect("success", "/reset-password", "Password updated");
 };
 
 export const signOutAction = async () => {
   const supabase = await createClient();
-  await supabase.auth.signOut();
-  // return redirect("/sign-in");
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Sign out error:", error.message);
+  }
+
+  // Clear cookies by setting new ones with the same name but expired
+  const cookieStore = await cookies();
+  cookieStore.set('supabase-auth-token', '', { expires: new Date(0) });
+
   return redirect("/");
 };

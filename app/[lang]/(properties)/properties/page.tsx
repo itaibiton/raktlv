@@ -1,4 +1,3 @@
-
 import FilterSidebar from "@/components/filter-form/filter-sidebar";
 import Map from "@/components/map";
 import PropertyList from "@/components/property-list";
@@ -9,14 +8,35 @@ import { Locale } from "@/i18n-config";
 import { createClient } from "@/utils/supabase/server";
 import { Wand2 } from "lucide-react";
 import { getDictionary } from "@/get-dictionary";
+import { cookies } from "next/headers";
 
 export default async function Page({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params;
   // const dictionary = await getDictionary(lang);
   const supabase = await createClient();
+
+  // Fetch properties
   const { data: properties } = await supabase.from("properties").select();
 
-  console.log("p", properties);
+  // Get current user session
+  const { data: { session } } = await supabase.auth.getSession();
+
+  // If user is logged in, fetch their liked properties
+  let likedPropertyIds: string[] = [];
+  if (session?.user) {
+    const { data: likedProperties } = await supabase
+      .from('property_likes')
+      .select('property_id')
+      .eq('user_id', session.user.id);
+
+    likedPropertyIds = likedProperties?.map(like => like.property_id.toString()) || [];
+  }
+
+  // Enhance properties with liked status
+  const enhancedProperties = properties?.map(property => ({
+    ...property,
+    isLiked: likedPropertyIds.includes(property.property_id.toString())
+  })) || [];
 
   return (
     <div className=" h-full w-full flex gap-4 flex-col md:flex-row">
@@ -27,7 +47,7 @@ export default async function Page({ params }: { params: Promise<{ lang: Locale 
       </div>
       {/* Right: PropertyList */}
       <div className="w-full h-full overflow-y-auto flex gap-4">
-        <PropertyList properties={properties ?? []} />
+        <PropertyList properties={enhancedProperties} />
         <div className="w-3/4 h-full hidden 2xl:block">
           <Map />
         </div>

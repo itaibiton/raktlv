@@ -1,5 +1,9 @@
 import { create } from 'zustand';
 
+// Define default map settings as constants that can be imported elsewhere
+export const DEFAULT_CENTER: [number, number] = [34.78057, 32.08088]; // Tel Aviv
+export const DEFAULT_ZOOM = 12;
+
 export type FilterType = {
     location?: {
         coordinates: [number, number];
@@ -15,7 +19,7 @@ export type FilterType = {
 
 const defaultFilters: FilterType = {
     location: {
-        coordinates: [34.78057, 32.08088],
+        coordinates: DEFAULT_CENTER,
         placeName: "Tel Aviv",
     },
     propertyType: [],

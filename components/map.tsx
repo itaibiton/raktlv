@@ -6,6 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useFilterStore } from '@/store/filter-store';
+import { DEFAULT_CENTER, DEFAULT_ZOOM } from "@/store/filter-store";
 
 // // ES5
 // var ReactMapboxGl = require('react-mapbox-gl');
@@ -98,16 +99,15 @@ export default function MapComponent() {
     // Add a check to verify the plugin loaded correctly
     setTimeout(() => {
       // @ts-ignore
-      console.log('RTL Plugin Status:', mapboxgl.getRTLTextPluginStatus());
+      // console.log('RTL Plugin Status:', mapboxgl.getRTLTextPluginStatus());
     }, 2000);
   }, []);
 
   // Update map when location filter changes
   useEffect(() => {
     if (filters.location?.coordinates) {
-      console.log('Location filter changed:', filters.location);
+      // console.log('Location filter changed:', filters.location);
       setCenter(filters.location.coordinates);
-      setZoom([14]); // Increase zoom level for better visibility
 
       // If we have a map reference, we can also add a marker or fly to the location
       if (mapRef.current) {
@@ -116,29 +116,49 @@ export default function MapComponent() {
         // Clear existing markers from the map
         markers.forEach(marker => marker.remove());
 
-        // Add a new marker at the selected location
-        const newMarker = new mapboxgl.Marker()
-          .setLngLat(filters.location.coordinates)
-          .addTo(map);
+        // Check if the location is at the default center
+        const isCenterLocation =
+          filters.location.coordinates[0] === DEFAULT_CENTER[0] &&
+          filters.location.coordinates[1] === DEFAULT_CENTER[1];
 
-        setMarkers([newMarker]);
+        if (!isCenterLocation) {
+          // Add a new marker at the selected location
+          const newMarker = new mapboxgl.Marker()
+            .setLngLat(filters.location.coordinates)
+            .addTo(map);
 
-        // For consistent animation, first zoom out slightly
-        map.easeTo({
-          zoom: Math.max(map.getZoom() - 2, 10),
-          duration: 300
-        });
+          setMarkers([newMarker]);
 
-        // Then fly to the actual location with animation
-        setTimeout(() => {
-          map.flyTo({
-            center: filters.location?.coordinates as [number, number],
-            zoom: 18,
-            essential: true,
-            duration: 2000,
-            curve: 1.5 // Add some easing
+          // For non-default locations, use a higher zoom level
+          const targetZoom = 18;
+
+          // For consistent animation, first zoom out slightly
+          map.easeTo({
+            zoom: Math.max(map.getZoom() - 2, 10),
+            duration: 300
           });
-        }, 350);
+
+          // Then fly to the actual location with animation
+          setTimeout(() => {
+            map.flyTo({
+              center: filters.location?.coordinates as [number, number],
+              zoom: targetZoom,
+              essential: true,
+              duration: 2000,
+              curve: 1.5 // Add some easing
+            });
+          }, 350);
+        } else {
+          // For default center location, zoom out to a wider view without animation
+          const defaultZoomLevel = 10; // More zoomed out than DEFAULT_ZOOM
+          setZoom([defaultZoomLevel]);
+
+          // Use jumpTo instead of flyTo for immediate transition without animation
+          map.flyTo({
+            center: DEFAULT_CENTER,
+            zoom: defaultZoomLevel
+          });
+        }
       }
     }
   }, [filters.location]);
@@ -176,7 +196,7 @@ export default function MapComponent() {
 
     // Log all layers to help debug
     const layers = map.getStyle().layers;
-    console.log('Available layers:', layers.map((layer: any) => layer.id));
+    // console.log('Available layers:', layers.map((layer: any) => layer.id));
 
     // Set Hebrew for all text layers
     layers.forEach((layer: any) => {
@@ -184,7 +204,7 @@ export default function MapComponent() {
         map.getLayoutProperty(layer.id, 'text-field') !== undefined) {
         try {
           // Try to set Hebrew text for this layer
-          console.log(`Setting Hebrew for layer: ${layer.id}`);
+          // console.log(`Setting Hebrew for layer: ${layer.id}`);
 
           // First try with name_he
           if (map.getLayoutProperty(layer.id, 'text-field')) {
@@ -197,7 +217,7 @@ export default function MapComponent() {
             ]);
           }
         } catch (e) {
-          console.log(`Error setting Hebrew for layer ${layer.id}:`, e);
+          // console.log(`Error setting Hebrew for layer ${layer.id}:`, e);
         }
       }
     });
@@ -209,12 +229,12 @@ export default function MapComponent() {
           // map.setLayoutProperty(layer.id, 'text-writing-mode', ['hebrew']);
           map.setLayoutProperty(layer.id, 'text-letter-spacing', 0.1);
         } catch (e) {
-          console.log(`Error setting RTL for layer ${layer.id}:`, e);
+          // console.log(`Error setting RTL for layer ${layer.id}:`, e);
         }
       }
     });
 
-    console.log('Map customization complete');
+    // console.log('Map customization complete');
   };
 
   return (
@@ -226,7 +246,7 @@ export default function MapComponent() {
         width: '100%',
       }}
       center={center}
-      zoom={zoom}
+      // zoom={zoom}
       onStyleLoad={onMapLoad}
       maxBounds={extendedBounds as any}
     >
