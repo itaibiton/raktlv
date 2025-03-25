@@ -1,42 +1,13 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { match } from '@formatjs/intl-localematcher'
-import Negotiator from 'negotiator'
-
-// Get your configured locales from your i18n config
-// Replace this with your actual import if different
 import { i18n } from './i18n-config'
+import { updateSession } from '@/utils/supabase/middleware'
 
-function getLocale(request: NextRequest): string {
-  // Default locale is Hebrew
-  const defaultLocale = 'he'
 
-  // Get accepted languages from the headers
-  const headers = new Headers(request.headers)
-  const acceptLanguage = headers.get('accept-language') || ''
+export async function middleware(request: NextRequest) {
+  // Update the Supabase auth session
+  const response = await updateSession(request)
 
-  // Create a negotiator instance
-  const negotiatorHeaders = { 'accept-language': acceptLanguage }
-  const locales = i18n.locales || ['he', 'en']
-
-  // Use negotiator and intl-localematcher to get the best locale
-  let languages: string[] = []
-  try {
-    const negotiator = new Negotiator({ headers: negotiatorHeaders })
-    languages = negotiator.languages()
-  } catch (e) {
-    // Fallback if negotiator fails
-    languages = [defaultLocale]
-  }
-
-  try {
-    return match(languages, locales, defaultLocale)
-  } catch (e) {
-    return defaultLocale
-  }
-}
-
-export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const searchParams = request.nextUrl.searchParams
   const queryString = searchParams.toString()
@@ -46,7 +17,7 @@ export function middleware(request: NextRequest) {
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   )
 
-  if (pathnameHasLocale) return NextResponse.next()
+  if (pathnameHasLocale) return response || NextResponse.next()
 
   // Redirect if at the root
   if (pathname === '/') {

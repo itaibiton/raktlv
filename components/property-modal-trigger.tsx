@@ -10,7 +10,7 @@ import { Separator } from "./ui/separator"
 import { formatPrice } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { createClient } from "@/utils/supabase/client";
-import { useSession } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "sonner"
 import { redirect, useRouter } from "next/navigation"
 
@@ -35,7 +35,10 @@ export default function PropertyModalTrigger({
     const [btnHover, setBtnHover] = useState(false);
     const [liked, setLiked] = useState(property.isLiked || false);
     const [isLikeLoading, setIsLikeLoading] = useState(false);
-    const session = useSession();
+
+    const supabase = useSupabaseClient();
+
+    console.log("supabase", supabase);
 
     const router = useRouter();
 
@@ -64,7 +67,11 @@ export default function PropertyModalTrigger({
             e.stopPropagation();
             console.log("Like button clicked, current state:", optimisticLiked);
 
-            if (!session?.user) {
+            console.log("supabase.auth.getUser()", await supabase.auth.getUser());
+
+            const user = (await supabase.auth.getUser()).data.user;
+
+            if (!user) {
                 // alert(dictionary?.alerts?.login_required || "Please login to save properties");
                 router.push("/sign-in");
                 return;
@@ -73,12 +80,14 @@ export default function PropertyModalTrigger({
             // Optimistically update the UI
             setOptimisticLiked(!optimisticLiked);
 
+            const userId = user.id;
+
             // Wrap the actual database operation in a transition
             try {
                 const supabase = createClient();
                 console.log("Adding/removing like with data:", {
                     property_id: property.property_id,
-                    user_id: session.user.id,
+                    user_id: userId,
                     currentLiked: liked
                 });
 
@@ -88,7 +97,7 @@ export default function PropertyModalTrigger({
                         .from('property_likes')
                         .select('*')
                         .eq('property_id', property.property_id)
-                        .eq('user_id', session.user.id);
+                        .eq('user_id', userId!);
 
                     console.log("Found records to delete:", findData, "Error:", findError);
 
@@ -97,7 +106,7 @@ export default function PropertyModalTrigger({
                         .from('property_likes')
                         .delete()
                         .eq('property_id', property.property_id)
-                        .eq('user_id', session.user.id);
+                        .eq('user_id', userId!);
 
                     console.log("Delete result:", data, "Error:", error);
 
@@ -114,7 +123,7 @@ export default function PropertyModalTrigger({
                         .from('property_likes')
                         .insert({
                             property_id: property.property_id,
-                            user_id: session.user.id
+                            user_id: userId!
                         });
 
                     console.log("Insert result:", data, "Error:", error);
