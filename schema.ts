@@ -132,7 +132,7 @@ export type Database = {
     };
     Enums: {
       property_condition: "new" | "used";
-      property_type: "rental" | "sublet" | "for sale";
+      property_type: "rental" | "sublet" | "sale";
     };
     CompositeTypes: {
       [_ in never]: never;

@@ -10,13 +10,39 @@ import { Wand2 } from "lucide-react";
 import { getDictionary } from "@/get-dictionary";
 import { cookies } from "next/headers";
 
-export default async function Page({ params }: { params: Promise<{ lang: Locale }> }) {
+import { Database } from "@/schema";
+export default async function Page({ params, searchParams }: {
+  params: Promise<{ lang: Locale }>;
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const { lang } = await params;
   // const dictionary = await getDictionary(lang);
   const supabase = await createClient();
 
-  // Fetch properties
-  const { data: properties } = await supabase.from("properties").select();
+  // Get the propertyType from the searchParams directly
+  const propertyTypes = searchParams.propertyType as string;
+
+  console.log("propertyType", propertyTypes);
+
+  // Fetch properties with optional filter
+  let query = supabase.from("properties").select();
+
+  // Apply propertyType filter if it exists
+  if (propertyTypes) {
+    console.log("propertyType", propertyTypes);
+
+    // Split the property types by comma and filter out empty strings
+    const propertyTypesArray = propertyTypes.split(',').filter(type => type.trim() !== '');
+
+    if (propertyTypesArray.length > 0) {
+      // Use .in() for multiple property types
+      query = query.in('type', propertyTypesArray as Database["public"]["Enums"]["property_type"][]);
+    }
+  }
+
+  const { data: properties } = await query;
+
+  console.log("properties", properties);
 
   // Get current user session
   const { data: { session } } = await supabase.auth.getSession();
@@ -49,7 +75,7 @@ export default async function Page({ params }: { params: Promise<{ lang: Locale 
       <div className="w-full h-full overflow-y-auto flex gap-4">
         <PropertyList properties={enhancedProperties} />
         <div className="w-3/4 h-full hidden 2xl:block">
-          <Map />
+          <Map properties={enhancedProperties} />
         </div>
       </div>
     </div>

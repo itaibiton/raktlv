@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useFilterStore } from '@/store/filter-store';
 import { DEFAULT_CENTER, DEFAULT_ZOOM } from "@/store/filter-store";
+import { Database } from '@/schema';
 
 // // ES5
 // var ReactMapboxGl = require('react-mapbox-gl');
@@ -33,7 +34,7 @@ const Map = ReactMapboxGl({
   accessToken: accessToken ?? '',
 });
 
-export default function MapComponent() {
+export default function MapComponent({ properties }: { properties: Database["public"]["Tables"]["properties"]["Row"][] }) {
   const mapRef = useRef(null);
   const pluginInitializedRef = useRef(false);
   const { filters } = useFilterStore();

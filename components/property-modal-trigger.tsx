@@ -38,8 +38,6 @@ export default function PropertyModalTrigger({
 
     const supabase = useSupabaseClient();
 
-    console.log("supabase", supabase);
-
     const router = useRouter();
 
     const [isPending, startTransition] = useTransition();

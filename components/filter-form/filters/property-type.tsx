@@ -15,7 +15,7 @@ const PropertyTypeFilter = () => {
             <ToggleGroupItem className='w-full' value="rental" aria-label={dictionary['filterForm'].rental}>
                 {dictionary['filterForm'].rental}
             </ToggleGroupItem>
-            <ToggleGroupItem className='w-full' value="for sale" aria-label={dictionary['filterForm'].sale}>
+            <ToggleGroupItem className='w-full' value="sale" aria-label={dictionary['filterForm'].sale}>
                 {dictionary['filterForm'].sale}
             </ToggleGroupItem>
             <ToggleGroupItem className='w-full' value="sublet" aria-label={dictionary['filterForm'].sublet}>

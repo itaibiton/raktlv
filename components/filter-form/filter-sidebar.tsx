@@ -10,6 +10,8 @@ import BedroomsFilter from "./filters/bedrooms-filter";
 import BathroomsFilter from "./filters/bathrooms-filter";
 import { AmenitiesFilter } from "./filters/amenities-filter";
 import SearchFilter from "./filters/search";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 
 const FilterSidebar = () => {
@@ -19,6 +21,97 @@ const FilterSidebar = () => {
     // console.log("filter-sidebar--dictionary", dictionary);
 
     const { filters, updateFilter, resetFilters, setFilters } = useFilterStore();
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    // Sync URL params to filter store on initial load
+    useEffect(() => {
+        const urlFilters: Partial<FilterType> = {};
+
+        // Parse URL parameters into filter object
+        if (searchParams.has('propertyType')) {
+            urlFilters.propertyType = searchParams.get('propertyType')?.split(',') || [];
+        }
+
+        if (searchParams.has('minPrice')) {
+            urlFilters.minPrice = Number(searchParams.get('minPrice')) || undefined;
+        }
+
+        if (searchParams.has('maxPrice')) {
+            urlFilters.maxPrice = Number(searchParams.get('maxPrice')) || undefined;
+        }
+
+        if (searchParams.has('bedrooms')) {
+            urlFilters.bedrooms = Number(searchParams.get('bedrooms')) || undefined;
+        }
+
+        if (searchParams.has('bathrooms')) {
+            urlFilters.bathrooms = Number(searchParams.get('bathrooms')) || undefined;
+        }
+
+        if (searchParams.has('amenities')) {
+            urlFilters.amenities = searchParams.get('amenities')?.split(',') || [];
+        }
+
+        if (searchParams.has('location')) {
+            try {
+                const locationData = JSON.parse(searchParams.get('location') || '{}');
+                if (locationData.coordinates && locationData.placeName) {
+                    urlFilters.location = locationData;
+                }
+            } catch (e) {
+                console.error('Failed to parse location data from URL');
+            }
+        }
+
+        // Only update if there are filters in the URL
+        if (Object.keys(urlFilters).length > 0) {
+            setFilters(urlFilters);
+        }
+    }, []);
+
+    // Sync filter store to URL params when filters change
+    useEffect(() => {
+        const params = new URLSearchParams(searchParams.toString());
+
+        // Clear existing filter params
+        ['propertyType', 'minPrice', 'maxPrice', 'bedrooms', 'bathrooms', 'amenities', 'location'].forEach(param => {
+            params.delete(param);
+        });
+
+        // Add current filters to URL
+        if (filters.propertyType?.length) {
+            params.set('propertyType', filters.propertyType.join(','));
+        }
+
+        if (filters.minPrice) {
+            params.set('minPrice', filters.minPrice.toString());
+        }
+
+        if (filters.maxPrice) {
+            params.set('maxPrice', filters.maxPrice.toString());
+        }
+
+        if (filters.bedrooms) {
+            params.set('bedrooms', filters.bedrooms.toString());
+        }
+
+        if (filters.bathrooms) {
+            params.set('bathrooms', filters.bathrooms.toString());
+        }
+
+        if (filters.amenities?.length) {
+            params.set('amenities', filters.amenities.join(','));
+        }
+
+        if (filters.location) {
+            params.set('location', JSON.stringify(filters.location));
+        }
+
+        // Update URL without refreshing the page
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    }, [filters, pathname, router]);
 
     return (
         <>
