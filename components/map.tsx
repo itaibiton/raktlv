@@ -151,13 +151,13 @@ export default function MapComponent({ properties }: { properties: Database["pub
           }, 350);
         } else {
           // For default center location, zoom out to a wider view without animation
-          const defaultZoomLevel = 10; // More zoomed out than DEFAULT_ZOOM
+          const defaultZoomLevel = DEFAULT_ZOOM; // Use the default zoom from your constants
           setZoom([defaultZoomLevel]);
 
           // Use jumpTo instead of flyTo for immediate transition without animation
-          map.flyTo({
+          map.easeTo({
             center: DEFAULT_CENTER,
-            zoom: defaultZoomLevel
+            zoom: 10
           });
         }
       }
@@ -246,7 +246,7 @@ export default function MapComponent({ properties }: { properties: Database["pub
         height: '100%',
         width: '100%',
       }}
-      center={center}
+      // center={center}
       // zoom={zoom}
       onStyleLoad={onMapLoad}
       maxBounds={extendedBounds as any}

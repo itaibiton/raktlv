@@ -1,7 +1,7 @@
+import { Database } from "@/schema";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
-type PropertyType = 'rental' | 'for sale' | 'sublet'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -15,7 +15,7 @@ export function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
-export function formatPrice(amount: number, propertyType: PropertyType): string {
+export function formatPrice(amount: number, propertyType: Database["public"]["Enums"]["property_type"]): string {
   const result = new Intl.NumberFormat('he-IL', {
     style: 'currency',
     currency: 'ILS',

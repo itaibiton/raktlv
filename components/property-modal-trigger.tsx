@@ -2,7 +2,7 @@ import { DialogTrigger } from "./ui/dialog"
 import { Database } from "@/schema"
 import { Card, CardContent } from "./ui/card"
 import { Button } from "./ui/button"
-import { Heart, Eye, BedDouble, Square, Calendar, ArrowLeft } from "lucide-react"
+import { Heart, Eye, BedDouble, Square, Calendar, ArrowLeft, Building2 } from "lucide-react"
 import { useDictionary } from "./providers/providers.tsx"
 import Image from "next/image"
 import { useState, useEffect, useTransition, useOptimistic } from "react"
@@ -215,7 +215,7 @@ export default function PropertyModalTrigger({
                                 <span>{property.square_feet} {dictionary?.filterForm.square_feet}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                                <Square className="w-4 h-4" />
+                                <Building2 className="w-4 h-4" />
                                 <span>{dictionary?.filterForm.floor} {property.floor}</span>
                             </div>
                         </div>
@@ -239,7 +239,7 @@ export default function PropertyModalTrigger({
                                     <span>{formatHebrewDate(property.entry_date_from!)}</span>
                                 </div>
                             }
-                            {property.type === 'for sale' &&
+                            {property.type === 'sale' &&
                                 <div className="flex gap-2  text-sm items-center">
                                     <Calendar className="w-4 h-4" />
                                     <span>{formatHebrewDate(property.entry_date_from!)}</span>
