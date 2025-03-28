@@ -11,16 +11,21 @@ import { getDictionary } from "@/get-dictionary";
 import { cookies } from "next/headers";
 
 import { Database } from "@/schema";
-export default async function Page({ params, searchParams }: {
-  params: Promise<{ lang: Locale }>;
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const { lang } = await params;
+// export default async function Page({
+//   params,
+//   searchParams
+// }: {
+//   params: { lang: Locale };
+//   searchParams?: { [key: string]: string | string[] | undefined };
+// }) {
+export default async function Page(props: { params: Promise<{ lang: Locale }>, searchParams: Promise<{ propertyType: string }> }) {
+  const { lang } = await props.params;
+  const { propertyType } = await props.searchParams;
   // const dictionary = await getDictionary(lang);
   const supabase = await createClient();
 
   // Get the propertyType from the searchParams directly
-  const propertyTypes = searchParams.propertyType as string;
+  const propertyTypes = (await props?.searchParams)?.propertyType as string;
 
   console.log("propertyType", propertyTypes);
 
