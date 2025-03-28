@@ -25,7 +25,9 @@ const RakTLVLogo = () => {
         );
     }
 
-    const logosrc = `/assets/logos/png/1x/logo${theme === 'light' ? '-light' : ''}.png`;
+    const logoURL = `https://dxohrymifwxwyppgvmff.supabase.co/storage/v1/object/public/assets//logo-light.png`
+    const lightLogoURL = `https://dxohrymifwxwyppgvmff.supabase.co/storage/v1/object/public/assets//logo-light.png`
+    const logosrc = theme === 'light' ? lightLogoURL : logoURL;
     // const logosrc = `/assets/logos/png/1x/logo.png`;
 
     return (
