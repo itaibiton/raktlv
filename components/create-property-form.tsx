@@ -10,7 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Plus } from "lucide-react"
+import { BadgeDollarSign, Home, Hotel, Plus } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
@@ -58,17 +58,20 @@ export default function CreateExperienceForm() {
         {
             value: "rental",
             label: "השכרה",
-            description: "השכרה לטווח ארוך"
+            description: "השכרה",
+            icon: <Home />
         },
         {
             value: "sublet",
             label: "סאבלט",
-            description: "השכרת משנה לטווח קצר"
+            description: "השכרה לטווח קצר",
+            icon: <Hotel />
         },
         {
             value: "sale",
             label: "מכירה",
-            description: "מכירת הנכס"
+            description: "מכירת הנכס",
+            icon: <BadgeDollarSign />
         }
     ] as const
 
@@ -91,13 +94,13 @@ export default function CreateExperienceForm() {
                 </Button>
             </DialogTrigger>
             <DialogContent className="overflow-hidden" dir="rtl">
-                <DialogHeader>
+                <DialogHeader className="px-4">
                     <DialogTitle>
                         {step === 1 ? "מה תרצה לעשות עם הנכס?" : "פרטי הנכס"}
                     </DialogTitle>
                 </DialogHeader>
 
-                <div className="overflow-hidden">
+                <div className="overflow-hidden px-4">
                     <AnimatePresence mode="wait" custom={direction}>
                         {step === 1 && (
                             <motion.div
@@ -132,14 +135,17 @@ export default function CreateExperienceForm() {
                                             <Label
                                                 htmlFor={type.value}
                                                 className={cn(
-                                                    "flex flex-col items-center justify-center rounded-lg border-2 border-muted p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-all",
+                                                    "flex gap-2 h-24 flex-col items-center justify-center rounded-lg border-2 border-muted p-2 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-all",
                                                     propertyType === type.value && "border-primary bg-accent/50"
                                                 )}
                                             >
+                                                <div>
+                                                    {type.icon}
+                                                </div>
                                                 <h3 className="font-semibold">{type.label}</h3>
-                                                <p className="text-sm text-muted-foreground text-center mt-2">
+                                                {/* <p className="text-sm text-muted-foreground text-center mt-2">
                                                     {type.description}
-                                                </p>
+                                                </p> */}
                                             </Label>
                                         </div>
                                     ))}

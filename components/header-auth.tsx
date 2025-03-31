@@ -14,9 +14,10 @@ import { useDirection } from "@radix-ui/react-direction";
 import { useRtl } from "@/hooks/useRtl";
 import UserPopover from "./user-popover";
 import CreatePropertyForm from "./create-property-form";
+import { AuthDialog } from "./auth-dialog";
 
 
-export default async function AuthButton({ dictionary }: { dictionary: Dictionary }) {
+export default async function HeaderAuth({ dictionary }: { dictionary: Dictionary }) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -46,7 +47,7 @@ export default async function AuthButton({ dictionary }: { dictionary: Dictionar
             >
               <Link href="/sign-in">{dictionary['auth'].signIn}</Link>
             </Button>
-            <Button
+            {/* <Button
               asChild
               size="sm"
               variant={"default"}
@@ -54,7 +55,7 @@ export default async function AuthButton({ dictionary }: { dictionary: Dictionar
               className="opacity-75 cursor-none pointer-events-none"
             >
               <Link href="/sign-up">{dictionary['auth'].signUp}</Link>
-            </Button>
+            </Button> */}
           </div>
         </div>
       </>
@@ -67,6 +68,7 @@ export default async function AuthButton({ dictionary }: { dictionary: Dictionar
     <div className="flex gap-2 h-12 ltr:flex-row-reverse">
       <UserPopover user={user} dictionary={dictionary} />
       {user && <CreatePropertyForm />}
+      {/* {!user && <AuthDialog />} */}
       {/* <ThemeSwitcher /> */}
       {/* <LanguageSwitcher /> */}
     </div>
