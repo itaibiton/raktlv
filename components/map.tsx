@@ -164,6 +164,26 @@ export default function MapComponent({ properties }: { properties: Database["pub
     }
   }, [filters.location]);
 
+  // Listen for filter resets
+  useEffect(() => {
+    if (mapRef.current &&
+      filters.location?.coordinates[0] === DEFAULT_CENTER[0] &&
+      filters.location?.coordinates[1] === DEFAULT_CENTER[1]) {
+      const map = mapRef.current as mapboxgl.Map;
+
+      // Clear existing markers
+      markers.forEach(marker => marker.remove());
+      setMarkers([]);
+
+      // Reset map view
+      map.easeTo({
+        center: DEFAULT_CENTER,
+        zoom: DEFAULT_ZOOM,
+        duration: 1500
+      });
+    }
+  }, [filters]);
+
   const onMapLoad = (map: any) => {
     mapRef.current = map;
 
