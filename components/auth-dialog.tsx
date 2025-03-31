@@ -26,6 +26,25 @@ export function AuthDialog({ dictionary }: { dictionary: Dictionary }) {
     const router = useRouter()
     const supabase = createClient()
 
+    // Complete reset function
+    const resetModal = () => {
+        setMode("sign-in")  // Reset to initial mode
+        setEmail("")        // Clear email
+        setPassword("")     // Clear password
+        setError(null)      // Clear any errors
+        setIsLoading(false) // Reset loading state
+        setShowSuccessMessage(false) // Reset success message
+    }
+
+    // Handle dialog state changes
+    const handleOpenChange = (newOpen: boolean) => {
+        setOpen(newOpen)
+        if (!newOpen) {
+            // Reset everything when dialog closes
+            resetModal()
+        }
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setError(null)
@@ -33,69 +52,115 @@ export function AuthDialog({ dictionary }: { dictionary: Dictionary }) {
 
         try {
             if (mode === "sign-in") {
-                const { error } = await supabase.auth.signInWithPassword({
+                const { data, error } = await supabase.auth.signInWithPassword({
                     email,
                     password,
                 })
+
                 if (error) throw error
+
+                // Check if email is verified
+                if (data.user && !data.user.user_metadata.email_verified) {
+                    setError("יש לאמת את כתובת האימייל לפני ההתחברות")
+                    return
+                }
 
                 setOpen(false)
                 router.refresh()
             } else {
-                const { error } = await supabase.auth.signUp({
+                // Try to sign up
+                const { data, error } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
                         emailRedirectTo: `${location.origin}/auth/callback`,
                     },
                 })
+
                 if (error) throw error
 
-                setShowSuccessMessage(true)
+                // Check the response data
+                if (data.user) {
+                    if (data.user.identities?.length === 0) {
+                        // User exists but trying to register again
+                        setError("כתובת האימייל כבר רשומה במערכת. אנא התחבר")
+                        setMode("sign-in")
+                        return
+                    }
+
+                    if (!data.user.user_metadata.email_verified) {
+                        // New registration or unverified user
+                        if (data.user.confirmation_sent_at) {
+                            setShowSuccessMessage(true)
+                            return
+                        }
+                    }
+                }
             }
         } catch (err: any) {
+            console.error("Auth error:", err)
+
             // Handle specific error messages
             switch (err.message) {
                 case "Invalid login credentials":
                     setError("פרטי ההתחברות שגויים")
                     break
+                case "Email not confirmed":
+                    setError("יש לאמת את כתובת האימייל לפני ההתחברות")
+                    break
                 case "User already registered":
-                    setError("כתובת האימייל כבר רשומה במערכת")
+                    setError("כתובת האימייל כבר רשומה במערכת. אנא התחבר")
+                    setMode("sign-in")
                     break
                 case "Password should be at least 6 characters":
                     setError("הסיסמה חייבת להכיל לפחות 6 תווים")
                     break
+                case "Email rate limit exceeded":
+                    setError("נשלחו יותר מדי בקשות. אנא נסה שוב מאוחר יותר")
+                    break
                 default:
-                    setError(err.message || "אירעה שגיאה, אנא נסה שוב")
+                    setError("אירעה שגיאה, אנא נסה שוב")
             }
         } finally {
             setIsLoading(false)
         }
     }
 
-    const resetForm = () => {
-        setEmail("")
-        setPassword("")
-        setError(null)
-        setShowSuccessMessage(false)
+    const handleResendVerification = async () => {
+        setIsLoading(true)
+        try {
+            const { error } = await supabase.auth.resend({
+                type: 'signup',
+                email: email,
+            })
+            if (error) throw error
+
+            setError(null)
+            setShowSuccessMessage(true)
+        } catch (err: any) {
+            if (err.message === "Email rate limit exceeded") {
+                setError("נשלחו יותר מדי בקשות. אנא נסה שוב מאוחר יותר")
+            } else {
+                setError("שגיאה בשליחת מייל אימות חדש. אנא נסה שוב מאוחר יותר")
+            }
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     const handleModeChange = () => {
-        setMode(mode === "sign-in" ? "sign-up" : "sign-in")
-        resetForm()
+        setMode(prev => prev === "sign-in" ? "sign-up" : "sign-in")
+        // resetModal()
     }
 
     return (
-        <Dialog open={open} onOpenChange={(newOpen) => {
-            setOpen(newOpen)
-            if (!newOpen) resetForm()
-        }}>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
                 <div className="flex gap-2">
-                    <Button asChild size="sm" variant={"default"} className="cursor-pointer">
+                    <Button onClick={() => setMode("sign-up")} asChild size="sm" variant={"default"} className="cursor-pointer">
                         <span className="flex gap-2 items-center"> {dictionary['auth'].signUp}<UserPlus className="w-4 h-4" /></span>
                     </Button>
-                    <Button asChild size="sm" variant={"outline"} className="cursor-pointer">
+                    <Button onClick={() => setMode("sign-in")} asChild size="sm" variant={"outline"} className="cursor-pointer">
                         <span className="flex gap-2 items-center"> {dictionary['auth'].signIn}<LogIn className="w-4 h-4" /></span>
                     </Button>
                 </div>
@@ -125,8 +190,24 @@ export function AuthDialog({ dictionary }: { dictionary: Dictionary }) {
                 ) : (
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {error && (
-                            <Alert variant="destructive">
+                            <Alert variant="destructive" className="space-y-2">
                                 <AlertDescription>{error}</AlertDescription>
+                                {error.includes("לאמת את כתובת האימייל") && (
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className="w-full mt-2"
+                                        onClick={handleResendVerification}
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            "שלח מייל אימות מחדש"
+                                        )}
+                                    </Button>
+                                )}
                             </Alert>
                         )}
 
