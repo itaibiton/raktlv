@@ -3,18 +3,10 @@ import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/server";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Separator } from "./ui/separator";
-import { LockOpen, LogOut, User, User2 } from "lucide-react";
-import { ThemeSwitcher } from "./theme-switcher";
 import RakTLVLogo from "./rak-tlv";
-import { LanguageSwitcher } from "./language-switcher";
-import { Dictionary, getDictionary } from "@/get-dictionary";
-import { useDirection } from "@radix-ui/react-direction";
-import { useRtl } from "@/hooks/useRtl";
+import { Dictionary } from "@/get-dictionary";
 import UserPopover from "./user-popover";
 import CreatePropertyForm from "./create-property-form";
-import { AuthDialog } from "./auth-dialog";
 
 
 export default async function HeaderAuth({ dictionary }: { dictionary: Dictionary }) {
