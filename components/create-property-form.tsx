@@ -1,355 +1,222 @@
 "use client"
 
 import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Plus, Upload } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { BadgeDollarSign, Home, Hotel, Plus } from "lucide-react"
+import { Card } from "@/components/ui/card"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
-import { Checkbox } from "@/components/ui/checkbox"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { Slider } from "@/components/ui/slider"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
+import { AnimateHeight } from "@/components/ui/animate-height"
 
-const formSchema = z.object({
-    title: z.string().min(2, { message: "נדרש כותרת של לפחות 2 תווים" }),
-    description: z.string().min(10, { message: "נדרש תיאור של לפחות 10 תווים" }),
-    propertyType: z.string({ required_error: "יש לבחור סוג נכס" }),
-    price: z.number().min(1, { message: "יש להזין מחיר" }),
-    bedrooms: z.number().min(0),
-    bathrooms: z.number().min(0),
-    location: z.object({
-        placeName: z.string().optional(),
-        coordinates: z.tuple([z.number(), z.number()]).optional(),
-    }).optional(),
-    amenities: z.array(z.string()).optional(),
-    images: z.array(z.instanceof(File)).optional(),
-})
+type PropertyType = "rental" | "sublet" | "sale" | null
 
-export default function CreatePropertyForm() {
-    const [images, setImages] = useState<File[]>([])
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: "",
-            description: "",
-            propertyType: "",
-            price: 0,
-            bedrooms: 0,
-            bathrooms: 0,
-            amenities: [],
-            images: [],
-        },
+const slideAnimation = {
+    initial: (direction: number) => ({
+        // x: direction > 0 ? 100 : -100,
+        x: 0,
+        opacity: 0,
+        height: 0
+    }),
+    animate: {
+        x: 0,
+        opacity: 1,
+        height: "auto"
+    },
+    exit: (direction: number) => ({
+        // x: direction > 0 ? -100 : 100,
+        x: 0,
+        opacity: 0,
+        height: 0
     })
+}
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values)
-        // Here you would add the function to call Supabase
+const contentVariants = {
+    step1: {
+        height: "280px", // Adjust these values based on your content
+    },
+    step2: {
+        height: "400px", // Adjust these values based on your content
     }
+}
 
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const newFiles = Array.from(e.target.files)
-            setImages(prev => [...prev, ...newFiles])
-            form.setValue('images', [...images, ...newFiles])
+export default function CreateExperienceForm() {
+    const [step, setStep] = useState(1)
+    const [direction, setDirection] = useState(0)
+    const [propertyType, setPropertyType] = useState<PropertyType>(null)
+
+    const propertyTypes = [
+        {
+            value: "rental",
+            label: "השכרה",
+            description: "השכרה",
+            icon: <Home />
+        },
+        {
+            value: "sublet",
+            label: "סאבלט",
+            description: "השכרה לטווח קצר",
+            icon: <Hotel />
+        },
+        {
+            value: "sale",
+            label: "מכירה",
+            description: "מכירת הנכס",
+            icon: <BadgeDollarSign />
         }
+    ] as const
+
+    const handleNext = () => {
+        setDirection(1)
+        setStep(2)
     }
 
-    const amenitiesList = [
-        { id: "airConditioner", label: "מיזוג אוויר" },
-        { id: "parking", label: "חניה" },
-        { id: "elevator", label: "מעלית" },
-        { id: "balcony", label: "מרפסת" },
-        { id: "securityRoom", label: "ממ״ד" },
-        { id: "storage", label: "מחסן" },
-        { id: "furnished", label: "מרוהט" },
-        { id: "accessible", label: "נגיש" },
-        { id: "pets", label: "מתאים לחיות מחמד" },
-    ]
+    const handleBack = () => {
+        setDirection(-1)
+        setStep(1)
+    }
 
     return (
         <Dialog>
-            <DialogTrigger asChild className="w-fit flex items-center gap-2">
-                <Button variant="outline">
-                    <p className="hidden md:block">פרסם נכס</p>
+            <DialogTrigger asChild>
+                <Button variant="outline" className="gap-2">
                     <Plus className="h-4 w-4" />
+                    <span className="hidden md:block">פרסם נכס</span>
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto" dir="rtl">
-                <DialogHeader>
-                    <DialogTitle>פרסום נכס חדש</DialogTitle>
-                    <DialogDescription>
-                        מלא את הפרטים כדי לפרסם נכס חדש
-                    </DialogDescription>
+            <DialogContent className="overflow-hidden" dir="rtl">
+                <DialogHeader className="px-4">
+                    <DialogTitle>
+                        {step === 1 ? "מה תרצה לעשות עם הנכס?" : "פרטי הנכס"}
+                    </DialogTitle>
                 </DialogHeader>
 
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>כותרת</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="כותרת לנכס" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>תיאור</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder="תאר את הנכס בפירוט"
-                                            className="min-h-[100px]"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="propertyType"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>סוג נכס</FormLabel>
-                                    <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="בחר סוג נכס" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="apartment">דירה</SelectItem>
-                                            <SelectItem value="house">בית פרטי</SelectItem>
-                                            <SelectItem value="penthouse">פנטהאוז</SelectItem>
-                                            <SelectItem value="studio">סטודיו</SelectItem>
-                                            <SelectItem value="garden">דירת גן</SelectItem>
-                                            <SelectItem value="duplex">דופלקס</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="price"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>מחיר (₪)</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="הזן מחיר"
-                                            {...field}
-                                            onChange={e => field.onChange(Number(e.target.value))}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <FormField
-                                control={form.control}
-                                name="bedrooms"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>חדרי שינה: {field.value}</FormLabel>
-                                        <FormControl>
-                                            <Slider
-                                                defaultValue={[field.value]}
-                                                min={0}
-                                                max={10}
-                                                step={1}
-                                                onValueChange={(vals) => field.onChange(vals[0])}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="bathrooms"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>חדרי רחצה: {field.value}</FormLabel>
-                                        <FormControl>
-                                            <Slider
-                                                defaultValue={[field.value]}
-                                                min={0}
-                                                max={5}
-                                                step={0.5}
-                                                onValueChange={(vals) => field.onChange(vals[0])}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-
-                        <FormField
-                            control={form.control}
-                            name="location"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>מיקום</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="הזן כתובת"
-                                            onChange={(e) => field.onChange({
-                                                ...field.value,
-                                                placeName: e.target.value
-                                            })}
-                                            value={field.value?.placeName || ""}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>
-                                        הזן כתובת מדויקת של הנכס
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <div>
-                            <Label>תוספות ומאפיינים</Label>
-                            <div className="grid grid-cols-2 gap-2 mt-2">
-                                {amenitiesList.map((amenity) => (
-                                    <FormField
-                                        key={amenity.id}
-                                        control={form.control}
-                                        name="amenities"
-                                        render={({ field }) => (
-                                            <FormItem className="flex items-center space-x-2 space-x-reverse">
-                                                <FormControl>
-                                                    <Checkbox
-                                                        checked={field.value?.includes(amenity.id)}
-                                                        onCheckedChange={(checked) => {
-                                                            const currentValues = field.value || []
-                                                            if (checked) {
-                                                                field.onChange([...currentValues, amenity.id])
-                                                            } else {
-                                                                field.onChange(currentValues.filter(value => value !== amenity.id))
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormLabel className="mr-2 font-normal cursor-pointer">
-                                                    {amenity.label}
-                                                </FormLabel>
-                                            </FormItem>
-                                        )}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-
-                        <div>
-                            <Label>תמונות</Label>
-                            <div className="mt-2 border-2 border-dashed rounded-md p-6 text-center">
-                                <Upload className="h-10 w-10 mx-auto text-muted-foreground" />
-                                <p className="mt-2 text-sm text-muted-foreground">
-                                    גרור תמונות לכאן או לחץ להעלאה
-                                </p>
-                                <Input
-                                    type="file"
-                                    multiple
-                                    accept="image/*"
-                                    className="hidden"
-                                    id="image-upload"
-                                    onChange={handleImageUpload}
-                                />
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    className="mt-2"
-                                    onClick={() => document.getElementById('image-upload')?.click()}
+                <div className="overflow-hidden px-4">
+                    <AnimatePresence mode="wait" custom={direction}>
+                        {step === 1 && (
+                            <motion.div
+                                key="step1"
+                                custom={direction}
+                                variants={slideAnimation}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                transition={{
+                                    duration: 0.3,
+                                    ease: "easeInOut",
+                                    height: {
+                                        duration: 0.4,
+                                        ease: [0.33, 1, 0.68, 1]
+                                    }
+                                }}
+                                className="w-full"
+                            >
+                                <RadioGroup
+                                    className="grid grid-cols-3 gap-4"
+                                    value={propertyType || ""}
+                                    onValueChange={(value) => setPropertyType(value as PropertyType)}
                                 >
-                                    בחר תמונות
-                                </Button>
-                            </div>
-
-                            {images.length > 0 && (
-                                <div className="mt-4 grid grid-cols-3 gap-2">
-                                    {images.map((file, index) => (
-                                        <div key={index} className="relative h-24 rounded-md overflow-hidden">
-                                            <img
-                                                src={URL.createObjectURL(file)}
-                                                alt={`Preview ${index}`}
-                                                className="h-full w-full object-cover"
+                                    {propertyTypes.map((type) => (
+                                        <div key={type.value}>
+                                            <RadioGroupItem
+                                                value={type.value}
+                                                id={type.value}
+                                                className="peer sr-only"
                                             />
-                                            <Button
-                                                type="button"
-                                                variant="destructive"
-                                                size="icon"
-                                                className="absolute top-1 right-1 h-6 w-6"
-                                                onClick={() => {
-                                                    const newImages = [...images]
-                                                    newImages.splice(index, 1)
-                                                    setImages(newImages)
-                                                    form.setValue('images', newImages)
-                                                }}
+                                            <Label
+                                                htmlFor={type.value}
+                                                className={cn(
+                                                    "flex gap-2 h-24 flex-col items-center justify-center rounded-lg border-2 border-muted p-2 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-all",
+                                                    propertyType === type.value && "border-primary bg-accent/50"
+                                                )}
                                             >
-                                                ×
-                                            </Button>
+                                                <div>
+                                                    {type.icon}
+                                                </div>
+                                                <h3 className="font-semibold">{type.label}</h3>
+                                                {/* <p className="text-sm text-muted-foreground text-center mt-2">
+                                                    {type.description}
+                                                </p> */}
+                                            </Label>
                                         </div>
                                     ))}
-                                </div>
-                            )}
-                        </div>
+                                </RadioGroup>
 
-                        <div className="flex justify-end gap-2">
-                            <Button type="button" variant="outline">ביטול</Button>
-                            <Button type="submit">פרסם נכס</Button>
-                        </div>
-                    </form>
-                </Form>
+                                <div className="flex justify-end mt-6">
+                                    <Button
+                                        onClick={handleNext}
+                                        disabled={!propertyType}
+                                    >
+                                        המשך
+                                    </Button>
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {step === 2 && (
+                            <motion.div
+                                key="step2"
+                                custom={direction}
+                                variants={slideAnimation}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                transition={{
+                                    duration: 0.3,
+                                    ease: "easeInOut",
+                                    height: {
+                                        duration: 0.4,
+                                        ease: [0.33, 1, 0.68, 1]
+                                    }
+                                }}
+                                className="w-full"
+                            >
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="title">כותרת</Label>
+                                        <Input
+                                            id="title"
+                                            placeholder="תן כותרת לנכס שלך"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label htmlFor="price">מחיר</Label>
+                                        <Input
+                                            id="price"
+                                            type="number"
+                                            placeholder="הכנס מחיר"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-between mt-6">
+                                    <Button
+                                        variant="outline"
+                                        onClick={handleBack}
+                                    >
+                                        חזור
+                                    </Button>
+                                    <Button type="submit">
+                                        שמור
+                                    </Button>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </DialogContent>
         </Dialog>
     )
 }
+
+

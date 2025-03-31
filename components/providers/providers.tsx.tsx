@@ -27,16 +27,16 @@ export const Providers = ({ children, isRtl, dictionary }: { children: React.Rea
 
     return <>
         <SessionContextProvider supabaseClient={supabase}>
-            <ThemeProvider
+            {/* <ThemeProvider
                 attribute="class"
                 defaultTheme="system"
                 enableSystem
                 disableTransitionOnChange
-            >
-                <DictionaryContext.Provider value={dictionary}>
-                    <Direction.Provider dir={isRtl ? "rtl" : "ltr"}>{children}</Direction.Provider>
-                </DictionaryContext.Provider>
-            </ThemeProvider>
+            > */}
+            <DictionaryContext.Provider value={dictionary}>
+                <Direction.Provider dir={isRtl ? "rtl" : "ltr"}>{children}</Direction.Provider>
+            </DictionaryContext.Provider>
+            {/* </ThemeProvider> */}
         </SessionContextProvider>
     </>
 

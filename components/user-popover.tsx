@@ -11,18 +11,22 @@ import { Separator } from "./ui/separator";
 import { signOutAction } from "@/app/actions";
 import { LogOut } from "lucide-react";
 import { ThemeSwitcher } from "./theme-switcher";
+import { AuthDialog } from "./auth-dialog";
+
 const UserPopover = ({ user, dictionary }: { user: UserType | null, dictionary: Dictionary }) => {
 
     const { isRtl } = useRtl();
 
-    if (!user) return <div className="flex gap-2">
-        <Button asChild size="sm" variant={"outline"}>
-            <Link className="flex gap-2 items-center" href="/sign-in"> {dictionary['auth'].signIn}<Lock className="w-4 h-4" /></Link>
-        </Button>
-        <Button asChild size="sm" variant={"default"}>
-            <Link className="flex gap-2 items-center" href="/sign-up"> {dictionary['auth'].signUp}<UserPlus className="w-4 h-4" /></Link>
-        </Button>
-    </div>
+    // if (!user) return <div className="flex gap-2">
+    //     <Button asChild size="sm" variant={"outline"}>
+    //         <Link className="flex gap-2 items-center" href="/sign-in"> {dictionary['auth'].signIn}<Lock className="w-4 h-4" /></Link>
+    //     </Button>
+    //     <Button asChild size="sm" variant={"default"}>
+    //         <Link className="flex gap-2 items-center" href="/sign-up"> {dictionary['auth'].signUp}<UserPlus className="w-4 h-4" /></Link>
+    //     </Button>
+    // </div>
+
+    if (!user) return <AuthDialog dictionary={dictionary} />
 
     return <Popover>
         <PopoverTrigger asChild>
@@ -45,7 +49,7 @@ const UserPopover = ({ user, dictionary }: { user: UserType | null, dictionary: 
                         {dictionary['auth'].signOut}
                     </p>
                 </Button>
-                <ThemeSwitcher />
+                {/* <ThemeSwitcher /> */}
             </div>
 
         </PopoverContent>
