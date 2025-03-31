@@ -6,6 +6,7 @@ import { Dictionary } from "@/get-dictionary";
 import { createContext, useContext } from "react";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { createClient } from "@/utils/supabase/client";
+import { UserProvider } from "./user-provider";
 
 export const DictionaryContext = createContext<any>(null);
 
@@ -27,16 +28,20 @@ export const Providers = ({ children, isRtl, dictionary }: { children: React.Rea
 
     return <>
         <SessionContextProvider supabaseClient={supabase}>
-            {/* <ThemeProvider
+            <UserProvider>
+
+                {/* <ThemeProvider
                 attribute="class"
                 defaultTheme="system"
                 enableSystem
                 disableTransitionOnChange
             > */}
-            <DictionaryContext.Provider value={dictionary}>
-                <Direction.Provider dir={isRtl ? "rtl" : "ltr"}>{children}</Direction.Provider>
-            </DictionaryContext.Provider>
-            {/* </ThemeProvider> */}
+                <DictionaryContext.Provider value={dictionary}>
+                    <Direction.Provider dir={isRtl ? "rtl" : "ltr"}>{children}</Direction.Provider>
+                </DictionaryContext.Provider>
+                {/* </ThemeProvider> */}
+            </UserProvider>
+
         </SessionContextProvider>
     </>
 

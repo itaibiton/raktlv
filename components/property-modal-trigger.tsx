@@ -13,6 +13,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "sonner"
 import { redirect, useRouter } from "next/navigation"
+import { useUser } from "@/hooks/use-user"
 
 // Add a helper function to format dates in Hebrew style
 const formatHebrewDate = (dateString?: string) => {
@@ -39,6 +40,9 @@ export default function PropertyModalTrigger({
     const supabase = useSupabaseClient();
 
     const router = useRouter();
+
+    const { user } = useUser();
+
 
     const [isPending, startTransition] = useTransition();
 
@@ -157,35 +161,38 @@ export default function PropertyModalTrigger({
         >
             <Card className="group h-full overflow-hidden rounded-md transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col">
                 <CardContent className="w-full h-full flex flex-col pb-4 px-0 gap-4 relative">
-                    <div className="absolute top-2 left-2 z-10 flex gap-2">
-                        <motion.div
-                            initial={{ width: "32px" }}
-                            whileHover={{ width: "auto" }}
-                            transition={{ duration: 0.3 }}
-                            className="overflow-hidden"
-                            onHoverStart={() => setBtnHover(true)}
-                            onHoverEnd={() => setBtnHover(false)}
-                        >
-                            <Button
-                                variant="secondary"
-                                className={`h-8 w-full flex items-center bg-white/50 backdrop-blur-sm ${isPending || isLikeLoading ? 'opacity-70' : ''}`}
-                                onClick={handleLike}
-                                disabled={isPending || isLikeLoading}
+                    {
+                        user &&
+                        <div className="absolute top-2 left-2 z-10 flex gap-2">
+                            <motion.div
+                                initial={{ width: "32px" }}
+                                whileHover={{ width: "auto" }}
+                                transition={{ duration: 0.3 }}
+                                className="overflow-hidden"
+                                onHoverStart={() => setBtnHover(true)}
+                                onHoverEnd={() => setBtnHover(false)}
                             >
-                                <span className="overflow-hidden whitespace-nowrap">
-                                    <motion.span
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={btnHover ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="mx-2"
-                                    >
-                                        אהבתי
-                                    </motion.span>
-                                </span>
-                                <Heart className={`h-5 w-5 flex-shrink-0 ${isLikeLoading ? 'text-gray-300' : optimisticLiked ? 'text-red-500 fill-red-500' : 'text-gray-500'}`} />
-                            </Button>
-                        </motion.div>
-                    </div>
+                                <Button
+                                    variant="secondary"
+                                    className={`h-8 w-full flex items-center bg-white/50 backdrop-blur-sm ${isPending || isLikeLoading ? 'opacity-70' : ''}`}
+                                    onClick={handleLike}
+                                    disabled={isPending || isLikeLoading}
+                                >
+                                    <span className="overflow-hidden whitespace-nowrap">
+                                        <motion.span
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={btnHover ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="mx-2"
+                                        >
+                                            אהבתי
+                                        </motion.span>
+                                    </span>
+                                    <Heart className={`h-5 w-5 flex-shrink-0 ${isLikeLoading ? 'text-gray-300' : optimisticLiked ? 'text-red-500 fill-red-500' : 'text-gray-500'}`} />
+                                </Button>
+                            </motion.div>
+                        </div>
+                    }
                     <div className="relative min-h-48 w-full overflow-hidden">
                         <Image
                             src={thumbnailImage}
