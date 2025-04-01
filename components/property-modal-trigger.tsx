@@ -37,7 +37,9 @@ export default function PropertyModalTrigger({
     const [liked, setLiked] = useState(property.isLiked || false);
     const [isLikeLoading, setIsLikeLoading] = useState(false);
 
-    const supabase = useSupabaseClient();
+    // const supabase = useSupabaseClient();
+
+    const supabase = createClient();
 
     const router = useRouter();
 
@@ -86,7 +88,7 @@ export default function PropertyModalTrigger({
 
             // Wrap the actual database operation in a transition
             try {
-                const supabase = createClient();
+                // const supabase = createClient();
                 console.log("Adding/removing like with data:", {
                     property_id: property.property_id,
                     user_id: userId,
