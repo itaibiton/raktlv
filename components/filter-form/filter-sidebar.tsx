@@ -13,7 +13,8 @@ import SearchFilter from "./filters/search";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import PropertyAreaFilter from "./filters/property-area";
-
+import { PropertyDefinitionFilter } from "./filters/property-definition-filter";
+import { Database } from "@/schema";
 
 const FilterSidebar = () => {
 
@@ -66,6 +67,10 @@ const FilterSidebar = () => {
             }
         }
 
+        if (searchParams.has('propertyDefinitions')) {
+            urlFilters.propertyDefinitions = searchParams.get('propertyDefinitions')?.split(',') as Database["public"]["Enums"]["property_definition"][] || [];
+        }
+
         // Add area parameters parsing
         if (searchParams.has('minArea')) {
             urlFilters.minArea = Number(searchParams.get('minArea')) || undefined;
@@ -85,7 +90,7 @@ const FilterSidebar = () => {
         const params = new URLSearchParams(searchParams.toString());
 
         // Clear existing filter params
-        ['propertyType', 'minPrice', 'maxPrice', 'bedrooms', 'bathrooms', 'amenities', 'location', 'minArea', 'maxArea'].forEach(param => {
+        ['propertyType', 'minPrice', 'maxPrice', 'bedrooms', 'bathrooms', 'amenities', 'location', 'minArea', 'maxArea', 'propertyDefinitions'].forEach(param => {
             params.delete(param);
         });
 
@@ -126,6 +131,10 @@ const FilterSidebar = () => {
             params.set('maxArea', filters.maxArea.toString());
         }
 
+        if (filters.propertyDefinitions?.length) {
+            params.set('propertyDefinitions', filters.propertyDefinitions.join(','));
+        }
+
         // Update URL without refreshing the page
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }, [filters, pathname, router]);
@@ -137,7 +146,7 @@ const FilterSidebar = () => {
                     <FilterIcon className="w-5 h-5" />
                 </Button>
             </div>
-            <div className="border rounded-md hidden md:flex flex-col min-w-96 h-full overflow-y-auto scrollbar-hide relative">
+            <div className="border rounded-md hidden md:flex flex-col min-w-96 max-w-96 h-full overflow-y-auto scrollbar-hide relative">
                 <div className="flex-1 overflow-y-auto scrollbar-hide">
                     <FilterItems />
                 </div>
@@ -164,7 +173,7 @@ const FilterItems = () => {
     };
 
     return (
-        <div className="flex flex-col overflow-y-auto gap-4 pb-24">
+        <div className="flex flex-col overflow-y-auto gap-6 pb-12">
             <div className="flex w-full flex-col gap-2 border-b pb-4 px-4">
                 <SearchFilter onResultSelect={handleLocationSelect} />
             </div>
@@ -183,6 +192,9 @@ const FilterItems = () => {
             </div>
             <div className="flex w-full flex-col px-4">
                 <PropertyAreaFilter />
+            </div>
+            <div className="flex w-full border-b pb-8 px-4">
+                <PropertyDefinitionFilter />
             </div>
         </div>
     );

@@ -20,6 +20,7 @@ export type FilterType = {
     selectedProperty?: Database["public"]["Tables"]["properties"]["Row"] | null;
     minArea?: number;
     maxArea?: number;
+    propertyDefinitions?: Database["public"]["Enums"]["property_definition"][];
 };
 
 const defaultFilters: FilterType = {
@@ -36,6 +37,7 @@ const defaultFilters: FilterType = {
     selectedProperty: null,
     minArea: 0,
     maxArea: 500,
+    propertyDefinitions: [],
 };
 
 interface FilterState {

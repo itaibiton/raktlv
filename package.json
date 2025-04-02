@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "update-types": "npx supabase gen types --lang=typescript dxohrymifwxwyppgvmff \"$PROJECT_REF\" > database.types.ts"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.6.0",

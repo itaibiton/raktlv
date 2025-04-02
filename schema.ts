@@ -11,136 +11,170 @@ export type Database = {
     Tables: {
       properties: {
         Row: {
-          air_conditioner: boolean | null;
-          balcony: boolean | null;
-          bedrooms: number | null;
-          condition: Database["public"]["Enums"]["property_condition"];
-          contact_email: string | null;
-          contact_full_name: string | null;
-          contact_phone: string | null;
-          description: string | null;
-          disabled_access: boolean | null;
-          elevator: boolean | null;
-          entry_date_from: string | null;
-          entry_date_to: string | null;
-          floor: number | null;
-          latitude: number | null;
-          longitude: number | null;
-          mapbox_data: Json | null;
-          parking: boolean | null;
-          pet_friendly: boolean | null;
-          photos: string[] | null;
-          place_name: string | null;
-          price: number | null;
-          property_id: number;
-          protected_space: boolean | null;
-          square_feet: number | null;
-          title: string;
-          type: Database["public"]["Enums"]["property_type"];
-          user_id: string;
-          warehouse: boolean | null;
-        };
+          air_conditioner: boolean | null
+          balcony: boolean | null
+          bedrooms: number | null
+          condition: Database["public"]["Enums"]["property_condition"]
+          contact_email: string | null
+          contact_full_name: string | null
+          contact_phone: string | null
+          description: string | null
+          disabled_access: boolean | null
+          elevator: boolean | null
+          entry_date_from: string | null
+          entry_date_to: string | null
+          floor: number | null
+          latitude: number | null
+          longitude: number | null
+          mapbox_data: Json | null
+          parking: boolean | null
+          pet_friendly: boolean | null
+          photos: string[] | null
+          place_name: string | null
+          price: number | null
+          property_id: number
+          propertydefinition:
+          | Database["public"]["Enums"]["property_definition"]
+          | null
+          protected_space: boolean | null
+          square_feet: number | null
+          title: string
+          type: Database["public"]["Enums"]["property_type"]
+          user_id: string
+          warehouse: boolean | null
+        }
         Insert: {
-          air_conditioner?: boolean | null;
-          balcony?: boolean | null;
-          bedrooms?: number | null;
-          condition: Database["public"]["Enums"]["property_condition"];
-          contact_email?: string | null;
-          contact_full_name?: string | null;
-          contact_phone?: string | null;
-          description?: string | null;
-          disabled_access?: boolean | null;
-          elevator?: boolean | null;
-          entry_date_from?: string | null;
-          entry_date_to?: string | null;
-          floor?: number | null;
-          latitude?: number | null;
-          longitude?: number | null;
-          mapbox_data?: Json | null;
-          parking?: boolean | null;
-          pet_friendly?: boolean | null;
-          photos?: string[] | null;
-          place_name?: string | null;
-          price?: number | null;
-          property_id?: number;
-          protected_space?: boolean | null;
-          square_feet?: number | null;
-          title: string;
-          type: Database["public"]["Enums"]["property_type"];
-          user_id: string;
-          warehouse?: boolean | null;
-        };
+          air_conditioner?: boolean | null
+          balcony?: boolean | null
+          bedrooms?: number | null
+          condition: Database["public"]["Enums"]["property_condition"]
+          contact_email?: string | null
+          contact_full_name?: string | null
+          contact_phone?: string | null
+          description?: string | null
+          disabled_access?: boolean | null
+          elevator?: boolean | null
+          entry_date_from?: string | null
+          entry_date_to?: string | null
+          floor?: number | null
+          latitude?: number | null
+          longitude?: number | null
+          mapbox_data?: Json | null
+          parking?: boolean | null
+          pet_friendly?: boolean | null
+          photos?: string[] | null
+          place_name?: string | null
+          price?: number | null
+          property_id?: number
+          propertydefinition?:
+          | Database["public"]["Enums"]["property_definition"]
+          | null
+          protected_space?: boolean | null
+          square_feet?: number | null
+          title: string
+          type: Database["public"]["Enums"]["property_type"]
+          user_id: string
+          warehouse?: boolean | null
+        }
         Update: {
-          air_conditioner?: boolean | null;
-          balcony?: boolean | null;
-          bedrooms?: number | null;
-          condition?: Database["public"]["Enums"]["property_condition"];
-          contact_email?: string | null;
-          contact_full_name?: string | null;
-          contact_phone?: string | null;
-          description?: string | null;
-          disabled_access?: boolean | null;
-          elevator?: boolean | null;
-          entry_date_from?: string | null;
-          entry_date_to?: string | null;
-          floor?: number | null;
-          latitude?: number | null;
-          longitude?: number | null;
-          mapbox_data?: Json | null;
-          parking?: boolean | null;
-          pet_friendly?: boolean | null;
-          photos?: string[] | null;
-          place_name?: string | null;
-          price?: number | null;
-          property_id?: number;
-          protected_space?: boolean | null;
-          square_feet?: number | null;
-          title?: string;
-          type?: Database["public"]["Enums"]["property_type"];
-          user_id?: string;
-          warehouse?: boolean | null;
-        };
-        Relationships: [];
-      };
+          air_conditioner?: boolean | null
+          balcony?: boolean | null
+          bedrooms?: number | null
+          condition?: Database["public"]["Enums"]["property_condition"]
+          contact_email?: string | null
+          contact_full_name?: string | null
+          contact_phone?: string | null
+          description?: string | null
+          disabled_access?: boolean | null
+          elevator?: boolean | null
+          entry_date_from?: string | null
+          entry_date_to?: string | null
+          floor?: number | null
+          latitude?: number | null
+          longitude?: number | null
+          mapbox_data?: Json | null
+          parking?: boolean | null
+          pet_friendly?: boolean | null
+          photos?: string[] | null
+          place_name?: string | null
+          price?: number | null
+          property_id?: number
+          propertydefinition?:
+          | Database["public"]["Enums"]["property_definition"]
+          | null
+          protected_space?: boolean | null
+          square_feet?: number | null
+          title?: string
+          type?: Database["public"]["Enums"]["property_type"]
+          user_id?: string
+          warehouse?: boolean | null
+        }
+        Relationships: []
+      }
       property_likes: {
         Row: {
-          id: number;
-          property_id: number;
-          user_id: string;
-          created_at: string;
-        };
+          created_at: string | null
+          id: number
+          property_id: number | null
+          user_id: string | null
+        }
         Insert: {
-          id?: number;
-          property_id: number;
-          user_id: string;
-          created_at?: string;
-        };
+          created_at?: string | null
+          id?: number
+          property_id?: number | null
+          user_id?: string | null
+        }
         Update: {
-          id?: number;
-          property_id?: number;
-          user_id?: string;
-          created_at?: string;
-        };
-        Relationships: [];
-      };
-    };
+          created_at?: string | null
+          id?: number
+          property_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_likes_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["property_id"]
+          },
+        ]
+      }
+    }
     Views: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Functions: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Enums: {
-      property_condition: "new" | "used";
-      property_type: "rental" | "sublet" | "sale";
-    };
+      property_condition: "new" | "used"
+      property_definition:
+      | "דירה"
+      | "דירת גן"
+      | "גג/פנטהאוז"
+      | "דופלקס"
+      | "מרתף"
+      | "טריפלקס"
+      | "יחידת דיור"
+      | "בית פרטי/קוטג"
+      | "דו משפחתי"
+      | "משק חקלאי / נחלה"
+      | "מגרשים"
+      | "דיור מוגן"
+      | "בנין מגורים"
+      | "מחסן"
+      | "חניה"
+      | "כללי"
+      property_type: "rental" | "sublet" | "sale"
+    }
     CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
-};
+      [_ in never]: never
+    }
+  }
+}
 
-type PublicSchema = Database[Extract<keyof Database, "public">];
+type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
   PublicTableNameOrOptions extends
@@ -153,7 +187,7 @@ export type Tables<
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
     Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R;
+      Row: infer R
     }
   ? R
   : never
@@ -161,11 +195,11 @@ export type Tables<
     PublicSchema["Views"])
   ? (PublicSchema["Tables"] &
     PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R;
+      Row: infer R
     }
   ? R
   : never
-  : never;
+  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -176,17 +210,17 @@ export type TablesInsert<
   : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-    Insert: infer I;
+    Insert: infer I
   }
   ? I
   : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
   ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-    Insert: infer I;
+    Insert: infer I
   }
   ? I
   : never
-  : never;
+  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -197,17 +231,17 @@ export type TablesUpdate<
   : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-    Update: infer U;
+    Update: infer U
   }
   ? U
   : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
   ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-    Update: infer U;
+    Update: infer U
   }
   ? U
   : never
-  : never;
+  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -220,14 +254,14 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
   ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-  : never;
+  : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
   | keyof PublicSchema["CompositeTypes"]
   | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database;
+    schema: keyof Database
   }
   ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
   : never = never,
@@ -235,4 +269,4 @@ export type CompositeTypes<
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
   ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-  : never;
+  : never

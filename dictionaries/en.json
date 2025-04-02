@@ -7,6 +7,7 @@
     "filterForm": {
         "propertyType": "Property Type",
         "propertyArea": "Property Area",
+        "propertyDefinition": "Property Definition",
         "rental": "Rental",
         "sale": "Sale",
         "sublet": "Sublet",
