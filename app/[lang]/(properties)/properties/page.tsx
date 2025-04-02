@@ -9,6 +9,7 @@ import { createClient } from "@/utils/supabase/server";
 import { Wand2 } from "lucide-react";
 import { getDictionary } from "@/get-dictionary";
 import { cookies } from "next/headers";
+import { PropertiesContent } from "@/components/properties-content";
 
 import { Database } from "@/schema";
 // export default async function Page({
@@ -69,35 +70,6 @@ export default async function Page(props: { params: Promise<{ lang: Locale }>, s
     isLiked: likedPropertyIds.includes(property.property_id.toString())
   })) || [];
 
-  return (
-    <div className=" h-full w-full flex gap-4 flex-col md:flex-row">
-      {/* Left: FilterSidebar */}
-      <div className="flex flex-col">
-        {/* <FilterSidebar dictionary={dictionary} /> */}
-        <FilterSidebar />
-      </div>
-      {/* Right: PropertyList */}
-      <div className="w-full h-full overflow-y-auto flex gap-4">
-        <PropertyList properties={enhancedProperties} />
-        <div className="w-3/4 h-full hidden 2xl:block">
-          <Map properties={enhancedProperties} />
-        </div>
-      </div>
-    </div>
-  );
+  return <PropertiesContent properties={enhancedProperties} />
 }
 
-const SearchBar = () => {
-  return (
-    <div className="flex gap-2 flex-col">
-      <Label className="flex gap-2 items-center">
-        <Wand2 className="w-4 h-4" />
-        Try our AI Search assistant
-      </Label>
-      <div className="flex gap-2">
-        <Input placeholder="I want a 3 bedroom house in..." />
-        <Button className="w-40">Search</Button>
-      </div>
-    </div>
-  );
-};

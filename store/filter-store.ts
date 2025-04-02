@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Database } from '@/schema';
 
 // Define default map settings as constants that can be imported elsewhere
 export const DEFAULT_CENTER: [number, number] = [34.78057, 32.08088]; // Tel Aviv
@@ -10,12 +11,13 @@ export type FilterType = {
         coordinates: [number, number];
         placeName: string;
     };
-    propertyType?: string[];
+    propertyType?: string;
     minPrice?: number;
     maxPrice?: number;
     bedrooms?: number;
     bathrooms?: number;
     amenities?: string[];
+    selectedProperty?: Database["public"]["Tables"]["properties"]["Row"] | null;
 };
 
 const defaultFilters: FilterType = {
@@ -23,12 +25,13 @@ const defaultFilters: FilterType = {
         coordinates: DEFAULT_CENTER,
         placeName: "Tel Aviv",
     },
-    propertyType: [],
+    propertyType: 'rental',
     minPrice: 0,
     maxPrice: 10000000,
     bedrooms: 0,
     bathrooms: 0,
     amenities: [],
+    selectedProperty: null,
 };
 
 interface FilterState {

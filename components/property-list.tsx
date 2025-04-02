@@ -1,26 +1,21 @@
 "use client";
 
 import PropertyCard from "@/components/property-card";
-import { useState } from "react";
-import { Input } from "./ui/input";
 import { Database } from "@/schema";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDictionary } from "./providers/providers.tsx";
+import { useFilterStore } from "@/store/filter-store";
 
 const PropertyList = ({
   properties,
 }: {
   properties: Database["public"]["Tables"]["properties"]["Row"][];
 }) => {
-  const [selectedProperty, setSelectedProperty] = useState<
-    Database["public"]["Tables"]["properties"]["Row"] | null
-  >(null);
-
   const dictionary = useDictionary();
+  const { updateFilter } = useFilterStore();
 
   const handlePropertyClick = (property: Database["public"]["Tables"]["properties"]["Row"]) => {
-    console.log("property-list--property", property);
-    setSelectedProperty(property);
+    updateFilter("selectedProperty", property);
   };
 
   return (

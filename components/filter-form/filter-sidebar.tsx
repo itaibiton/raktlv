@@ -31,7 +31,7 @@ const FilterSidebar = () => {
 
         // Parse URL parameters into filter object
         if (searchParams.has('propertyType')) {
-            urlFilters.propertyType = searchParams.get('propertyType')?.split(',') || [];
+            urlFilters.propertyType = searchParams.get('propertyType') || '';
         }
 
         if (searchParams.has('minPrice')) {
@@ -82,7 +82,7 @@ const FilterSidebar = () => {
 
         // Add current filters to URL
         if (filters.propertyType?.length) {
-            params.set('propertyType', filters.propertyType.join(','));
+            params.set('propertyType', filters.propertyType.toString());
         }
 
         if (filters.minPrice) {
@@ -120,7 +120,7 @@ const FilterSidebar = () => {
                     <FilterIcon className="w-5 h-5" />
                 </Button>
             </div>
-            <div className="border rounded-md hidden md:flex flex-col w-96 h-full overflow-y-auto ">
+            <div className="border rounded-md hidden md:flex flex-col min-w-96 h-full overflow-y-auto">
                 <div className="flex-1 overflow-y-auto scrollbar-thin">
                     <FilterItems />
                 </div>

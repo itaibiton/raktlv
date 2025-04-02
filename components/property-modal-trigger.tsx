@@ -10,7 +10,7 @@ import { Separator } from "./ui/separator"
 import { formatPrice } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { createClient } from "@/utils/supabase/client";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+// import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { toast } from "sonner"
 import { redirect, useRouter } from "next/navigation"
 import { useUser } from "@/hooks/use-user"

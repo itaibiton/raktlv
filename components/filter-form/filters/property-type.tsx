@@ -8,7 +8,10 @@ const PropertyTypeFilter = () => {
 
     return <>
         <label className="text-sm font-medium text-real-600">{dictionary['filterForm'].propertyType}</label>
-        <ToggleGroup type="multiple" variant="outline" className='w-full gap-2'
+        <ToggleGroup
+            type="single"
+            variant="outline"
+            className='w-full gap-2'
             value={filters.propertyType}
             onValueChange={(value) => updateFilter("propertyType", value)}
         >
@@ -21,7 +24,6 @@ const PropertyTypeFilter = () => {
             <ToggleGroupItem className='w-full' value="sublet" aria-label={dictionary['filterForm'].sublet}>
                 {dictionary['filterForm'].sublet}
             </ToggleGroupItem>
-
         </ToggleGroup>
     </>
 }

@@ -4,7 +4,7 @@ import { Direction } from "radix-ui";
 import { ThemeProvider } from "next-themes";
 import { Dictionary } from "@/get-dictionary";
 import { createContext, useContext } from "react";
-import { SessionContextProvider } from "@supabase/auth-helpers-react";
+// import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { createClient } from "@/utils/supabase/client";
 import { UserProvider } from "./user-provider";
 
@@ -27,22 +27,22 @@ export const Providers = ({ children, isRtl, dictionary }: { children: React.Rea
     const supabase = createClient();
 
     return <>
-        <SessionContextProvider supabaseClient={supabase}>
-            <UserProvider>
+        {/* <SessionContextProvider supabaseClient={supabase}> */}
+        <UserProvider>
 
-                {/* <ThemeProvider
+            {/* <ThemeProvider
                 attribute="class"
                 defaultTheme="system"
                 enableSystem
                 disableTransitionOnChange
             > */}
-                <DictionaryContext.Provider value={dictionary}>
-                    <Direction.Provider dir={isRtl ? "rtl" : "ltr"}>{children}</Direction.Provider>
-                </DictionaryContext.Provider>
-                {/* </ThemeProvider> */}
-            </UserProvider>
+            <DictionaryContext.Provider value={dictionary}>
+                <Direction.Provider dir={isRtl ? "rtl" : "ltr"}>{children}</Direction.Provider>
+            </DictionaryContext.Provider>
+            {/* </ThemeProvider> */}
+        </UserProvider>
 
-        </SessionContextProvider>
+        {/* </SessionContextProvider> */}
     </>
 
 };
