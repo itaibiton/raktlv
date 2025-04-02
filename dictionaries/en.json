@@ -6,6 +6,7 @@
     },
     "filterForm": {
         "propertyType": "Property Type",
+        "propertyArea": "Property Area",
         "rental": "Rental",
         "sale": "Sale",
         "sublet": "Sublet",

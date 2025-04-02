@@ -18,6 +18,8 @@ export type FilterType = {
     bathrooms?: number;
     amenities?: string[];
     selectedProperty?: Database["public"]["Tables"]["properties"]["Row"] | null;
+    minArea?: number;
+    maxArea?: number;
 };
 
 const defaultFilters: FilterType = {
@@ -32,6 +34,8 @@ const defaultFilters: FilterType = {
     bathrooms: 0,
     amenities: [],
     selectedProperty: null,
+    minArea: 0,
+    maxArea: 500,
 };
 
 interface FilterState {

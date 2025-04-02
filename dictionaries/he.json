@@ -6,6 +6,7 @@
     },
     "filterForm": {
         "propertyType": "סוג הנכס",
+        "propertyArea": "שטח הנכס",
         "rental": "השכרה",
         "sale": "מכירה",
         "sublet": "סאבלט",

@@ -12,6 +12,7 @@ import { AmenitiesFilter } from "./filters/amenities-filter";
 import SearchFilter from "./filters/search";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
+import PropertyAreaFilter from "./filters/property-area";
 
 
 const FilterSidebar = () => {
@@ -65,6 +66,14 @@ const FilterSidebar = () => {
             }
         }
 
+        // Add area parameters parsing
+        if (searchParams.has('minArea')) {
+            urlFilters.minArea = Number(searchParams.get('minArea')) || undefined;
+        }
+        if (searchParams.has('maxArea')) {
+            urlFilters.maxArea = Number(searchParams.get('maxArea')) || undefined;
+        }
+
         // Only update if there are filters in the URL
         if (Object.keys(urlFilters).length > 0) {
             setFilters(urlFilters);
@@ -76,7 +85,7 @@ const FilterSidebar = () => {
         const params = new URLSearchParams(searchParams.toString());
 
         // Clear existing filter params
-        ['propertyType', 'minPrice', 'maxPrice', 'bedrooms', 'bathrooms', 'amenities', 'location'].forEach(param => {
+        ['propertyType', 'minPrice', 'maxPrice', 'bedrooms', 'bathrooms', 'amenities', 'location', 'minArea', 'maxArea'].forEach(param => {
             params.delete(param);
         });
 
@@ -109,6 +118,14 @@ const FilterSidebar = () => {
             params.set('location', JSON.stringify(filters.location));
         }
 
+        // Add area parameters to URL
+        if (filters.minArea !== undefined) {
+            params.set('minArea', filters.minArea.toString());
+        }
+        if (filters.maxArea !== undefined) {
+            params.set('maxArea', filters.maxArea.toString());
+        }
+
         // Update URL without refreshing the page
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }, [filters, pathname, router]);
@@ -120,15 +137,16 @@ const FilterSidebar = () => {
                     <FilterIcon className="w-5 h-5" />
                 </Button>
             </div>
-            <div className="border rounded-md hidden md:flex flex-col min-w-96 h-full overflow-y-auto">
-                <div className="flex-1 overflow-y-auto scrollbar-thin">
+            <div className="border rounded-md hidden md:flex flex-col min-w-96 h-full overflow-y-auto scrollbar-hide relative">
+                <div className="flex-1 overflow-y-auto scrollbar-hide">
                     <FilterItems />
                 </div>
-                <div className="flex bg-background p-4 justify-between items-center border-t">
+                <div className="flex bg-background p-4 justify-between items-center border-t relative z-10">
                     <Button onClick={resetFilters} variant="outline" size="sm" className="text-muted-foreground">
                         <FilterXIcon className="w-5 h-5" />
                     </Button>
                 </div>
+                <div className="absolute bottom-16 w-full h-20  bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
             </div>
         </>
     );
@@ -146,22 +164,25 @@ const FilterItems = () => {
     };
 
     return (
-        <div className="p-4 flex flex-col overflow-y-auto gap-6 pb-12">
-            <div className="flex w-full flex-col gap-2">
+        <div className="flex flex-col overflow-y-auto gap-4 pb-24">
+            <div className="flex w-full flex-col gap-2 border-b pb-4 px-4">
                 <SearchFilter onResultSelect={handleLocationSelect} />
             </div>
-            <div className="flex w-full flex-col gap-2">
+            <div className="flex w-full flex-col gap-2 border-b pb-4 px-4">
                 <PropertyTypeFilter />
             </div>
-            <div className="flex w-full flex-col gap-2">
+            <div className="flex w-full flex-col gap-2 border-b pb-8 px-4">
                 <PropertyPriceFilter />
             </div>
-            <div className="flex w-full gap-2">
+            <div className="flex w-full gap-2 border-b pb-8 px-4">
                 <BedroomsFilter />
                 <BathroomsFilter />
             </div>
-            <div className="flex w-full">
+            <div className="flex w-full border-b pb-8 px-4">
                 <AmenitiesFilter />
+            </div>
+            <div className="flex w-full flex-col px-4">
+                <PropertyAreaFilter />
             </div>
         </div>
     );
