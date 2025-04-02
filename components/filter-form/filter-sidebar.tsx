@@ -33,7 +33,7 @@ const FilterSidebar = () => {
 
         // Parse URL parameters into filter object
         if (searchParams.has('propertyType')) {
-            urlFilters.propertyType = searchParams.get('propertyType') || '';
+            urlFilters.propertyType = searchParams.get('propertyType') as "rental" | "sublet" | "sale" || '';
         }
 
         if (searchParams.has('minPrice')) {
@@ -81,7 +81,7 @@ const FilterSidebar = () => {
 
         // Only update if there are filters in the URL
         if (Object.keys(urlFilters).length > 0) {
-            setFilters(urlFilters);
+            setFilters(urlFilters as FilterType);
         }
     }, []);
 
@@ -174,7 +174,7 @@ const FilterItems = () => {
 
     return (
         <div className="flex flex-col overflow-y-auto gap-6 pb-12">
-            <div className="flex w-full flex-col gap-2 border-b pb-4 px-4">
+            <div className="flex w-full flex-col gap-2 border-b pb-4 px-4 pt-4">
                 <SearchFilter onResultSelect={handleLocationSelect} />
             </div>
             <div className="flex w-full flex-col gap-2 border-b pb-4 px-4">

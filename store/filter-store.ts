@@ -6,12 +6,14 @@ import { Database } from '@/schema';
 export const DEFAULT_CENTER: [number, number] = [34.78057, 32.08088]; // Tel Aviv
 export const DEFAULT_ZOOM = 12;
 
+type PropertyType = Database["public"]["Enums"]["property_type"];
+
 export type FilterType = {
     location?: {
         coordinates: [number, number];
         placeName: string;
     };
-    propertyType?: string;
+    propertyType: PropertyType;
     minPrice?: number;
     maxPrice?: number;
     bedrooms?: number;
@@ -28,7 +30,7 @@ const defaultFilters: FilterType = {
         coordinates: DEFAULT_CENTER,
         placeName: "Tel Aviv",
     },
-    propertyType: 'rental',
+    propertyType: "rental",
     minPrice: 0,
     maxPrice: 10000000,
     bedrooms: 0,
@@ -61,13 +63,17 @@ export const useFilterStore = create<FilterState>((set) => ({
         center: DEFAULT_CENTER,
         zoom: DEFAULT_ZOOM,
     },
-    updateFilter: (key, value) =>
+    updateFilter: (key, value) => {
+        if (key === "propertyType" && !value) {
+            return;
+        }
         set((state) => ({
             filters: {
                 ...state.filters,
                 [key]: value,
             },
-        })),
+        }));
+    },
     resetFilters: () => {
         // Reset the store state
         set({
