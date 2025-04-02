@@ -1,6 +1,6 @@
 import { DialogTrigger } from "./ui/dialog"
 import { Database } from "@/schema"
-import { Card, CardContent } from "./ui/card"
+import { Card, CardContent, CardHeader } from "./ui/card"
 import { Button } from "./ui/button"
 import { Heart, Eye, BedDouble, Square, Calendar, ArrowLeft, Building2, ArrowRight } from "lucide-react"
 import { useDictionary } from "./providers/providers.tsx"
@@ -11,6 +11,14 @@ import { formatPrice } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { createClient } from "@/utils/supabase/client";
 import { useFilterStore } from "@/store/filter-store";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
+import { PropertyCarousel } from "@/components/ui/property-carousel";
 
 // Add a helper function to format dates in Hebrew style
 const formatHebrewDate = (dateString?: string) => {
@@ -21,12 +29,10 @@ const formatHebrewDate = (dateString?: string) => {
     return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
 };
 
-export default function SelectedProperty({ property }: { property: Database["public"]["Tables"]["properties"]["Row"] }) {
-
+const SelectedProperty = ({ property }: { property: Database["public"]["Tables"]["properties"]["Row"] }) => {
     const { filters, updateFilter } = useFilterStore()
 
     const [imageLoaded, setImageLoaded] = useState(false);
-
 
     const dictionary = useDictionary()
 
@@ -39,34 +45,34 @@ export default function SelectedProperty({ property }: { property: Database["pub
         ? property.photos[0]
         : "/placeholder-property.jpg";
 
+    const photos = property.photos || [];
 
     return (
-        <Card className="w-2/3 group h-full overflow-hidden rounded-md transition-all duration-300 hover:shadow-lg  animate-fade-in flex flex-col">
-            <CardContent className="w-full h-full flex flex-col py-4 gap-4 relative">
-                <Button className="flex gap-2  p-0 max-w-fit" variant="link" onClick={() => updateFilter("selectedProperty", null)}>
-                    <ArrowRight className="w-4 h-4" />
-                    {dictionary?.filterForm.back ?? "חזור"}
-                </Button>
-                <div className="relative min-h-80 w-full overflow-hidden">
-                    <Image
-                        src={thumbnailImage}
-                        alt={property.title || "Property image"}
-                        fill
-                        className={`object-cover transition-all duration-500  ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                        onLoad={() => setImageLoaded(true)}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    {!imageLoaded && (
-                        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
-                    )}
-                </div>
-                <div className="px-4">
-                    <h3 className="font-bold">{property.place_name}</h3>
-                    {/* Todo: add location */}
-                    <p className="text-sm text-muted-foreground">דירה , תל אביב , הטיילת</p>
-                </div>
-                <div className="flex justify-between items-center px-4">
-                    <div className="flex gap-4 text-sm text-muted-foreground w-full">
+        <Card className="w-2/3 relative">
+            <Button
+                className="flex gap-2 p-0 max-w-fit absolute bottom-4 right-4"
+                variant="link"
+                onClick={() => updateFilter("selectedProperty", null)}
+            >
+                <ArrowRight className="w-4 h-4" />
+                {dictionary?.filterForm.back ?? "חזור"}
+            </Button>
+            <CardHeader className="p-0 rounded-t-lg overflow-hidden">
+                <PropertyCarousel photos={photos} />
+            </CardHeader>
+
+            <CardContent className="p-6">
+
+
+                <div className="space-y-6">
+                    <div>
+                        <h3 className="font-bold text-xl">{property.place_name}</h3>
+                        <p className="text-sm text-muted-foreground">
+                            {property.propertydefinition}, {property.place_name}
+                        </p>
+                    </div>
+
+                    <div className="flex gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                             <BedDouble className="w-4 h-4" />
                             <span>{property.bedrooms}</span>
@@ -80,38 +86,37 @@ export default function SelectedProperty({ property }: { property: Database["pub
                             <span>{dictionary?.filterForm.floor} {property.floor}</span>
                         </div>
                     </div>
+
+                    <Separator />
+
+                    <div className="flex justify-between items-end">
+                        <span className="flex flex-col gap-1">
+                            <p className="text-sm">
+                                {dictionary?.filterForm[property.type as keyof typeof dictionary.filterForm]}
+                            </p>
+                            {property.entry_date_from && (
+                                <div className="flex gap-2 text-sm items-center">
+                                    <Calendar className="w-4 h-4" />
+                                    <span className="flex items-center gap-1">
+                                        {formatHebrewDate(property.entry_date_from)}
+                                        {property.type === 'sublet' && property.entry_date_to && (
+                                            <>
+                                                <ArrowLeft className="w-4 h-4" />
+                                                {formatHebrewDate(property.entry_date_to)}
+                                            </>
+                                        )}
+                                    </span>
+                                </div>
+                            )}
+                        </span>
+                        <p className="font-bold text-xl">
+                            {formatPrice(property.price || 0, property.type)}
+                        </p>
+                    </div>
                 </div>
-                <Separator />
-                <div className="flex justify-between items-end px-4">
-                    <span className="flex flex-col gap-1">
-                        <p className="text-sm">{dictionary?.filterForm[property.type as keyof typeof dictionary.filterForm]}</p>
-                        {property.type === 'sublet' &&
-                            <div className="flex gap-2  text-sm items-center">
-                                <Calendar className="w-4 h-4" />
-                                <span className="flex items-center gap-1">
-                                    {formatHebrewDate(property.entry_date_from!)}
-                                    <ArrowLeft className="w-4 h-4" /> {formatHebrewDate(property.entry_date_to!)}
-                                </span>
-                            </div>
-                        }
-                        {property.type === 'rental' &&
-                            <div className="flex gap-2  text-sm items-center">
-                                <Calendar className="w-4 h-4" />
-                                <span>{formatHebrewDate(property.entry_date_from!)}</span>
-                            </div>
-                        }
-                        {property.type === 'sale' &&
-                            <div className="flex gap-2  text-sm items-center">
-                                <Calendar className="w-4 h-4" />
-                                <span>{formatHebrewDate(property.entry_date_from!)}</span>
-                            </div>
-                        }
-                    </span>
-                    <p className="font-bold text-sm">{formattedPrice}</p>
-                </div>
-                {property.latitude} ||
-                {property.longitude}
             </CardContent>
         </Card>
     )
 }
+
+export default SelectedProperty

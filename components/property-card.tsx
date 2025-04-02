@@ -154,10 +154,10 @@ const PropertyCard = ({
   // const formattedPrice = property.price ? formatCurrency(property.price) : "Price on request";
   const formattedPrice = property.price ? formatPrice(property.price, property.type) : "Price on request";
 
-  // Get first photo for card thumbnail
-  const thumbnailImage = property.photos && property.photos.length > 0
-    ? property.photos[0]
-    : "/placeholder-property.jpg";
+  // // Get first photo for card thumbnail
+  // const thumbnailImage = property.photos && property.photos.length > 0
+  //   ? property.photos[0]
+  //   : "/placeholder-property.jpg";
 
   return (
     <Card onClick={onClick} className="group h-full overflow-hidden rounded-md transition-all duration-300 hover:shadow-lg cursor-pointer animate-fade-in flex flex-col">
@@ -194,18 +194,22 @@ const PropertyCard = ({
             </motion.div>
           </div>
         }
-        <div className="relative min-h-48 w-full overflow-hidden">
-          <Image
-            src={thumbnailImage}
-            alt={property.title || "Property image"}
-            fill
-            className={`object-cover transition-all duration-500 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-            onLoad={() => setImageLoaded(true)}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-          {!imageLoaded && (
+        <div className="relative h-48 w-full overflow-hidden group-hover:scale-105 transition-all duration-300">
+          <motion.div
+            className="relative overflow-hidden rounded-lg"
+            layoutId={`property-container-${property.property_id}`}
+          >
+            <motion.img
+              layoutId={`property-image-${property.property_id}`}
+              src={property.photos?.[0]}
+              alt={property.title}
+              className="object-cover w-full h-full"
+              loading="eager"
+            />
+          </motion.div>
+          {/* {!imageLoaded && (
             <div className="absolute inset-0 bg-gray-200 animate-pulse" />
-          )}
+          )} */}
         </div>
         <div className="px-4">
           <h3 className="font-bold">{property.place_name}</h3>
