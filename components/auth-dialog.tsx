@@ -66,7 +66,8 @@ export function AuthDialog({ dictionary }: { dictionary: Dictionary }) {
                 }
 
                 setOpen(false)
-                router.refresh()
+                // router.refresh()
+                window.location.reload()
             } else {
                 // Try to sign up
                 const { data, error } = await supabase.auth.signUp({

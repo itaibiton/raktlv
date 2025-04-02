@@ -61,7 +61,7 @@ export default async function Page(props: { params: Promise<{ lang: Locale }>, s
       .select('property_id')
       .eq('user_id', session.user.id);
 
-    likedPropertyIds = likedProperties?.map(like => like.property_id.toString()) || [];
+    likedPropertyIds = likedProperties?.map(like => like?.property_id?.toString() || '') || [];
   }
 
   // Enhance properties with liked status
