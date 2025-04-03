@@ -59,6 +59,33 @@ export default function PropertyModalTrigger({
         setLiked(property.isLiked || false);
     }, [property.isLiked]);
 
+    // Listen for user changes and refresh liked status when user logs in
+    useEffect(() => {
+        // When user changes (logs in or out), update the liked status
+        const checkLikedStatus = async () => {
+            if (user) {
+                try {
+                    // Check if this property is liked by the current user
+                    const { data } = await supabase
+                        .from('property_likes')
+                        .select('*')
+                        .eq('property_id', property.property_id)
+                        .eq('user_id', user.id);
+
+                    const isLiked = Boolean(data && data.length > 0);
+                    setLiked(isLiked);
+                } catch (error) {
+                    console.error("Error checking liked status:", error);
+                }
+            } else {
+                // If no user, property can't be liked
+                setLiked(false);
+            }
+        };
+
+        checkLikedStatus();
+    }, [user, property.property_id, supabase]);
+
     // Update optimisticLiked when liked state changes
     useEffect(() => {
         startTransition(() => {
