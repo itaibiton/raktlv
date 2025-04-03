@@ -221,9 +221,9 @@ const PropertyCard = ({
             </motion.div>
           </div>
         }
-        <div className="relative h-48 w-full overflow-hidden group-hover:scale-105 transition-all duration-300">
+        <div className="relative min-h-48 max-h-48 h-48 w-full overflow-hidden group-hover:scale-105 transition-all duration-300">
           <motion.div
-            className="relative overflow-hidden rounded-lg"
+            className="relative overflow-hidden rounded-t-lg"
             layoutId={`property-container-${property.property_id}`}
           >
             <motion.img
