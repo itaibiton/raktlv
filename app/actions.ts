@@ -132,16 +132,22 @@ export const resetPasswordAction = async (formData: FormData) => {
 
 export const signOutAction = async () => {
   const supabase = await createClient();
-  const { error } = await supabase.auth.signOut();
 
-  if (error) {
-    console.error("Sign out error:", error.message);
+  try {
+    // Perform the server-side sign-out
+    const { error } = await supabase.auth.signOut({
+      scope: 'global' // Sign out from all devices
+    });
+
+    if (error) {
+      console.error("Sign out error:", error.message);
+      throw error;
+    }
+
+    // Use standard redirect without custom headers that cause serialization issues
+    return redirect('/properties');
+  } catch (error) {
+    console.error("Sign out error:", error);
+    return redirect("/properties");
   }
-
-  // Clear cookies by setting new ones with the same name but expired
-  const cookieStore = await cookies();
-  cookieStore.set('supabase-auth-token', '', { expires: new Date(0) });
-
-  // return redirect("/");
-  return redirect("/properties");
 };

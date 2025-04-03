@@ -21,12 +21,17 @@ export const updateSession = async (request: NextRequest) => {
             return request.cookies.getAll();
           },
           setAll(cookiesToSet) {
+            // First update the request cookies
             cookiesToSet.forEach(({ name, value }) =>
               request.cookies.set(name, value),
             );
+
+            // Then recreate the response with the updated request
             response = NextResponse.next({
               request,
             });
+
+            // Finally set the cookies in the response
             cookiesToSet.forEach(({ name, value, options }) =>
               response.cookies.set(name, value, options),
             );
@@ -37,10 +42,15 @@ export const updateSession = async (request: NextRequest) => {
 
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
-    const user = await supabase.auth.getUser();
+    await supabase.auth.getSession();
+    const { data } = await supabase.auth.getUser();
+    const user = data?.user;
+
+    // Add cache-control headers to prevent caching of authenticated pages
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
 
     // protected routes
-    if (request.nextUrl.pathname.startsWith("/protected") && user.error) {
+    if (request.nextUrl.pathname.startsWith("/protected") && !user) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
@@ -53,6 +63,7 @@ export const updateSession = async (request: NextRequest) => {
     // If you are here, a Supabase client could not be created!
     // This is likely because you have not set up environment variables.
     // Check out http://localhost:3000 for Next Steps.
+    console.error("Supabase middleware error:", e);
     return NextResponse.next({
       request: {
         headers: request.headers,

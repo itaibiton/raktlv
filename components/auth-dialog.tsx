@@ -13,6 +13,7 @@ import { LogIn, UserPlus } from "lucide-react"
 import { useDictionary } from "./providers/providers.tsx"
 import { Dictionary } from "@/get-dictionary"
 import { revalidateProperties } from '@/app/[lang]/(properties)/properties/page'
+import { useUser } from './providers/user-provider'
 
 type AuthMode = "sign-in" | "sign-up"
 
@@ -26,6 +27,7 @@ export function AuthDialog({ dictionary }: { dictionary: Dictionary }) {
     const [open, setOpen] = useState(false)
     const router = useRouter()
     const supabase = createClient()
+    const { refreshUser } = useUser()
 
     // Complete reset function
     const resetModal = () => {
@@ -68,6 +70,14 @@ export function AuthDialog({ dictionary }: { dictionary: Dictionary }) {
 
                 setOpen(false)
                 await revalidateProperties()
+                // Explicitly refresh user state after successful sign-in
+                await refreshUser()
+
+                // Force a full page reload to ensure all components refresh their state
+                // This is the most reliable way to ensure property likes are properly shown
+                window.location.reload()
+
+                // The following line won't execute due to reload but keeping for clarity
                 router.refresh()
             } else {
                 // Try to sign up
