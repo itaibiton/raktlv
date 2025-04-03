@@ -104,9 +104,68 @@ export default function MapComponent({ properties }: { properties: Database["pub
     }, 2000);
   }, []);
 
-  // Update map when location filter changes
+  // Helper function to clear markers
+  const clearMarkers = () => {
+    markers.forEach(marker => marker.remove());
+    setMarkers([]);
+  };
+
+  // Update the selectedProperty effect
   useEffect(() => {
-    if (filters.location?.coordinates) {
+    if (!mapRef.current) return;
+
+    const map = mapRef.current as mapboxgl.Map;
+
+    // Clear existing markers
+    clearMarkers();
+
+    if (filters.selectedProperty) {
+      const propertyCoords: [number, number] = [
+        filters.selectedProperty.longitude!,
+        filters.selectedProperty.latitude!
+      ];
+
+      // Add new marker for the selected property
+      const newMarker = new mapboxgl.Marker()
+        .setLngLat(propertyCoords)
+        .addTo(map);
+
+      setMarkers([newMarker]);
+
+      // First zoom out slightly for better animation
+      map.easeTo({
+        zoom: Math.max(map.getZoom() - 2, 10),
+        duration: 300
+      });
+
+      // Then zoom to property
+      setTimeout(() => {
+        map.flyTo({
+          center: propertyCoords,
+          zoom: 17,
+          essential: true,
+          duration: 1500,
+          curve: 1.5
+        });
+      }, 350);
+    } else {
+      // If no property is selected, return to default view
+      map.easeTo({
+        center: DEFAULT_CENTER,
+        zoom: DEFAULT_ZOOM,
+        duration: 1500
+      });
+    }
+
+    // Cleanup function
+    return () => {
+      clearMarkers();
+    };
+  }, [filters.selectedProperty]);
+
+  // Modify existing location filter effect
+  useEffect(() => {
+    if (filters.location?.coordinates && !filters.selectedProperty) {
       // console.log('Location filter changed:', filters.location);
       setCenter(filters.location.coordinates);
 
@@ -115,7 +174,7 @@ export default function MapComponent({ properties }: { properties: Database["pub
         const map = mapRef.current as mapboxgl.Map;
 
         // Clear existing markers from the map
-        markers.forEach(marker => marker.remove());
+        clearMarkers();
 
         // Check if the location is at the default center
         const isCenterLocation =
@@ -172,8 +231,7 @@ export default function MapComponent({ properties }: { properties: Database["pub
       const map = mapRef.current as mapboxgl.Map;
 
       // Clear existing markers
-      markers.forEach(marker => marker.remove());
-      setMarkers([]);
+      clearMarkers();
 
       // Reset map view
       map.easeTo({
