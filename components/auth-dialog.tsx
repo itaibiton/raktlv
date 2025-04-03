@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react"
 import { LogIn, UserPlus } from "lucide-react"
 import { useDictionary } from "./providers/providers.tsx"
 import { Dictionary } from "@/get-dictionary"
-import { revalidateProperties } from '@/app/[lang]/(properties)/properties/page'
+import { revalidateProperties } from '@/utils/revalidate-utils'
 import { useUser } from './providers/user-provider'
 
 type AuthMode = "sign-in" | "sign-up"

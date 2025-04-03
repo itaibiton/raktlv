@@ -13,7 +13,6 @@ import { Wand2 } from "lucide-react";
 import { getDictionary } from "@/get-dictionary";
 import { cookies } from "next/headers";
 import { PropertiesContent } from "@/components/properties-content";
-import { revalidatePath } from 'next/cache';
 
 import { Database } from "@/schema";
 // export default async function Page({
@@ -75,9 +74,5 @@ export default async function Page(props: { params: Promise<{ lang: Locale }>, s
   })) || [];
 
   return <PropertiesContent properties={enhancedProperties} />
-}
-
-export async function revalidateProperties() {
-  revalidatePath('/[lang]/(properties)/properties');
 }
 
