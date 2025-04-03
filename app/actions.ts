@@ -142,5 +142,6 @@ export const signOutAction = async () => {
   const cookieStore = await cookies();
   cookieStore.set('supabase-auth-token', '', { expires: new Date(0) });
 
-  return redirect("/");
+  // return redirect("/");
+  return redirect("/properties");
 };

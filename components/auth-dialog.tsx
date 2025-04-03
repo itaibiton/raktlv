@@ -12,6 +12,7 @@ import { Loader2 } from "lucide-react"
 import { LogIn, UserPlus } from "lucide-react"
 import { useDictionary } from "./providers/providers.tsx"
 import { Dictionary } from "@/get-dictionary"
+import { revalidateProperties } from '@/app/[lang]/(properties)/properties/page'
 
 type AuthMode = "sign-in" | "sign-up"
 
@@ -66,8 +67,8 @@ export function AuthDialog({ dictionary }: { dictionary: Dictionary }) {
                 }
 
                 setOpen(false)
-                // router.refresh()
-                window.location.reload()
+                await revalidateProperties()
+                router.refresh()
             } else {
                 // Try to sign up
                 const { data, error } = await supabase.auth.signUp({
