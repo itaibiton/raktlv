@@ -34,7 +34,7 @@ const Map = ReactMapboxGl({
   accessToken: accessToken ?? '',
 });
 
-export default function MapComponent({ properties }: { properties: Database["public"]["Tables"]["properties"]["Row"][] }) {
+export default function MapComponent() {
   const mapRef = useRef(null);
   const pluginInitializedRef = useRef(false);
   const { filters } = useFilterStore();

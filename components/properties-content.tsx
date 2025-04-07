@@ -22,7 +22,7 @@ export function PropertiesContent({ properties }: PropertiesContentProps) {
         <div className="h-full w-full flex gap-4 flex-col md:flex-row">
             {
                 !selectedProperty && (
-                    <div className="w-2/3 flex gap-4">
+                    <div className="flex gap-4">
                         <FilterSidebar />
                         <PropertyList properties={properties} />
                     </div>
@@ -33,9 +33,9 @@ export function PropertiesContent({ properties }: PropertiesContentProps) {
                     <SelectedProperty property={selectedProperty} />
                 )
             }
-            <div className="h-full w-1/3 border">
+            {/* <div className="h-full w-1/3 border">
                 <Map properties={properties} />
-            </div>
+            </div> */}
         </div>
     )
 } 

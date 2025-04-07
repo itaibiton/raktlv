@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import RakTLVLogo from "./rak-tlv";
 import { Dictionary } from "@/get-dictionary";
 import UserPopover from "./user-popover";
-import CreatePropertyForm from "./create-property-form";
+import CreatePropertyForm from "./create-property-button";
 
 
 export default async function HeaderAuth({ dictionary }: { dictionary: Dictionary }) {
