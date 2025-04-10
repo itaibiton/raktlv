@@ -96,12 +96,12 @@ export const useFilterStore = create<FilterState>((set) => ({
         });
     },
     resetFilters: () => {
-        // Reset the store state
+        // Reset the store state with default values including zoom
         set({
             filters: defaultFilters,
             map: {
                 center: DEFAULT_CENTER,
-                zoom: DEFAULT_ZOOM,
+                zoom: DEFAULT_ZOOM, // Always use default zoom when resetting
             }
         });
 

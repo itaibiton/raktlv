@@ -6,7 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useFilterStore } from '@/store/filter-store';
-import { useMapStore, EXTENDED_BOUNDS, DEFAULT_CENTER } from '@/store/map-store';
+import { useMapStore, EXTENDED_BOUNDS, DEFAULT_CENTER, DEFAULT_ZOOM } from '@/store/map-store';
 import { Database } from '@/schema';
 
 // // ES5
@@ -62,30 +62,61 @@ export default function MapComponent() {
 
       clearMarkers();
       addMarker(propertyCoords);
-      flyTo(propertyCoords);
+      flyTo(propertyCoords, 17);
     } else if (filters.location?.coordinates) {
       // When property is deselected, restore the previous search location
       clearMarkers();
       addMarker(filters.location.coordinates);
-      flyTo(filters.location.coordinates);
+
+      // Don't zoom if this is the default location (from a reset)
+      const isDefaultLocation =
+        filters.location.coordinates[0] === DEFAULT_CENTER[0] &&
+        filters.location.coordinates[1] === DEFAULT_CENTER[1];
+
+      if (!isDefaultLocation) {
+        flyTo(filters.location.coordinates, 15);
+      } else {
+        easeTo(filters.location.coordinates);
+      }
     }
-  }, [filters.selectedProperty, filters.location, clearMarkers, addMarker, flyTo]);
+  }, [filters.selectedProperty, filters.location, clearMarkers, addMarker, flyTo, easeTo]);
 
   // Handle location filter changes
   useEffect(() => {
     if (filters.location?.coordinates && !filters.selectedProperty) {
       clearMarkers();
       addMarker(filters.location.coordinates);
-      flyTo(filters.location.coordinates);
+
+      // Don't zoom if this is the default location (from a reset)
+      const isDefaultLocation =
+        filters.location.coordinates[0] === DEFAULT_CENTER[0] &&
+        filters.location.coordinates[1] === DEFAULT_CENTER[1];
+
+      if (!isDefaultLocation) {
+        flyTo(filters.location.coordinates, 15);
+      } else {
+        easeTo(filters.location.coordinates);
+      }
     }
-  }, [filters.location, filters.selectedProperty, clearMarkers, addMarker, flyTo]);
+  }, [filters.location, filters.selectedProperty, clearMarkers, addMarker, flyTo, easeTo]);
 
   // Handle filter resets
   useEffect(() => {
-    // When filters are reset, just clear markers without changing the map position
+    // When filters are reset, set the map to default center and zoom
     if (filters.location?.coordinates[0] === DEFAULT_CENTER[0] &&
-      filters.location?.coordinates[1] === DEFAULT_CENTER[1]) {
+      filters.location.coordinates[1] === DEFAULT_CENTER[1]) {
+
       clearMarkers();
+
+      // Reset map to default center and zoom
+      const mapInstance = useMapStore.getState().mapInstance;
+      if (mapInstance) {
+        mapInstance.easeTo({
+          center: DEFAULT_CENTER,
+          zoom: DEFAULT_ZOOM,
+          duration: 1000
+        });
+      }
     }
   }, [filters, clearMarkers]);
 

@@ -115,15 +115,18 @@ export const useMapStore = create<MapState & MapActions>((set, get) => ({
 
         // First zoom out slightly for better animation
         mapInstance.easeTo({
-            zoom: Math.max(mapInstance.getZoom() - 2, 10),
             duration: 300
         });
+
+        // Check if these are default coordinates (from a reset)
+        const isDefaultLocation = coordinates[0] === DEFAULT_CENTER[0] && coordinates[1] === DEFAULT_CENTER[1];
 
         // Then fly to the target location
         setTimeout(() => {
             mapInstance.flyTo({
                 center: coordinates,
-                zoom,
+                // Only apply zoom if this is NOT a reset to default location
+                zoom: isDefaultLocation ? undefined : zoom,
                 essential: true,
                 duration,
                 curve: 1.5
@@ -135,9 +138,13 @@ export const useMapStore = create<MapState & MapActions>((set, get) => ({
         const { mapInstance } = get();
         if (!mapInstance) return;
 
+        // Check if these are default coordinates (from a reset)
+        const isDefaultLocation = coordinates[0] === DEFAULT_CENTER[0] && coordinates[1] === DEFAULT_CENTER[1];
+
         mapInstance.easeTo({
             center: coordinates,
-            zoom,
+            // Only apply zoom if this is NOT a reset to default location
+            zoom: isDefaultLocation ? undefined : zoom,
             duration
         });
     },
@@ -228,7 +235,16 @@ export const useMapStore = create<MapState & MapActions>((set, get) => ({
         const { mapInstance } = get();
         if (!mapInstance) return;
 
-        // Just clear markers without changing the center or zoom
+        // Clear markers
         get().clearMarkers();
+
+        // Set center AND zoom to default values
+        if (mapInstance) {
+            mapInstance.easeTo({
+                center: DEFAULT_CENTER,
+                zoom: DEFAULT_ZOOM,
+                duration: 1000
+            });
+        }
     },
 })); 
