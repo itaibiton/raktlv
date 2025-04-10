@@ -28,7 +28,7 @@ export type FilterType = {
 const defaultFilters: FilterType = {
     location: {
         coordinates: DEFAULT_CENTER,
-        placeName: "Tel Aviv",
+        placeName: "תל אביב",
     },
     propertyType: "rental",
     minPrice: 0,
@@ -67,12 +67,33 @@ export const useFilterStore = create<FilterState>((set) => ({
         if (key === "propertyType" && !value) {
             return;
         }
-        set((state) => ({
-            filters: {
-                ...state.filters,
-                [key]: value,
-            },
-        }));
+        set((state) => {
+            // Create a new filters object with all existing filters
+            const newFilters = { ...state.filters };
+
+            // Special handling for selectedProperty to preserve location
+            if (key === 'selectedProperty') {
+                if (value === null) {
+                    // When deselecting a property, preserve the location
+                    delete newFilters[key];
+                } else {
+                    // When selecting a property, preserve the location
+                    newFilters[key] = value;
+                }
+            } else {
+                // For all other filters, update normally
+                if (value === null) {
+                    delete newFilters[key];
+                } else {
+                    newFilters[key] = value;
+                }
+            }
+
+            return {
+                filters: newFilters,
+                map: state.map
+            };
+        });
     },
     resetFilters: () => {
         // Reset the store state

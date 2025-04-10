@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
 import clsx from "clsx";
+import { FilterType } from "@/store/filter-store";
 
 type Props<T extends string> = {
     selectedValue: T;
@@ -26,6 +27,7 @@ type Props<T extends string> = {
     noResultsMessage?: string;
     minCharacters?: number;
     onInputChange?: (value: string) => void;
+    filters?: FilterType;
 };
 
 export function AutoComplete<T extends string>({
@@ -41,6 +43,7 @@ export function AutoComplete<T extends string>({
     noResultsMessage,
     minCharacters,
     onInputChange,
+    filters,
 }: Props<T>) {
     const [open, setOpen] = useState(false);
     const [showResults, setShowResults] = useState(false);
@@ -63,7 +66,8 @@ export function AutoComplete<T extends string>({
     const onInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         if (
             !e.relatedTarget?.hasAttribute("cmdk-list") &&
-            labels[selectedValue] !== searchValue
+            labels[selectedValue] !== searchValue &&
+            !filters?.selectedProperty
         ) {
             reset();
         }

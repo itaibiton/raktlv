@@ -16,12 +16,38 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedResultId, setSelectedResultId] = useState("");
+    const [isInitialized, setIsInitialized] = useState(false);
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const { updateFilter, filters } = useFilterStore();
 
     const dictionary = useDictionary();
 
     // console.log("search-filter--dictionary", dictionary);
+
+    // Set initial search term if location is already in filters, but only once
+    useEffect(() => {
+        if (!isInitialized && filters.location?.placeName) {
+            setSearchTerm(filters.location.placeName);
+            setIsInitialized(true);
+        }
+    }, [filters.location, isInitialized]);
+
+    // Preserve search term when a property is selected
+    useEffect(() => {
+        if (filters.selectedProperty && filters.location?.placeName) {
+            setSearchTerm(filters.location.placeName);
+        }
+    }, [filters.selectedProperty, filters.location]);
+
+    // Handle search term changes
+    const handleSearchChange = (value: string) => {
+        setSearchTerm(value);
+
+        // If the search term is cleared, also clear the location filter
+        if (!value) {
+            updateFilter('location', undefined);
+        }
+    };
 
     useEffect(() => {
         if (!debouncedSearchTerm) {
@@ -111,13 +137,6 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
         return lon >= minLon && lon <= maxLon && lat >= minLat && lat <= maxLat;
     };
 
-    // Set initial search term if location is already in filters
-    useEffect(() => {
-        if (filters.location?.placeName && !searchTerm) {
-            // setSearchTerm(filters.location.placeName);
-        }
-    }, [filters.location, searchTerm]);
-
     const autocompleteItems = searchResults.map(result => ({
         value: result.id,
         label: result.place_name
@@ -131,12 +150,13 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
                     selectedValue={selectedResultId}
                     onSelectedValueChange={handleResultSelect}
                     searchValue={searchTerm}
-                    onSearchValueChange={setSearchTerm}
+                    onSearchValueChange={handleSearchChange}
                     items={autocompleteItems}
                     isLoading={isLoading}
                     noResults={!isLoading && searchResults.length === 0}
                     emptyMessage="לא נמצאו תוצאות"
                     placeholder="חפש מיקום..."
+                    filters={filters}
                 />
             </div>
         </div>
