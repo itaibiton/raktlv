@@ -67,6 +67,20 @@ const FilterSidebar = () => {
             }
         }
 
+        // Handle selectedProperty from URL - this will need to fetch the property data
+        if (searchParams.has('selectedProperty')) {
+            // You'll need to implement a function to fetch property by ID
+            // For now, just leave this as a placeholder
+            const propertyId = searchParams.get('selectedProperty');
+            if (propertyId) {
+                // You'll need to fetch the property data here
+                // This will depend on how your application is structured
+                // For example: fetchPropertyById(propertyId).then(property => {
+                //   if (property) updateFilter('selectedProperty', property);
+                // });
+            }
+        }
+
         if (searchParams.has('propertyDefinitions')) {
             urlFilters.propertyDefinitions = searchParams.get('propertyDefinitions')?.split(',') as Database["public"]["Enums"]["property_definition"][] || [];
         }
@@ -90,7 +104,7 @@ const FilterSidebar = () => {
         const params = new URLSearchParams(searchParams.toString());
 
         // Clear existing filter params
-        ['propertyType', 'minPrice', 'maxPrice', 'bedrooms', 'bathrooms', 'amenities', 'location', 'minArea', 'maxArea', 'propertyDefinitions'].forEach(param => {
+        ['propertyType', 'minPrice', 'maxPrice', 'bedrooms', 'bathrooms', 'amenities', 'location', 'minArea', 'maxArea', 'propertyDefinitions', 'selectedProperty'].forEach(param => {
             params.delete(param);
         });
 
@@ -133,6 +147,11 @@ const FilterSidebar = () => {
 
         if (filters.propertyDefinitions?.length) {
             params.set('propertyDefinitions', filters.propertyDefinitions.join(','));
+        }
+
+        // Add selectedProperty parameter to URL if a property is selected
+        if (filters.selectedProperty) {
+            params.set('selectedProperty', filters.selectedProperty.property_id.toString());
         }
 
         // Update URL without refreshing the page

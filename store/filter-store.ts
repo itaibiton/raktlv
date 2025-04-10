@@ -74,10 +74,17 @@ export const useFilterStore = create<FilterState>((set) => ({
             // Special handling for selectedProperty to preserve location
             if (key === 'selectedProperty') {
                 if (value === null) {
-                    // When deselecting a property, preserve the location
+                    // When deselecting a property, preserve the location but remove the selectedProperty
                     delete newFilters[key];
                 } else {
-                    // When selecting a property, preserve the location
+                    // When selecting a property, set it as selected but preserve the existing location
+                    newFilters[key] = value;
+                }
+            } else if (key === 'location') {
+                // Update location and also save to URL
+                if (value === null || value === undefined) {
+                    delete newFilters[key];
+                } else {
                     newFilters[key] = value;
                 }
             } else {
@@ -87,6 +94,37 @@ export const useFilterStore = create<FilterState>((set) => ({
                 } else {
                     newFilters[key] = value;
                 }
+            }
+
+            // Update URL with new filters state
+            try {
+                const url = new URL(window.location.href);
+
+                // Remove the parameter if it's being cleared
+                if (value === null || value === undefined) {
+                    url.searchParams.delete(key);
+                } else if (key === 'location') {
+                    // For location, serialize the whole object
+                    url.searchParams.set(key, JSON.stringify(value));
+                } else if (key === 'selectedProperty') {
+                    // For selectedProperty, just store the ID
+                    if (value) {
+                        const property = value as Database["public"]["Tables"]["properties"]["Row"];
+                        url.searchParams.set(key, property.property_id.toString());
+                    } else {
+                        url.searchParams.delete(key);
+                    }
+                } else if (Array.isArray(value)) {
+                    // For array values, join them
+                    url.searchParams.set(key, value.join(','));
+                } else {
+                    // For everything else, convert to string
+                    url.searchParams.set(key, value.toString());
+                }
+
+                window.history.replaceState({}, '', url.toString());
+            } catch (e) {
+                console.error('Failed to update URL', e);
             }
 
             return {

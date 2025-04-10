@@ -6,6 +6,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { useFilterStore } from "@/store/filter-store";
 import { useDictionary } from "@/components/providers/providers.tsx";
 import { AutoComplete } from "@/components/ui/autocomplete";
+import { useMapStore, DEFAULT_ZOOM } from "@/store/map-store";
 
 interface SearchFilterProps {
     onResultSelect?: (coordinates: [number, number], placeName: string) => void;
@@ -32,9 +33,9 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
         }
     }, [filters.location, isInitialized]);
 
-    // Preserve search term when a property is selected
+    // Preserve search term when a property is selected or deselected
     useEffect(() => {
-        if (filters.selectedProperty && filters.location?.placeName) {
+        if (filters.location?.placeName) {
             setSearchTerm(filters.location.placeName);
         }
     }, [filters.selectedProperty, filters.location]);
@@ -43,10 +44,8 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
     const handleSearchChange = (value: string) => {
         setSearchTerm(value);
 
-        // If the search term is cleared, also clear the location filter
-        if (!value) {
-            updateFilter('location', undefined);
-        }
+        // Only clear the location filter if the user explicitly clears the search
+        // We'll let the selection process handle setting the location
     };
 
     useEffect(() => {
@@ -142,6 +141,32 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
         label: result.place_name
     }));
 
+    // Handle explicit search clearing (like with an X button or clear action)
+    const handleClearSearch = () => {
+        setSearchTerm("");
+        setSelectedResultId("");
+
+        // Get the default location and update the filter
+        const defaultLocation = {
+            coordinates: [34.78057, 32.08088] as [number, number],
+            placeName: "תל אביב"
+        };
+
+        // Update the filter with the default location
+        updateFilter('location', defaultLocation);
+
+        // Reset the map to default center and zoom
+        // We can access the map store directly to reset it
+        const mapInstance = useMapStore.getState().mapInstance;
+        if (mapInstance) {
+            mapInstance.easeTo({
+                center: defaultLocation.coordinates,
+                zoom: DEFAULT_ZOOM,
+                duration: 1000
+            });
+        }
+    };
+
     return (
         <div className="relative flex flex-col gap-2">
             <label className="text-sm font-medium text-real-600">{dictionary['filterForm']?.location}</label>
@@ -157,6 +182,7 @@ export default function SearchFilter({ onResultSelect }: SearchFilterProps) {
                     emptyMessage="לא נמצאו תוצאות"
                     placeholder="חפש מיקום..."
                     filters={filters}
+                    onClear={handleClearSearch}
                 />
             </div>
         </div>

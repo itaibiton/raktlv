@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Loader2, X } from "lucide-react";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import {
     Command,
@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
 import clsx from "clsx";
 import { FilterType } from "@/store/filter-store";
+import { Button } from "./button";
 
 type Props<T extends string> = {
     selectedValue: T;
@@ -28,6 +29,7 @@ type Props<T extends string> = {
     minCharacters?: number;
     onInputChange?: (value: string) => void;
     filters?: FilterType;
+    onClear?: () => void;
 };
 
 export function AutoComplete<T extends string>({
@@ -44,6 +46,7 @@ export function AutoComplete<T extends string>({
     minCharacters,
     onInputChange,
     filters,
+    onClear,
 }: Props<T>) {
     const [open, setOpen] = useState(false);
     const [showResults, setShowResults] = useState(false);
@@ -58,24 +61,24 @@ export function AutoComplete<T extends string>({
         [items]
     );
 
-    const reset = () => {
-        onSelectedValueChange("" as T);
-        onSearchValueChange("");
+    const handleClear = () => {
+        if (onClear) {
+            onClear();
+        } else {
+            onSelectedValueChange("" as T);
+            onSearchValueChange("");
+        }
     };
 
     const onInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        if (
-            !e.relatedTarget?.hasAttribute("cmdk-list") &&
-            labels[selectedValue] !== searchValue &&
-            !filters?.selectedProperty
-        ) {
-            reset();
+        if (e.relatedTarget?.hasAttribute("cmdk-list")) {
+            return;
         }
     };
 
     const onSelectItem = (inputValue: string) => {
         if (inputValue === selectedValue) {
-            reset();
+            setOpen(false);
         } else {
             onSelectedValueChange(inputValue as T);
             onSearchValueChange(labels[inputValue] ?? "");
@@ -108,7 +111,7 @@ export function AutoComplete<T extends string>({
     }, [isLoading, items, noResults]);
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-center relative">
             <Popover open={open && (searchValue.trim() !== "" || isLoading)} onOpenChange={setOpen}>
                 <Command shouldFilter={false}>
                     <PopoverAnchor asChild>
@@ -124,9 +127,22 @@ export function AutoComplete<T extends string>({
                             <Input
                                 placeholder={placeholder}
                                 onChange={handleInputChange}
+                                className="pr-8"
                             />
                         </CommandPrimitive.Input>
                     </PopoverAnchor>
+                    {searchValue && (
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            type="button"
+                            onClick={handleClear}
+                            className="absolute left-0 top-0 h-10 w-10 p-0"
+                        >
+                            <X className="h-4 w-4" />
+                            <span className="sr-only">Clear</span>
+                        </Button>
+                    )}
                     {!open && <CommandList aria-hidden="true" className="hidden" />}
                     <PopoverContent
                         asChild

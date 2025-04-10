@@ -60,8 +60,13 @@ export default function MapComponent() {
         filters.selectedProperty.latitude!
       ];
 
+      // Clear markers first
       clearMarkers();
+
+      // Add marker before animation
       addMarker(propertyCoords);
+
+      // Then fly to location
       flyTo(propertyCoords, 17);
     } else if (filters.location?.coordinates) {
       // When property is deselected, restore the previous search location

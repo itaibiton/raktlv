@@ -131,6 +131,21 @@ export const useMapStore = create<MapState & MapActions>((set, get) => ({
                 duration,
                 curve: 1.5
             });
+
+            // Ensure a marker is added after the animation is complete
+            setTimeout(() => {
+                // Check if we already have a marker at these coordinates
+                const { markers } = get();
+                const hasMarker = markers.some(marker => {
+                    const pos = marker.getLngLat();
+                    return pos.lng === coordinates[0] && pos.lat === coordinates[1];
+                });
+
+                // If no marker exists at these coordinates, add one
+                if (!hasMarker) {
+                    get().addMarker(coordinates);
+                }
+            }, duration + 100);
         }, 350);
     },
 
