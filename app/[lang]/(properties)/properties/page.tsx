@@ -15,6 +15,10 @@ import { cookies } from "next/headers";
 import { PropertiesContent } from "@/components/properties-content";
 
 import { Database } from "@/schema";
+type Tables = Database['public']['Tables'];
+type Property = Tables['properties']['Row'];
+type PropertyLike = Tables['property_likes']['Row'];
+
 // export default async function Page({
 //   params,
 //   searchParams
@@ -38,20 +42,21 @@ export default async function Page(props: { params: Promise<{ lang: Locale }>, s
 
   // Apply propertyType filter if it exists
   if (propertyTypes) {
-    console.log("propertyType", propertyTypes);
-
-    // Split the property types by comma and filter out empty strings
     const propertyTypesArray = propertyTypes.split(',').filter(type => type.trim() !== '');
 
     if (propertyTypesArray.length > 0) {
-      // Use .in() for multiple property types
-      query = query.in('type', propertyTypesArray as Database["public"]["Enums"]["property_type"][]);
+      query = query.in('type', propertyTypesArray as any);
     }
   }
 
-  const { data: properties } = await query;
+  const { data: propertiesData, error } = await query;
 
-  console.log("properties", properties);
+  if (error) {
+    console.error('Error fetching properties:', error);
+    return <PropertiesContent properties={[]} />;
+  }
+
+  const properties = (propertiesData as unknown) as Property[];
 
   // Get current user session
   const { data: { session } } = await supabase.auth.getSession();
@@ -59,20 +64,22 @@ export default async function Page(props: { params: Promise<{ lang: Locale }>, s
   // If user is logged in, fetch their liked properties
   let likedPropertyIds: string[] = [];
   if (session?.user) {
-    const { data: likedProperties } = await supabase
+    const { data: likedProperties, error: likesError } = await supabase
       .from('property_likes')
       .select('property_id')
-      .eq('user_id', session.user.id);
+      .eq('user_id', session.user.id as any);
 
-    likedPropertyIds = likedProperties?.map(like => like?.property_id?.toString() || '') || [];
+    if (!likesError && likedProperties) {
+      likedPropertyIds = ((likedProperties as unknown) as PropertyLike[])
+        .map(like => like.property_id?.toString() || '');
+    }
   }
 
   // Enhance properties with liked status
-  const enhancedProperties = properties?.map(property => ({
+  const enhancedProperties = properties.map(property => ({
     ...property,
     isLiked: likedPropertyIds.includes(property.property_id.toString())
-  })) || [];
+  }));
 
   return <PropertiesContent properties={enhancedProperties} />
 }
-

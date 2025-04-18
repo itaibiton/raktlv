@@ -3,7 +3,6 @@ import { EnvVarWarning } from "@/components/env-var-warning";
 // import HeaderAuth from "@/components/header-auth";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
-import { Geist } from "next/font/google";
 import Link from "next/link";
 import "../globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -34,10 +33,7 @@ export const metadata = {
   },
 };
 
-const geistSans = Geist({
-  display: "swap",
-  subsets: ["latin"],
-});
+
 
 const rubik = Rubik({
   subsets: ['hebrew', 'latin'],
